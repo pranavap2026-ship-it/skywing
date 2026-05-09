@@ -3,17 +3,17 @@ import React, {
 } from 'react';
 
 import {
-  motion,
-  AnimatePresence
-} from 'framer-motion';
-
-import {
   FaCalendarAlt,
   FaUsers,
   FaGlobe,
   FaSignOutAlt,
   FaBolt
 } from 'react-icons/fa';
+
+import {
+  motion,
+  AnimatePresence
+} from 'framer-motion';
 
 import { useAuth }
   from '../context/AuthContext';
@@ -30,17 +30,22 @@ import SocialPanel
 import logo
   from '../assets/logo.png';
 
+// ===============================
+// 📱 MOBILE
+// ===============================
+const isMobile =
+  window.innerWidth <= 768;
+
+// ===============================
+// 🚀 COMPONENT
+// ===============================
 export default function AdminDashboard() {
 
   const { logout } =
     useAuth();
 
-  const [tab,
-    setTab] =
+  const [tab, setTab] =
     useState('events');
-
-  const isMobile =
-    window.innerWidth <= 768;
 
   // ===============================
   // 📑 TABS
@@ -70,7 +75,7 @@ export default function AdminDashboard() {
 
     <div style={styles.page}>
 
-      {/* GLOWS */}
+      {/* BG GLOWS */}
       <div style={styles.glow1} />
       <div style={styles.glow2} />
 
@@ -95,14 +100,7 @@ export default function AdminDashboard() {
           src={logo}
           alt="SkyWing"
 
-          style={{
-            ...styles.logo,
-
-            width:
-              isMobile
-                ? 110
-                : 170
-          }}
+          style={styles.logo}
         />
 
         {/* STATUS */}
@@ -121,7 +119,7 @@ export default function AdminDashboard() {
 
       </motion.div>
 
-      {/* HERO */}
+      {/* TITLE */}
       <motion.div
 
         initial={{
@@ -138,66 +136,53 @@ export default function AdminDashboard() {
           delay: 0.1
         }}
 
-        style={styles.titleWrap}
+        style={styles.hero}
       >
 
         <p style={styles.subTitle}>
           // CONTROL CENTER
         </p>
 
-        <h1
-          style={{
-            ...styles.title,
-
-            fontSize:
-              isMobile
-                ? '2.2rem'
-                : '5rem'
-          }}
-        >
-
+        <h1 style={styles.title}>
           ADMIN DASHBOARD
-
         </h1>
 
       </motion.div>
 
-      {/* RESPONSIVE TABS */}
+      {/* TABS */}
       <div style={styles.tabsWrap}>
 
         <div style={styles.leftTabs}>
 
-          {tabs.map(
-            (item) => (
+          {tabs.map((item) => (
 
-              <button
+            <button
 
-                key={item.id}
+              key={item.id}
 
-                onClick={() =>
-                  setTab(item.id)
-                }
+              onClick={() =>
+                setTab(item.id)
+              }
 
-                style={{
-                  ...styles.tabBtn,
+              style={{
+                ...styles.tabBtn,
 
-                  ...(tab === item.id
+                ...(tab === item.id
 
-                    ? styles.activeTab
+                  ? styles.activeTab
 
-                    : {})
-                }}
-              >
+                  : {})
+              }}
+            >
 
-                {item.icon}
+              {item.icon}
 
-                <span>
-                  {item.label}
-                </span>
+              <span>
+                {item.label}
+              </span>
 
-              </button>
-            )
-          )}
+            </button>
+          ))}
 
         </div>
 
@@ -211,9 +196,7 @@ export default function AdminDashboard() {
 
           <FaSignOutAlt />
 
-          <span>
-            Logout
-          </span>
+          Logout
 
         </button>
 
@@ -277,21 +260,17 @@ const styles = {
     minHeight: '100vh',
 
     padding:
-      window.innerWidth <= 768
-
-        ? '110px 14px 60px'
-
-        : '120px 40px 70px',
+      isMobile
+        ? '110px 14px 80px'
+        : '120px 40px 80px',
 
     position: 'relative',
 
-    overflow: 'hidden',
-
-    zIndex: 1
+    overflow: 'hidden'
   },
 
   // ===============================
-  // 🌌 GLOW EFFECTS
+  // GLOWS
   // ===============================
   glow1: {
 
@@ -313,9 +292,7 @@ const styles = {
     filter:
       'blur(120px)',
 
-    pointerEvents: 'none',
-
-    zIndex: 0
+    pointerEvents: 'none'
   },
 
   glow2: {
@@ -338,19 +315,13 @@ const styles = {
     filter:
       'blur(120px)',
 
-    pointerEvents: 'none',
-
-    zIndex: 0
+    pointerEvents: 'none'
   },
 
   // ===============================
   // HEADER
   // ===============================
   header: {
-
-    position: 'relative',
-
-    zIndex: 50,
 
     display: 'flex',
 
@@ -359,12 +330,19 @@ const styles = {
 
     alignItems: 'center',
 
-    gap: 20,
+    marginBottom: 35,
 
-    marginBottom: 35
+    position: 'relative',
+
+    zIndex: 5
   },
 
   logo: {
+
+    width:
+      isMobile
+        ? 110
+        : 170,
 
     objectFit: 'contain',
 
@@ -404,12 +382,12 @@ const styles = {
   // ===============================
   // HERO
   // ===============================
-  titleWrap: {
+  hero: {
 
     marginBottom:
-      window.innerWidth <= 768
-        ? 25
-        : 35
+      isMobile
+        ? 28
+        : 40
   },
 
   subTitle: {
@@ -418,22 +396,27 @@ const styles = {
 
     letterSpacing: 4,
 
-    marginBottom: 10,
+    marginBottom: 12,
 
     fontSize: 12
   },
 
   title: {
 
-    fontFamily:
-      'Orbitron,sans-serif',
+    fontSize:
+      isMobile
+        ? '2.2rem'
+        : '5rem',
 
-    lineHeight: 1.05,
+    lineHeight: 1,
 
     letterSpacing:
-      window.innerWidth <= 768
+      isMobile
         ? 2
         : 5,
+
+    fontFamily:
+      'Orbitron,sans-serif',
 
     background:
       'linear-gradient(135deg,#fff,#00aaff)',
@@ -446,85 +429,67 @@ const styles = {
   },
 
   // ===============================
-  // MOBILE TABS FIX
+  // TABS
   // ===============================
-tabsWrap: {
+  tabsWrap: {
 
-  position:
-    window.innerWidth <= 768
-      ? 'relative'
-      : 'sticky',
+    display: 'flex',
 
-  top:
-    window.innerWidth <= 768
-      ? 'unset'
-      : 85,
+    flexDirection:
+      isMobile
+        ? 'column'
+        : 'row',
 
-  zIndex: 100,
+    justifyContent:
+      'space-between',
 
-  display: 'flex',
+    gap: 12,
 
-  flexDirection:
-    window.innerWidth <= 768
-      ? 'column'
-      : 'row',
-
-  justifyContent:
-    'space-between',
-
-  gap: 12,
-
-  marginBottom:
-    window.innerWidth <= 768
-      ? 40
-      : 35,
-
-  background:
-    window.innerWidth <= 768
-
-      ? 'transparent'
-
-      : 'rgba(0,0,0,0.35)',
-
-  backdropFilter:
-    window.innerWidth <= 768
-
-      ? 'none'
-
-      : 'blur(18px)',
-
-  padding:
-    window.innerWidth <= 768
-      ? '0'
-      : '12px',
-
-  borderRadius: 24,
-
-  width: '100%'
-},
-  // ===============================
-  // TAB BUTTONS
-  // ===============================
-  tabBtn: {
+    marginBottom: 30,
 
     position: 'relative',
 
-    zIndex: 999,
+    zIndex: 50
+  },
+
+  leftTabs: {
+
+    display: 'flex',
+
+    flexDirection:
+      isMobile
+        ? 'column'
+        : 'row',
+
+    gap: 12,
 
     width:
-      window.innerWidth <= 768
+      isMobile
+        ? '100%'
+        : 'auto'
+  },
+
+  tabBtn: {
+
+    display: 'flex',
+
+    alignItems: 'center',
+
+    justifyContent: 'center',
+
+    gap: 10,
+
+    width:
+      isMobile
         ? '100%'
         : 'auto',
 
-    minHeight:
-      window.innerWidth <= 768
-        ? 54
-        : 58,
+    minHeight: 56,
 
     padding:
-      window.innerWidth <= 768
+      isMobile
         ? '14px 18px'
-        : '16px 24px',
+        : '15px 24px',
 
     borderRadius: 18,
 
@@ -536,28 +501,15 @@ tabsWrap: {
 
     color: '#fff',
 
-    display: 'flex',
-
-    alignItems: 'center',
-
-    justifyContent: 'center',
-
-    gap: 10,
-
     cursor: 'pointer',
 
     backdropFilter:
       'blur(14px)',
 
-    fontSize:
-      window.innerWidth <= 768
-        ? 15
-        : 15,
+    fontSize: 15,
 
     transition:
-      '0.3s ease',
-
-    pointerEvents: 'auto'
+      '0.3s ease'
   },
 
   activeTab: {
@@ -569,39 +521,7 @@ tabsWrap: {
       '0 0 24px rgba(0,170,255,0.35)'
   },
 
-  // ===============================
-  // LOGOUT
-  // ===============================
   logoutBtn: {
-
-    position: 'relative',
-
-    zIndex: 999,
-
-    width:
-      window.innerWidth <= 768
-        ? '100%'
-        : 'auto',
-
-    minHeight:
-      window.innerWidth <= 768
-        ? 54
-        : 58,
-
-    padding:
-      window.innerWidth <= 768
-        ? '14px 18px'
-        : '16px 24px',
-
-    borderRadius: 18,
-
-    border:
-      '1px solid rgba(255,0,80,0.22)',
-
-    background:
-      'rgba(255,0,80,0.08)',
-
-    color: '#ff4d7a',
 
     display: 'flex',
 
@@ -611,29 +531,40 @@ tabsWrap: {
 
     gap: 10,
 
+    width:
+      isMobile
+        ? '100%'
+        : 'auto',
+
+    minHeight: 56,
+
+    padding:
+      isMobile
+        ? '14px 18px'
+        : '15px 24px',
+
+    borderRadius: 18,
+
+    border:
+      '1px solid rgba(255,0,80,0.2)',
+
+    background:
+      'rgba(255,0,80,0.08)',
+
+    color: '#ff4d7a',
+
     cursor: 'pointer',
 
-    fontSize: 15,
-
-    pointerEvents: 'auto'
+    fontSize: 15
   },
 
   // ===============================
-  // CONTENT PANEL
+  // CONTENT
   // ===============================
-panelWrap: {
+  panelWrap: {
 
-  position: 'relative',
+    position: 'relative',
 
-  zIndex: 10,
-
-  width: '100%',
-
-  marginTop:
-    window.innerWidth <= 768
-      ? 20
-      : 0,
-
-  overflow: 'hidden'
-}
+    zIndex: 5
+  }
 };
