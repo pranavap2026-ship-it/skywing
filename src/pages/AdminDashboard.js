@@ -448,62 +448,60 @@ const styles = {
   // ===============================
   // MOBILE TABS FIX
   // ===============================
-  tabsWrap: {
+tabsWrap: {
 
-    position: 'sticky',
+  position:
+    window.innerWidth <= 768
+      ? 'relative'
+      : 'sticky',
 
-    top: 85,
+  top:
+    window.innerWidth <= 768
+      ? 'unset'
+      : 85,
 
-    zIndex: 100,
+  zIndex: 100,
 
-    display: 'flex',
+  display: 'flex',
 
-    flexDirection:
-      window.innerWidth <= 768
-        ? 'column'
-        : 'row',
+  flexDirection:
+    window.innerWidth <= 768
+      ? 'column'
+      : 'row',
 
-    justifyContent:
-      'space-between',
+  justifyContent:
+    'space-between',
 
-    gap: 12,
+  gap: 12,
 
-    marginBottom:
-      window.innerWidth <= 768
-        ? 28
-        : 35,
+  marginBottom:
+    window.innerWidth <= 768
+      ? 40
+      : 35,
 
-    background:
-      'rgba(0,0,0,0.35)',
+  background:
+    window.innerWidth <= 768
 
-    backdropFilter:
-      'blur(18px)',
+      ? 'transparent'
 
-    padding:
-      window.innerWidth <= 768
-        ? '10px'
-        : 0,
+      : 'rgba(0,0,0,0.35)',
 
-    borderRadius: 24
-  },
+  backdropFilter:
+    window.innerWidth <= 768
 
-  leftTabs: {
+      ? 'none'
 
-    display: 'flex',
+      : 'blur(18px)',
 
-    flexDirection:
-      window.innerWidth <= 768
-        ? 'column'
-        : 'row',
+  padding:
+    window.innerWidth <= 768
+      ? '0'
+      : '12px',
 
-    gap: 12,
+  borderRadius: 24,
 
-    width:
-      window.innerWidth <= 768
-        ? '100%'
-        : 'auto'
-  },
-
+  width: '100%'
+},
   // ===============================
   // TAB BUTTONS
   // ===============================
@@ -623,17 +621,19 @@ const styles = {
   // ===============================
   // CONTENT PANEL
   // ===============================
-  panelWrap: {
+panelWrap: {
 
-    position: 'relative',
+  position: 'relative',
 
-    zIndex: 10,
+  zIndex: 10,
 
-    width: '100%',
+  width: '100%',
 
-    marginTop:
-      window.innerWidth <= 768
-        ? 10
-        : 0
-  }
+  marginTop:
+    window.innerWidth <= 768
+      ? 20
+      : 0,
+
+  overflow: 'hidden'
+}
 };
