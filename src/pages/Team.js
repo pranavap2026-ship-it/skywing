@@ -4,15 +4,22 @@ import React, {
 } from 'react';
 
 import {
+  motion
+} from 'framer-motion';
+
+import {
   FaInstagram,
   FaUserGraduate,
-  FaCrown
+  FaCrown,
+  FaCamera,
+  FaVideo
 } from 'react-icons/fa';
 
-import { membersAPI } from '../api';
+import { membersAPI }
+  from '../api';
 
 // ===============================
-// 🔧 SAFE DATA EXTRACTOR
+// 🔧 SAFE DATA
 // ===============================
 const extractData = (res) =>
   Array.isArray(res.data)
@@ -20,17 +27,20 @@ const extractData = (res) =>
     : res.data?.data || [];
 
 // ===============================
-// 👥 TEAM COMPONENT
+// 👥 TEAM PAGE
 // ===============================
 export default function Team() {
 
-  const [members, setMembers] =
+  const [members,
+    setMembers] =
     useState([]);
 
-  const [loading, setLoading] =
+  const [loading,
+    setLoading] =
     useState(true);
 
-  const [error, setError] =
+  const [error,
+    setError] =
     useState('');
 
   // ===============================
@@ -51,11 +61,10 @@ export default function Team() {
         const data =
           extractData(res);
 
-        // ✅ SORT MEMBERS
+        // SORT
         const sorted =
           data.sort((a, b) => {
 
-            // 👑 leader first
             if (
               a.isLeader &&
               !b.isLeader
@@ -66,7 +75,6 @@ export default function Team() {
               b.isLeader
             ) return 1;
 
-            // 🔢 order sorting
             return (
               (a.order || 0) -
               (b.order || 0)
@@ -80,7 +88,7 @@ export default function Team() {
         console.error(err);
 
         setError(
-          'Failed to load team members'
+          'FAILED TO LOAD TEAM'
         );
 
       } finally {
@@ -90,7 +98,9 @@ export default function Team() {
     };
 
   useEffect(() => {
+
     fetchMembers();
+
   }, []);
 
   // ===============================
@@ -99,19 +109,15 @@ export default function Team() {
   if (loading) {
 
     return (
-      <div
-        className="page"
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: '100vh',
-          fontFamily: 'Orbitron',
-          color: 'var(--blue)',
-          letterSpacing: 4
-        }}
-      >
-        LOADING TEAM...
+
+      <div style={loadingWrap}>
+
+        <div style={loader} />
+
+        <h2 style={loadingText}>
+          LOADING TEAM...
+        </h2>
+
       </div>
     );
   }
@@ -122,316 +128,750 @@ export default function Team() {
   if (error) {
 
     return (
-      <div
-        className="page"
-        style={{
-          textAlign: 'center',
-          padding: '80px 0',
-          fontFamily:
-            'Space Mono'
-        }}
-      >
-        <p
-          style={{
-            color: 'red',
-            marginBottom: 20
-          }}
-        >
+
+      <div style={errorWrap}>
+
+        <h2 style={errorText}>
           {error}
-        </p>
+        </h2>
 
         <button
-          className="btn btn-primary"
           onClick={fetchMembers}
+          style={retryBtn}
         >
-          Retry
+          RETRY
         </button>
+
       </div>
     );
   }
 
-  // ===============================
-  // 🎯 MAIN UI
-  // ===============================
   return (
-    <div className="page">
 
-      <div className="section-label">
-        // the crew behind the lens
+    <div style={container}>
+
+      {/* GLOW */}
+      <div style={glow1} />
+      <div style={glow2} />
+
+      {/* HERO */}
+      <div style={hero}>
+
+        <p style={miniTitle}>
+          // THE CREW BEHIND THE LENS
+        </p>
+
+        <h1 style={title}>
+          MEET THE TEAM
+        </h1>
+
+        <p style={desc}>
+
+          Passionate creators,
+          storytellers, photographers
+          and editors building the
+          visual identity of
+          SkyWing Media Team.
+
+        </p>
+
       </div>
-
-      <h2 className="section-title">
-        MEET THE TEAM
-      </h2>
 
       {/* EMPTY */}
       {members.length === 0 ? (
 
-        <div
-          style={{
-            textAlign: 'center',
-            padding: '80px 0',
-            color: 'var(--gray)',
-            fontFamily:
-              'Space Mono',
-            fontSize: 13,
-            letterSpacing: 3
-          }}
-        >
-          NO TEAM MEMBERS ADDED YET
+        <div style={emptyBox}>
+
+          NO TEAM MEMBERS FOUND
+
         </div>
 
       ) : (
 
-        <div className="grid-3">
+        <div style={grid}>
 
-          {members.map((m, i) => {
+          {members.map(
+            (m, i) => {
 
-            const initials =
-              m.name
-                ? m.name
-                    .split(' ')
-                    .map(
-                      (n) => n[0]
-                    )
-                    .join('')
-                    .toUpperCase()
-                : '👤';
+              const initials =
+                m.name
 
-            return (
+                  ? m.name
+                      .split(' ')
+                      .map(
+                        (n) =>
+                          n[0]
+                      )
+                      .join('')
+                      .toUpperCase()
 
-              <div
-                key={m._id}
-                className="card fade-up"
-                style={{
-                  textAlign: 'center',
-                  animationDelay:
-                    `${i * 0.08}s`,
-                  transition:
-                    '0.35s ease',
-                  position:
-                    'relative',
-                  overflow:
-                    'hidden',
-                  border:
-                    m.isLeader
-                      ? '1px solid rgba(255,215,0,0.35)'
-                      : '1px solid rgba(255,255,255,0.06)'
-                }}
-              >
+                  : '👤';
 
-                {/* GLOW */}
-                <div
-                  style={{
-                    position:
-                      'absolute',
-                    inset: 0,
-                    background:
-                      m.isLeader
-                        ? 'radial-gradient(circle at top right, rgba(255,215,0,0.18), transparent 60%)'
-                        : 'radial-gradient(circle at top right, rgba(0,170,255,0.15), transparent 60%)',
-                    pointerEvents:
-                      'none'
+              return (
+
+                <motion.div
+
+                  key={m._id || i}
+
+                  initial={{
+                    opacity: 0,
+                    y: 40
                   }}
-                />
 
-                {/* LEADER BADGE */}
-                {m.isLeader && (
+                  animate={{
+                    opacity: 1,
+                    y: 0
+                  }}
 
-                  <div
-                    style={{
-                      position:
-                        'absolute',
-                      top: 14,
-                      right: 14,
-                      background:
-                        'rgba(255,215,0,0.12)',
-                      border:
-                        '1px solid rgba(255,215,0,0.25)',
-                      color:
-                        '#ffd700',
-                      padding:
-                        '6px 10px',
-                      borderRadius: 30,
-                      display:
-                        'flex',
-                      alignItems:
-                        'center',
-                      gap: 6,
-                      fontSize: 11,
-                      letterSpacing: 1
-                    }}
-                  >
-                    <FaCrown />
+                  transition={{
+                    delay:
+                      i * 0.08
+                  }}
 
-                    LEADER
-                  </div>
-                )}
+                  whileHover={{
+                    y: -10,
+                    scale: 1.02
+                  }}
 
-                {/* PHOTO */}
-                <div
                   style={{
-                    width: 100,
-                    height: 100,
-                    borderRadius:
-                      '50%',
-                    margin:
-                      '0 auto 18px',
+                    ...card,
+
                     border:
                       m.isLeader
-                        ? '2px solid #ffd700'
-                        : '2px solid var(--blue)',
-                    display: 'flex',
-                    alignItems:
-                      'center',
-                    justifyContent:
-                      'center',
-                    fontSize: 30,
-                    background:
-                      'linear-gradient(135deg,var(--dark),var(--darker))',
-                    boxShadow:
-                      m.isLeader
-                        ? '0 0 30px rgba(255,215,0,0.25)'
-                        : '0 0 25px rgba(0,170,255,0.25)',
-                    overflow:
-                      'hidden'
+
+                        ? '1px solid rgba(255,215,0,0.3)'
+
+                        : '1px solid rgba(255,255,255,0.08)'
                   }}
                 >
 
-                  {m.photo ? (
-
-                    <img
-                      src={m.photo}
-                      alt={m.name}
-                      style={{
-                        width:
-                          '100%',
-                        height:
-                          '100%',
-                        objectFit:
-                          'cover'
-                      }}
-                    />
-
-                  ) : (
-
-                    <span>
-                      {m.photoEmoji ||
-                        initials}
-                    </span>
-                  )}
-                </div>
-
-                {/* NAME */}
-                <h3
-                  style={{
-                    fontFamily:
-                      'Orbitron,sans-serif',
-                    fontSize: 14,
-                    letterSpacing: 2,
-                    marginBottom: 6
-                  }}
-                >
-                  {m.name}
-                </h3>
-
-                {/* ROLE */}
-                <div
-                  style={{
-                    fontFamily:
-                      'Space Mono,monospace',
-                    fontSize: 10,
-                    letterSpacing: 2,
-                    color:
-                      m.isLeader
-                        ? '#ffd700'
-                        : 'var(--blue)',
-                    textTransform:
-                      'uppercase',
-                    marginBottom: 10
-                  }}
-                >
-                  {m.role}
-                </div>
-
-                {/* CLASS */}
-                {m.className && (
-
+                  {/* CARD GLOW */}
                   <div
                     style={{
-                      display:
-                        'flex',
-                      alignItems:
-                        'center',
-                      justifyContent:
-                        'center',
-                      gap: 6,
-                      color:
-                        'var(--gray)',
-                      fontSize: 12,
-                      marginBottom: 12
+                      ...cardGlow,
+
+                      background:
+                        m.isLeader
+
+                          ? 'radial-gradient(circle at top right, rgba(255,215,0,0.2), transparent 60%)'
+
+                          : 'radial-gradient(circle at top right, rgba(0,170,255,0.18), transparent 60%)'
                     }}
-                  >
-                    <FaUserGraduate />
+                  />
 
-                    {m.className}
-                  </div>
-                )}
+                  {/* LEADER */}
+                  {m.isLeader && (
 
-                {/* BIO */}
-                <p
-                  style={{
-                    color:
-                      'var(--gray)',
-                    fontSize: 13,
-                    lineHeight: 1.7,
-                    marginBottom: 18
-                  }}
-                >
-                  {m.bio ||
-                    'No bio available'}
-                </p>
+                    <div
+                      style={
+                        leaderBadge
+                      }
+                    >
 
-                {/* INSTAGRAM */}
-                {m.instagramLink && (
+                      <FaCrown />
 
-                  <a
-                    href={
-                      m.instagramLink
-                    }
-                    target="_blank"
-                    rel="noreferrer"
+                      LEADER
+
+                    </div>
+                  )}
+
+                  {/* PHOTO */}
+                  <div
                     style={{
-                      display:
-                        'inline-flex',
-                      alignItems:
-                        'center',
-                      gap: 8,
-                      padding:
-                        '10px 18px',
+                      ...avatar,
+
                       border:
-                        '1px solid rgba(255,255,255,0.08)',
-                      borderRadius:
-                        999,
-                      textDecoration:
-                        'none',
-                      color:
-                        '#ff4fa3',
-                      fontSize: 13,
-                      transition:
-                        '0.3s'
+                        m.isLeader
+
+                          ? '2px solid #ffd700'
+
+                          : '2px solid #00aaff',
+
+                      boxShadow:
+                        m.isLeader
+
+                          ? '0 0 35px rgba(255,215,0,0.25)'
+
+                          : '0 0 30px rgba(0,170,255,0.25)'
                     }}
                   >
-                    <FaInstagram />
 
-                    Instagram
-                  </a>
-                )}
-              </div>
-            );
-          })}
+                    {m.photo ? (
+
+                      <img
+                        src={m.photo}
+                        alt={m.name}
+
+                        style={
+                          avatarImg
+                        }
+                      />
+
+                    ) : (
+
+                      <span>
+
+                        {m.photoEmoji ||
+                          initials}
+
+                      </span>
+                    )}
+
+                  </div>
+
+                  {/* NAME */}
+                  <h2 style={nameText}>
+
+                    {m.name}
+
+                  </h2>
+
+                  {/* ROLE */}
+                  <div
+                    style={{
+                      ...roleText,
+
+                      color:
+                        m.isLeader
+
+                          ? '#ffd700'
+
+                          : '#00aaff'
+                    }}
+                  >
+
+                    {m.role}
+
+                  </div>
+
+                  {/* CLASS */}
+                  {m.className && (
+
+                    <div
+                      style={
+                        classText
+                      }
+                    >
+
+                      <FaUserGraduate />
+
+                      {m.className}
+
+                    </div>
+                  )}
+
+                  {/* BIO */}
+                  <p style={bioText}>
+
+                    {m.bio ||
+                      'Creative member of SkyWing Media Team.'}
+
+                  </p>
+
+                  {/* SKILLS */}
+                  <div style={skillsWrap}>
+
+                    <div style={skillTag}>
+
+                      <FaCamera />
+
+                      Photo
+
+                    </div>
+
+                    <div style={skillTag}>
+
+                      <FaVideo />
+
+                      Video
+
+                    </div>
+
+                  </div>
+
+                  {/* SOCIAL */}
+                  {m.instagramLink && (
+
+                    <a
+                      href={
+                        m.instagramLink
+                      }
+
+                      target="_blank"
+
+                      rel="noreferrer"
+
+                      style={
+                        instaBtn
+                      }
+                    >
+
+                      <FaInstagram />
+
+                      Instagram
+
+                    </a>
+                  )}
+
+                </motion.div>
+              );
+            }
+          )}
         </div>
       )}
     </div>
   );
 }
+
+// ===============================
+// 🎨 STYLES
+// ===============================
+
+const container = {
+
+  minHeight: '100vh',
+
+  padding:
+    window.innerWidth <= 768
+
+      ? '120px 20px 60px'
+
+      : '130px 40px 80px',
+
+  position: 'relative',
+
+  overflow: 'hidden'
+};
+
+const hero = {
+
+  textAlign: 'center',
+
+  marginBottom: 70,
+
+  position: 'relative',
+
+  zIndex: 5
+};
+
+const miniTitle = {
+
+  color: '#00d4ff',
+
+  letterSpacing: 4,
+
+  fontSize: 13,
+
+  marginBottom: 14
+};
+
+const title = {
+
+  fontSize:
+    window.innerWidth <= 768
+
+      ? '3rem'
+
+      : '5rem',
+
+  fontFamily:
+    'Orbitron,sans-serif',
+
+  lineHeight: 1,
+
+  letterSpacing: 5,
+
+  background:
+    'linear-gradient(135deg,#fff,#00aaff)',
+
+  WebkitBackgroundClip:
+    'text',
+
+  WebkitTextFillColor:
+    'transparent',
+
+  marginBottom: 24
+};
+
+const desc = {
+
+  maxWidth: 720,
+
+  margin: '0 auto',
+
+  color:
+    'rgba(255,255,255,0.72)',
+
+  lineHeight: 1.9
+};
+
+const grid = {
+
+  display: 'grid',
+
+  gridTemplateColumns:
+    'repeat(auto-fit,minmax(320px,1fr))',
+
+  gap: 28,
+
+  maxWidth: 1300,
+
+  margin: '0 auto',
+
+  position: 'relative',
+
+  zIndex: 5
+};
+
+const card = {
+
+  position: 'relative',
+
+  overflow: 'hidden',
+
+  borderRadius: 30,
+
+  padding:
+    '35px 28px',
+
+  background:
+    'rgba(255,255,255,0.04)',
+
+  backdropFilter:
+    'blur(18px)',
+
+  textAlign: 'center'
+};
+
+const cardGlow = {
+
+  position: 'absolute',
+
+  inset: 0,
+
+  pointerEvents: 'none'
+};
+
+const leaderBadge = {
+
+  position: 'absolute',
+
+  top: 18,
+
+  right: 18,
+
+  display: 'flex',
+
+  alignItems: 'center',
+
+  gap: 8,
+
+  padding:
+    '8px 14px',
+
+  borderRadius: 999,
+
+  fontSize: 11,
+
+  letterSpacing: 1,
+
+  background:
+    'rgba(255,215,0,0.12)',
+
+  border:
+    '1px solid rgba(255,215,0,0.25)',
+
+  color: '#ffd700'
+};
+
+const avatar = {
+
+  width: 120,
+
+  height: 120,
+
+  borderRadius: '50%',
+
+  margin:
+    '0 auto 22px',
+
+  display: 'flex',
+
+  alignItems: 'center',
+
+  justifyContent:
+    'center',
+
+  overflow: 'hidden',
+
+  fontSize: 38,
+
+  background:
+    'linear-gradient(135deg,#0f172a,#111827)'
+};
+
+const avatarImg = {
+
+  width: '100%',
+
+  height: '100%',
+
+  objectFit: 'cover'
+};
+
+const nameText = {
+
+  color: '#fff',
+
+  fontSize: 22,
+
+  marginBottom: 8,
+
+  fontFamily:
+    'Orbitron,sans-serif',
+
+  letterSpacing: 2
+};
+
+const roleText = {
+
+  fontSize: 12,
+
+  letterSpacing: 3,
+
+  marginBottom: 16,
+
+  textTransform:
+    'uppercase'
+};
+
+const classText = {
+
+  display: 'flex',
+
+  alignItems: 'center',
+
+  justifyContent:
+    'center',
+
+  gap: 8,
+
+  color:
+    'rgba(255,255,255,0.65)',
+
+  marginBottom: 18,
+
+  fontSize: 13
+};
+
+const bioText = {
+
+  color:
+    'rgba(255,255,255,0.72)',
+
+  lineHeight: 1.8,
+
+  fontSize: 14,
+
+  marginBottom: 22
+};
+
+const skillsWrap = {
+
+  display: 'flex',
+
+  justifyContent:
+    'center',
+
+  gap: 12,
+
+  flexWrap: 'wrap',
+
+  marginBottom: 24
+};
+
+const skillTag = {
+
+  display: 'flex',
+
+  alignItems: 'center',
+
+  gap: 8,
+
+  padding:
+    '10px 16px',
+
+  borderRadius: 999,
+
+  background:
+    'rgba(255,255,255,0.05)',
+
+  border:
+    '1px solid rgba(255,255,255,0.08)',
+
+  color: '#00d4ff',
+
+  fontSize: 12
+};
+
+const instaBtn = {
+
+  display: 'inline-flex',
+
+  alignItems: 'center',
+
+  gap: 10,
+
+  padding:
+    '12px 22px',
+
+  borderRadius: 999,
+
+  textDecoration: 'none',
+
+  color: '#ff4fa3',
+
+  border:
+    '1px solid rgba(255,255,255,0.08)',
+
+  background:
+    'rgba(255,255,255,0.04)'
+};
+
+const glow1 = {
+
+  position: 'absolute',
+
+  width: 450,
+
+  height: 450,
+
+  borderRadius: '50%',
+
+  background:
+    'rgba(0,170,255,0.15)',
+
+  filter:
+    'blur(120px)',
+
+  top: -140,
+
+  left: -120,
+
+  pointerEvents: 'none'
+};
+
+const glow2 = {
+
+  position: 'absolute',
+
+  width: 400,
+
+  height: 400,
+
+  borderRadius: '50%',
+
+  background:
+    'rgba(0,120,255,0.12)',
+
+  filter:
+    'blur(120px)',
+
+  bottom: -120,
+
+  right: -100,
+
+  pointerEvents: 'none'
+};
+
+const loadingWrap = {
+
+  height: '100vh',
+
+  display: 'flex',
+
+  flexDirection: 'column',
+
+  alignItems: 'center',
+
+  justifyContent: 'center',
+
+  gap: 24
+};
+
+const loader = {
+
+  width: 70,
+
+  height: 70,
+
+  border:
+    '4px solid rgba(255,255,255,0.08)',
+
+  borderTop:
+    '4px solid #00aaff',
+
+  borderRadius: '50%',
+
+  animation:
+    'spin 1s linear infinite'
+};
+
+const loadingText = {
+
+  color: '#00d4ff',
+
+  letterSpacing: 4
+};
+
+const errorWrap = {
+
+  height: '100vh',
+
+  display: 'flex',
+
+  flexDirection: 'column',
+
+  alignItems: 'center',
+
+  justifyContent: 'center',
+
+  gap: 24
+};
+
+const errorText = {
+
+  color: '#ff4d7a'
+};
+
+const retryBtn = {
+
+  padding:
+    '14px 28px',
+
+  borderRadius: 16,
+
+  border: 'none',
+
+  background:
+    'linear-gradient(135deg,#00aaff,#0066ff)',
+
+  color: '#fff',
+
+  cursor: 'pointer',
+
+  fontWeight: 700
+};
+
+const emptyBox = {
+
+  textAlign: 'center',
+
+  padding:
+    '80px 20px',
+
+  color:
+    'rgba(255,255,255,0.55)',
+
+  letterSpacing: 4
+};

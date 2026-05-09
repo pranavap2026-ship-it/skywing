@@ -13,14 +13,23 @@ import {
   FaYoutube,
   FaFacebookF,
   FaLinkedinIn,
-  FaGlobe
+  FaGlobe,
+  FaDiscord,
+  FaGithub,
+  FaTwitter,
+  FaSnapchatGhost,
+  FaPinterestP,
+  FaWhatsapp,
+  FaSpotify,
+  FaTiktok,
+  FaRedditAlien
 } from 'react-icons/fa';
 
 import { socialAPI }
   from '../api';
 
 // ===============================
-// 🚀 ICONS
+// 🚀 FALLBACK ICONS
 // ===============================
 const ICONS = {
 
@@ -40,11 +49,41 @@ const ICONS = {
     <FaLinkedinIn />,
 
   website:
-    <FaGlobe />
+    <FaGlobe />,
+
+  github:
+    <FaGithub />,
+
+  twitter:
+    <FaTwitter />,
+
+  x:
+    <FaTwitter />,
+
+  discord:
+    <FaDiscord />,
+
+  snapchat:
+    <FaSnapchatGhost />,
+
+  pinterest:
+    <FaPinterestP />,
+
+  whatsapp:
+    <FaWhatsapp />,
+
+  spotify:
+    <FaSpotify />,
+
+  tiktok:
+    <FaTiktok />,
+
+  reddit:
+    <FaRedditAlien />
 };
 
 // ===============================
-// 🎯 SAFE DATA
+// 🔧 SAFE DATA
 // ===============================
 const extractData = (res) =>
   Array.isArray(res.data)
@@ -67,6 +106,9 @@ export default function Social() {
   const [error,
     setError] =
     useState('');
+
+  const isMobile =
+    window.innerWidth <= 768;
 
   // ===============================
   // 📡 FETCH
@@ -154,11 +196,11 @@ export default function Social() {
 
     <div style={container}>
 
-      {/* GLOWS */}
+      {/* GLOW */}
       <div style={glow1} />
       <div style={glow2} />
 
-      {/* TITLE */}
+      {/* HERO */}
       <div style={hero}>
 
         <p style={miniTitle}>
@@ -173,10 +215,9 @@ export default function Social() {
 
           Follow SkyWing Media Team
           across platforms for
-          event updates, cinematic
-          reels, announcements,
-          stories and creative
-          showcases.
+          event updates, reels,
+          announcements and
+          cinematic moments.
 
         </p>
 
@@ -232,12 +273,25 @@ export default function Social() {
                   }}
 
                   whileHover={{
-                    y: -8,
+                    y: -10,
                     scale: 1.03
                   }}
 
                   style={card}
                 >
+
+                  {/* CARD GLOW */}
+                  <div
+                    style={{
+                      ...cardGlow,
+
+                      background:
+                        `radial-gradient(circle at top right, ${
+                          item.color ||
+                          '#00aaff'
+                        }25, transparent 60%)`
+                    }}
+                  />
 
                   {/* ICON */}
                   <div
@@ -248,7 +302,15 @@ export default function Social() {
                         `1px solid ${
                           item.color ||
                           '#00aaff'
-                        }`
+                        }`,
+
+                      background:
+                        `${item.color || '#00aaff'}15`,
+
+                      boxShadow:
+                        `0 0 30px ${
+                          item.color || '#00aaff'
+                        }35`
                     }}
                   >
 
@@ -256,35 +318,79 @@ export default function Social() {
                       style={{
                         color:
                           item.color ||
-                          '#00d4ff'
+                          '#00d4ff',
+
+                        fontSize: 30,
+
+                        display: 'flex',
+
+                        alignItems: 'center',
+
+                        justifyContent: 'center'
                       }}
                     >
 
-                      {ICONS[
-                        platform
-                      ] ||
-                        <FaGlobe />}
+                      {item.icon ? (
+
+                        <span>
+                          {item.icon}
+                        </span>
+
+                      ) : (
+
+                        ICONS[
+                          platform
+                        ] ||
+
+                        <FaGlobe />
+                      )}
 
                     </span>
 
                   </div>
 
                   {/* CONTENT */}
-                  <div>
+                  <div
+                    style={{
+                      flex: 1
+                    }}
+                  >
 
-                    <h3 style={platformText}>
+                    <h3
+                      style={
+                        platformText
+                      }
+                    >
 
                       {item.platform ||
                         'SOCIAL'}
 
                     </h3>
 
-                    <p style={handleText}>
+                    <p
+                      style={
+                        handleText
+                      }
+                    >
 
                       {item.handle ||
                         item.url}
 
                     </p>
+
+                  </div>
+
+                  {/* STATUS */}
+                  <div
+                    style={{
+                      ...statusBadge,
+
+                      background:
+                        `${item.color || '#00aaff'}18`
+                    }}
+                  >
+
+                    ACTIVE
 
                   </div>
 
@@ -370,12 +476,12 @@ const title = {
 
 const desc = {
 
-  maxWidth: 750,
+  maxWidth: 720,
 
   margin: '0 auto',
 
   color:
-    'rgba(255,255,255,0.7)',
+    'rgba(255,255,255,0.72)',
 
   lineHeight: 1.9,
 
@@ -390,11 +496,11 @@ const grid = {
   display: 'grid',
 
   gridTemplateColumns:
-    'repeat(auto-fit,minmax(280px,1fr))',
+    'repeat(auto-fit,minmax(300px,1fr))',
 
   gap: 28,
 
-  maxWidth: 1200,
+  maxWidth: 1300,
 
   margin: '0 auto',
 
@@ -405,20 +511,24 @@ const grid = {
 
 const card = {
 
-  display: 'flex',
+  position: 'relative',
 
-  alignItems: 'center',
+  overflow: 'hidden',
 
-  gap: 22,
+  borderRadius: 30,
 
   padding:
     window.innerWidth <= 768
 
-      ? '24px 22px'
+      ? '24px'
 
       : '30px',
 
-  borderRadius: 28,
+  display: 'flex',
+
+  alignItems: 'center',
+
+  gap: 24,
 
   textDecoration: 'none',
 
@@ -432,18 +542,23 @@ const card = {
     'blur(18px)',
 
   transition:
-    '0.35s ease',
+    '0.35s ease'
+};
 
-  position: 'relative',
+const cardGlow = {
 
-  overflow: 'hidden'
+  position: 'absolute',
+
+  inset: 0,
+
+  pointerEvents: 'none'
 };
 
 const iconWrap = {
 
-  width: 74,
+  width: 78,
 
-  height: 74,
+  height: 78,
 
   borderRadius: '50%',
 
@@ -453,15 +568,7 @@ const iconWrap = {
 
   justifyContent: 'center',
 
-  background:
-    'rgba(255,255,255,0.04)',
-
-  fontSize: 28,
-
-  flexShrink: 0,
-
-  boxShadow:
-    '0 0 25px rgba(0,170,255,0.2)'
+  flexShrink: 0
 };
 
 const platformText = {
@@ -481,11 +588,32 @@ const platformText = {
 const handleText = {
 
   color:
-    'rgba(255,255,255,0.65)',
+    'rgba(255,255,255,0.68)',
 
   fontSize: 14,
 
-  lineHeight: 1.6
+  lineHeight: 1.7,
+
+  wordBreak: 'break-word'
+};
+
+const statusBadge = {
+
+  padding:
+    '8px 14px',
+
+  borderRadius: 999,
+
+  fontSize: 11,
+
+  letterSpacing: 2,
+
+  color: '#00d4ff',
+
+  border:
+    '1px solid rgba(255,255,255,0.08)',
+
+  alignSelf: 'flex-start'
 };
 
 const glow1 = {
