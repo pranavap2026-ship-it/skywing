@@ -74,18 +74,22 @@ export default function Footer() {
         {/* ===============================
             🔷 BRAND
         =============================== */}
-        <div style={brandSection}>
+       <div style={brandSection}>
 
-          <h1 style={logoText}>
-            SKYWING
-          </h1>
+  <img
+    src={require('../assets/logo.png')}
+    alt="SkyWing Logo"
 
-          <p style={tagline}>
-            Capturing moments.
-            Creating stories.
-            Preserving memories.
-          </p>
-        </div>
+    style={footerLogo}
+  />
+
+  <p style={tagline}>
+    Capturing moments.
+    Creating stories.
+    Preserving memories.
+  </p>
+
+</div>
 
         {/* ===============================
             🚀 GRID
@@ -324,6 +328,26 @@ const brandSection = {
   textAlign: 'center'
 };
 
+
+const footerLogo = {
+
+  width: 240,
+
+  maxWidth: '85%',
+
+  objectFit: 'contain',
+
+  marginBottom: 18,
+
+  filter:
+    'drop-shadow(0 0 30px rgba(0,170,255,0.35))'
+};
+
+
+if (window.innerWidth <= 768) {
+
+  footerLogo.width = 170;
+}
 const logoText = {
 
   fontSize: '4rem',
