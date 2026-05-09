@@ -12,7 +12,6 @@ import {
   FaVideo,
   FaPaintBrush,
   FaInstagram,
-  FaArrowDown,
   FaUsers,
   FaPhotoVideo,
   FaAward
@@ -60,7 +59,6 @@ export default function Home() {
 
   return (
     <>
-
       {/* ================= HERO ================= */}
       <section style={container}>
 
@@ -74,73 +72,77 @@ export default function Home() {
         <div style={bgGlow1} />
         <div style={bgGlow2} />
 
-        {/* LABEL */}
-        <p
-          className="section-label fade-up"
-          style={{
-            marginBottom: 18
-          }}
-        >
-          // COLLEGE MEDIA TEAM — EST. 2024
-        </p>
+        {/* HERO CONTENT */}
+        <div style={heroContent}>
 
-        {/* TITLE */}
-        <h1 style={titleStyle}>
-          SKYWING
-        </h1>
+          {/* LABEL */}
+          <p
+            className="section-label fade-up"
+            style={{
+              marginBottom: 14
+            }}
+          >
+            // COLLEGE MEDIA TEAM — EST. 2024
+          </p>
 
-        {/* TYPING */}
-        <p style={typingStyle}>
-          {text}
-        </p>
+          {/* TITLE */}
+          <h1 style={titleStyle}>
+            SKYWING
+          </h1>
 
-        {/* DESCRIPTION */}
-        <p style={descStyle}>
-          We are the eyes and voice
-          of CEP — capturing
-          unforgettable moments
-          through creativity,
-          storytelling and innovation.
-        </p>
+          {/* TYPING */}
+          <p style={typingStyle}>
+            {text}
+          </p>
 
-        {/* CAMERA */}
-        <div
-          style={{
-            marginTop: 30
-          }}
-        >
-          <Camera3D height={320} />
+          {/* DESCRIPTION */}
+          <p style={descStyle}>
+            We are the eyes and voice
+            of CEP — capturing
+            unforgettable moments
+            through creativity,
+            storytelling and innovation.
+          </p>
+
+          {/* BUTTONS */}
+          <div style={btnContainer}>
+
+            <Link
+              to="/events"
+              style={primaryBtn}
+            >
+              Explore Events
+            </Link>
+
+            <Link
+              to="/team"
+              style={secondaryBtn}
+            >
+              Meet Team
+            </Link>
+
+            <Link
+              to="/social"
+              style={secondaryBtn}
+            >
+              Connect
+            </Link>
+
+          </div>
         </div>
 
-        {/* BUTTONS */}
-        <div style={btnContainer}>
-
-          <Link
-            to="/events"
-            className="btn btn-primary glow-btn"
-          >
-            Explore Events
-          </Link>
-
-          <Link
-            to="/team"
-            className="btn btn-secondary glow-btn"
-          >
-            Meet Team
-          </Link>
-
-          <Link
-            to="/social"
-            className="btn btn-secondary glow-btn"
-          >
-            Connect
-          </Link>
+        {/* CAMERA */}
+        <div style={cameraWrap}>
+          <Camera3D height={240} />
         </div>
 
         {/* STATS */}
         <div style={statsContainer}>
 
-          <div className="card fade-up">
+          <div
+            className="card fade-up"
+            style={statCard}
+          >
 
             <FaUsers
               size={28}
@@ -150,9 +152,13 @@ export default function Home() {
             <h2>10+</h2>
 
             <p>Active Members</p>
+
           </div>
 
-          <div className="card fade-up">
+          <div
+            className="card fade-up"
+            style={statCard}
+          >
 
             <FaPhotoVideo
               size={28}
@@ -162,9 +168,13 @@ export default function Home() {
             <h2>5K+</h2>
 
             <p>Photos & Videos</p>
+
           </div>
 
-          <div className="card fade-up">
+          <div
+            className="card fade-up"
+            style={statCard}
+          >
 
             <FaAward
               size={28}
@@ -174,16 +184,8 @@ export default function Home() {
             <h2>5+</h2>
 
             <p>Events Covered</p>
+
           </div>
-        </div>
-
-        {/* SCROLL */}
-        <div style={scrollIndicator}>
-
-          <FaArrowDown />
-
-          <span>SCROLL</span>
-
         </div>
       </section>
 
@@ -200,12 +202,18 @@ export default function Home() {
 
         <p style={aboutText}>
           Skywing is the official
-          media team of College of Engineering Poonjar.
+          media team of College of
+          Engineering Poonjar.
+
+          <br /><br />
+
           We document every moment —
           from cultural fests and
           sports events to technical
           expos and celebrations.
+
           <br /><br />
+
           We blend creativity,
           technology and storytelling
           to preserve memories through
@@ -258,11 +266,7 @@ export default function Home() {
             <div
               key={i}
               className="card fade-up"
-              style={{
-                padding: 30,
-                textAlign:
-                  'center'
-              }}
+              style={featureCard}
             >
 
               <div
@@ -310,22 +314,44 @@ export default function Home() {
 // ===============================
 
 const container = {
-  minHeight: '82vh',
+
+  minHeight: '100vh',
+
   display: 'flex',
+
   flexDirection: 'column',
+
   alignItems: 'center',
+
   justifyContent: 'center',
+
   textAlign: 'center',
+
   padding:
-    '120px 20px 100px',
+    '90px 20px 40px',
+
   position: 'relative',
+
   overflow: 'hidden'
+};
+
+const heroContent = {
+
+  display: 'flex',
+
+  flexDirection: 'column',
+
+  alignItems: 'center',
+
+  justifyContent: 'center',
+
+  zIndex: 2
 };
 
 const titleStyle = {
 
   fontSize:
-    'clamp(70px,12vw,150px)',
+    'clamp(60px,11vw,140px)',
 
   fontWeight: 900,
 
@@ -334,7 +360,7 @@ const titleStyle = {
   lineHeight: 0.9,
 
   background:
-    'linear-gradient(135deg,#fff,#00aaff)',
+    'linear-gradient(135deg,#ffffff,#00aaff)',
 
   WebkitBackgroundClip:
     'text',
@@ -342,99 +368,206 @@ const titleStyle = {
   WebkitTextFillColor:
     'transparent',
 
-  marginBottom: 16
+  marginBottom: 14
 };
 
 const typingStyle = {
-  letterSpacing: 8,
+
+  letterSpacing: 7,
+
   color: 'var(--gray)',
-  marginBottom: 24,
+
+  marginBottom: 18,
+
   minHeight: 20
 };
 
 const descStyle = {
+
   maxWidth: 650,
+
   color:
-    'rgba(240,248,255,0.7)',
+    'rgba(240,248,255,0.72)',
+
   lineHeight: 1.8,
-  fontSize: 16
+
+  fontSize: 15
 };
 
 const btnContainer = {
+
   display: 'flex',
+
   gap: 16,
+
   flexWrap: 'wrap',
+
   justifyContent:
     'center',
-  marginTop: 40
+
+  marginTop: 30
+};
+
+const primaryBtn = {
+
+  padding:
+    '16px 32px',
+
+  borderRadius: 18,
+
+  background:
+    'linear-gradient(135deg,#00aaff,#0066ff)',
+
+  color: '#fff',
+
+  textDecoration: 'none',
+
+  fontWeight: 700,
+
+  boxShadow:
+    '0 0 25px rgba(0,170,255,0.35)',
+
+  transition:
+    '0.3s ease'
+};
+
+const secondaryBtn = {
+
+  padding:
+    '16px 28px',
+
+  borderRadius: 18,
+
+  background:
+    'rgba(255,255,255,0.05)',
+
+  border:
+    '1px solid rgba(255,255,255,0.08)',
+
+  color: '#fff',
+
+  textDecoration: 'none',
+
+  backdropFilter:
+    'blur(12px)',
+
+  transition:
+    '0.3s ease'
+};
+
+const cameraWrap = {
+
+  marginTop: 10,
+
+  marginBottom: 20,
+
+  transform: 'scale(0.9)'
 };
 
 const statsContainer = {
+
   display: 'grid',
+
   gridTemplateColumns:
     'repeat(auto-fit,minmax(220px,1fr))',
+
   gap: 20,
+
   width: '100%',
+
   maxWidth: 900,
-  marginTop: 70
+
+  marginTop: 40
+};
+
+const statCard = {
+
+  padding: 28,
+
+  textAlign: 'center'
 };
 
 const aboutSection = {
+
   padding:
     '120px 20px',
+
   textAlign: 'center'
 };
 
 const aboutText = {
+
   maxWidth: 850,
+
   margin:
     '20px auto 60px',
+
   color: 'var(--gray)',
+
   lineHeight: 1.9,
+
   fontSize: 15
 };
 
 const featureGrid = {
+
   display: 'grid',
+
   gridTemplateColumns:
     'repeat(auto-fit,minmax(230px,1fr))',
+
   gap: 25
 };
 
-const scrollIndicator = {
-  position: 'absolute',
-  bottom: 30,
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  gap: 10,
-  fontSize: 12,
-  letterSpacing: 4,
-  opacity: 0.6
+const featureCard = {
+
+  padding: 30,
+
+  textAlign: 'center'
 };
 
 const bgGlow1 = {
+
   position: 'absolute',
+
   width: 400,
+
   height: 400,
+
   borderRadius: '50%',
+
   background:
     'rgba(0,170,255,0.15)',
-  filter: 'blur(100px)',
+
+  filter:
+    'blur(100px)',
+
   top: -100,
+
   left: -100,
+
   zIndex: -1
 };
 
 const bgGlow2 = {
+
   position: 'absolute',
+
   width: 350,
+
   height: 350,
+
   borderRadius: '50%',
+
   background:
     'rgba(0,120,255,0.12)',
-  filter: 'blur(100px)',
+
+  filter:
+    'blur(100px)',
+
   bottom: -100,
+
   right: -100,
+
   zIndex: -1
 };

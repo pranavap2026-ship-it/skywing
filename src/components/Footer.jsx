@@ -11,9 +11,17 @@ import {
   FaTelegramPlane,
   FaInstagram,
   FaYoutube,
-  FaGithub,
   FaArrowUp
 } from 'react-icons/fa';
+
+// ===============================
+// 🖼️ LOGOS
+// ===============================
+import skywingLogo
+  from '../assets/logo.png';
+
+import collegeLogo
+  from '../assets/college-logo.png';
 
 export default function Footer() {
 
@@ -48,7 +56,7 @@ export default function Footer() {
   }, []);
 
   // ===============================
-  // ⬆️ SCROLL TO TOP
+  // ⬆️ SCROLL TOP
   // ===============================
   const scrollTop = () => {
 
@@ -64,32 +72,53 @@ export default function Footer() {
 
     <>
       {/* ===============================
-          🌌 ADVANCED FOOTER
+          🌌 FOOTER
       =============================== */}
       <footer style={footerStyle}>
 
-        {/* GLOW EFFECT */}
+        {/* GLOW */}
         <div style={topGlow} />
 
         {/* ===============================
             🔷 BRAND
         =============================== */}
-       <div style={brandSection}>
+        <div style={brandSection}>
 
-  <img
-    src={require('../assets/logo.png')}
-    alt="SkyWing Logo"
+          {/* LOGOS */}
+          <div style={logoContainer}>
 
-    style={footerLogo}
-  />
+            {/* COLLEGE */}
+            <img
+              src={collegeLogo}
+              alt="College Logo"
 
-  <p style={tagline}>
-    Capturing moments.
-    Creating stories.
-    Preserving memories.
-  </p>
+              style={
+                collegeLogoStyle
+              }
+            />
 
-</div>
+            {/* DIVIDER */}
+            <div style={divider} />
+
+            {/* SKYWING */}
+            <img
+              src={skywingLogo}
+              alt="SkyWing Logo"
+
+              style={footerLogo}
+            />
+
+          </div>
+
+          {/* TAGLINE */}
+          <p style={tagline}>
+
+            Capturing moments.
+            Creating stories.
+            Preserving memories.
+
+          </p>
+        </div>
 
         {/* ===============================
             🚀 GRID
@@ -151,6 +180,9 @@ export default function Footer() {
 
               <a
                 href="https://t.me/skywingstudentscorner"
+                target="_blank"
+                rel="noreferrer"
+
                 style={socialBtn}
               >
                 <FaTelegramPlane />
@@ -158,6 +190,10 @@ export default function Footer() {
 
               <a
                 href="https://www.instagram.com/skywing.cep?igsh=MTF0bmJnYnpnbXVjdg=="
+
+                target="_blank"
+                rel="noreferrer"
+
                 style={socialBtn}
               >
                 <FaInstagram />
@@ -165,18 +201,20 @@ export default function Footer() {
 
               <a
                 href="https://youtube.com/@cepoonjar?si=VNp_VJICoWhvSe0L"
+
+                target="_blank"
+                rel="noreferrer"
+
                 style={socialBtn}
               >
                 <FaYoutube />
               </a>
 
-             
-
             </div>
           </div>
 
           {/* ===============================
-              📡 LIVE UPDATES
+              📡 UPDATES
           =============================== */}
           <div>
 
@@ -215,16 +253,15 @@ export default function Footer() {
               SkyWing Media Team is a
               futuristic creative media
               collective focused on
-              photography, cinematography,
-              live event coverage, branding,
-              and storytelling.
+              photography, videography,
+              branding and storytelling.
 
             </p>
           </div>
         </div>
 
         {/* ===============================
-            ⚡ BOTTOM
+            ⚡ BOTTOM BAR
         =============================== */}
         <div style={bottomBar}>
 
@@ -248,7 +285,7 @@ export default function Footer() {
             </span>
 
             <span style={miniLink}>
-              Media Team
+              CEP Media Team
             </span>
 
           </div>
@@ -261,6 +298,7 @@ export default function Footer() {
 
           <button
             onClick={scrollTop}
+
             style={scrollTopBtn}
           >
 
@@ -328,41 +366,53 @@ const brandSection = {
   textAlign: 'center'
 };
 
+const logoContainer = {
+
+  display: 'flex',
+
+  alignItems: 'center',
+
+  justifyContent: 'center',
+
+  gap: 28,
+
+  flexWrap: 'wrap',
+
+  marginBottom: 24
+};
+
+const collegeLogoStyle = {
+
+  width: 110,
+
+  height: 110,
+
+  objectFit: 'contain',
+
+  filter:
+    'drop-shadow(0 0 25px rgba(255,255,255,0.18))'
+};
+
+const divider = {
+
+  width: 1,
+
+  height: 90,
+
+  background:
+    'rgba(255,255,255,0.15)'
+};
 
 const footerLogo = {
 
-  width: 240,
+  width: 220,
 
   maxWidth: '85%',
 
   objectFit: 'contain',
 
-  marginBottom: 18,
-
   filter:
     'drop-shadow(0 0 30px rgba(0,170,255,0.35))'
-};
-
-
-if (window.innerWidth <= 768) {
-
-  footerLogo.width = 170;
-}
-const logoText = {
-
-  fontSize: '4rem',
-
-  fontFamily:
-    'Orbitron,sans-serif',
-
-  color: '#fff',
-
-  letterSpacing: 10,
-
-  marginBottom: 12,
-
-  textShadow:
-    '0 0 25px rgba(0,170,255,0.35)'
 };
 
 const tagline = {
@@ -423,10 +473,7 @@ const footerLink = {
 
   textDecoration: 'none',
 
-  fontSize: 15,
-
-  transition:
-    '0.3s ease'
+  fontSize: 15
 };
 
 const socialWrap = {
@@ -466,10 +513,7 @@ const socialBtn = {
   backdropFilter:
     'blur(12px)',
 
-  textDecoration: 'none',
-
-  transition:
-    '0.35s ease'
+  textDecoration: 'none'
 };
 
 const updatesWrap = {
