@@ -8,10 +8,11 @@ import {
 } from 'react-router-dom';
 
 import {
-  FaTelegramPlane,
-  FaInstagram,
-  FaYoutube,
-  FaArrowUp
+FaTelegramPlane,
+FaInstagram,
+FaYoutube,
+FaFacebookF,
+FaArrowUp
 } from 'react-icons/fa';
 
 import skywingLogo
@@ -161,59 +162,45 @@ export default function Footer() {
 
           <div style={socialWrap}>
 
-            <a
-              href="https://t.me/skywingstudentscorner"
-              target="_blank"
-              rel="noreferrer"
-              style={socialBtn}
-            >
-              <FaTelegramPlane />
-            </a>
+  <a
+    href="https://t.me/skywingstudentscorner"
+    target="_blank"
+    rel="noreferrer"
+    style={socialBtn}
+  >
+    <FaTelegramPlane />
+  </a>
 
-            <a
-              href="https://www.instagram.com/skywing.cep"
-              target="_blank"
-              rel="noreferrer"
-              style={socialBtn}
-            >
-              <FaInstagram />
-            </a>
+  <a
+    href="https://www.instagram.com/skywing.cep"
+    target="_blank"
+    rel="noreferrer"
+    style={socialBtn}
+  >
+    <FaInstagram />
+  </a>
 
-            <a
-              href="https://youtube.com/@cepoonjar"
-              target="_blank"
-              rel="noreferrer"
-              style={socialBtn}
-            >
-              <FaYoutube />
-            </a>
+  <a
+    href="https://www.facebook.com/share/18kENJGkTZ/"
+    target="_blank"
+    rel="noreferrer"
+    style={socialBtn}
+  >
+    <FaFacebookF />
+  </a>
 
-          </div>
+  <a
+    href="https://youtube.com/@cepoonjar"
+    target="_blank"
+    rel="noreferrer"
+    style={socialBtn}
+  >
+    <FaYoutube />
+  </a>
+
+</div>
         </div>
 
-        {/* UPDATES */}
-        <div>
-
-          <h3 style={heading}>
-            Live Updates
-          </h3>
-
-          <div style={updatesWrap}>
-
-            <div style={updateCard}>
-              📸 Event galleries updated
-            </div>
-
-            <div style={updateCard}>
-              🎬 New cinematic reels added
-            </div>
-
-            <div style={updateCard}>
-              🚀 SkyWing media live now
-            </div>
-
-          </div>
-        </div>
 
         {/* ABOUT */}
         <div>
