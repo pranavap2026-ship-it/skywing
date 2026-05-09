@@ -6,15 +6,16 @@ import {
   useNavigate
 } from 'react-router-dom';
 
-const Menu = () => <span>☰</span>;
-const X = () => <span>✕</span>;
-
 import {
   useAuth
 } from '../context/AuthContext';
 
 // ✅ LOGO
 import logo from '../assets/logo.png';
+
+// ✅ MENU ICONS
+const Menu = () => <span>☰</span>;
+const X = () => <span>✕</span>;
 
 export default function Navbar() {
 
