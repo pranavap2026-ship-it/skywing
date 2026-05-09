@@ -20,9 +20,6 @@ import {
 
 import Camera3D from '../components/Camera3D';
 
-// ✅ LOGO
-import logo from '../assets/logo.png';
-
 export default function Home() {
 
   const [text, setText] =
@@ -87,20 +84,10 @@ export default function Home() {
           // COLLEGE MEDIA TEAM — EST. 2024
         </p>
 
-        {/* ================= BRAND ================= */}
-        <div style={brandContainer}>
-
-          <img
-            src={logo}
-            alt="SkyWing"
-            style={titleLogo}
-          />
-
-          <h1 style={titleStyle}>
-            SKYWING
-          </h1>
-
-        </div>
+        {/* TITLE */}
+        <h1 style={titleStyle}>
+          SKYWING
+        </h1>
 
         {/* TYPING */}
         <p style={typingStyle}>
@@ -335,38 +322,6 @@ const container = {
   overflow: 'hidden'
 };
 
-const brandContainer = {
-
-  display: 'flex',
-
-  alignItems: 'center',
-
-  justifyContent: 'center',
-
-  gap: 24,
-
-  flexWrap: 'wrap',
-
-  marginBottom: 12
-};
-
-const titleLogo = {
-
-  width: 95,
-
-  height: 95,
-
-  objectFit: 'cover',
-
-  borderRadius: '50%',
-
-  boxShadow:
-    '0 0 45px rgba(0,170,255,0.45)',
-
-  animation:
-    'float 4s ease-in-out infinite'
-};
-
 const titleStyle = {
 
   fontSize:
@@ -387,7 +342,7 @@ const titleStyle = {
   WebkitTextFillColor:
     'transparent',
 
-  marginBottom: 0
+  marginBottom: 16
 };
 
 const typingStyle = {

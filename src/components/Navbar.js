@@ -69,16 +69,7 @@ export default function Navbar() {
           style={logoImage}
         />
 
-        <h1 style={logoText}>
-          SKY<span
-            style={{
-              color:
-                '#00aaff'
-            }}
-          >
-            WING
-          </span>
-        </h1>
+       
       </Link>
 
       {/* ===============================
