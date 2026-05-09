@@ -70,7 +70,7 @@ export default function AdminDashboard() {
 
     <div style={styles.page}>
 
-      {/* GLOW */}
+      {/* GLOWS */}
       <div style={styles.glow1} />
       <div style={styles.glow2} />
 
@@ -100,21 +100,24 @@ export default function AdminDashboard() {
 
             width:
               isMobile
-                ? 120
+                ? 110
                 : 170
           }}
         />
 
         {/* STATUS */}
-        <div style={styles.status}>
+        {!isMobile && (
 
-          <FaBolt />
+          <div style={styles.status}>
 
-          <span>
-            SYSTEM ACTIVE
-          </span>
+            <FaBolt />
 
-        </div>
+            <span>
+              SYSTEM ACTIVE
+            </span>
+
+          </div>
+        )}
 
       </motion.div>
 
@@ -148,7 +151,7 @@ export default function AdminDashboard() {
 
             fontSize:
               isMobile
-                ? '2.3rem'
+                ? '2.2rem'
                 : '5rem'
           }}
         >
@@ -159,29 +162,10 @@ export default function AdminDashboard() {
 
       </motion.div>
 
-      {/* TABS */}
-      <div
-        style={{
-          ...styles.tabsWrap,
+      {/* RESPONSIVE TABS */}
+      <div style={styles.tabsWrap}>
 
-          flexDirection:
-            isMobile
-              ? 'column'
-              : 'row'
-        }}
-      >
-
-        {/* LEFT TABS */}
-        <div
-          style={{
-            ...styles.leftTabs,
-
-            width:
-              isMobile
-                ? '100%'
-                : 'auto'
-          }}
-        >
+        <div style={styles.leftTabs}>
 
           {tabs.map(
             (item) => (
@@ -201,12 +185,7 @@ export default function AdminDashboard() {
 
                     ? styles.activeTab
 
-                    : {}),
-
-                  width:
-                    isMobile
-                      ? '100%'
-                      : 'auto'
+                    : {})
                 }}
               >
 
@@ -219,6 +198,7 @@ export default function AdminDashboard() {
               </button>
             )
           )}
+
         </div>
 
         {/* LOGOUT */}
@@ -226,14 +206,7 @@ export default function AdminDashboard() {
 
           onClick={logout}
 
-          style={{
-            ...styles.logoutBtn,
-
-            width:
-              isMobile
-                ? '100%'
-                : 'auto'
-          }}
+          style={styles.logoutBtn}
         >
 
           <FaSignOutAlt />
@@ -246,7 +219,7 @@ export default function AdminDashboard() {
 
       </div>
 
-      {/* PANEL */}
+      {/* CONTENT */}
       <div style={styles.panelWrap}>
 
         <AnimatePresence mode="wait">
@@ -306,7 +279,7 @@ const styles = {
     padding:
       window.innerWidth <= 768
 
-        ? '120px 16px 60px'
+        ? '110px 14px 60px'
 
         : '120px 40px 70px',
 
@@ -314,9 +287,12 @@ const styles = {
 
     overflow: 'hidden',
 
-    zIndex: 5
+    zIndex: 1
   },
 
+  // ===============================
+  // 🌌 GLOW EFFECTS
+  // ===============================
   glow1: {
 
     position: 'absolute',
@@ -337,7 +313,9 @@ const styles = {
     filter:
       'blur(120px)',
 
-    pointerEvents: 'none'
+    pointerEvents: 'none',
+
+    zIndex: 0
   },
 
   glow2: {
@@ -360,10 +338,19 @@ const styles = {
     filter:
       'blur(120px)',
 
-    pointerEvents: 'none'
+    pointerEvents: 'none',
+
+    zIndex: 0
   },
 
+  // ===============================
+  // HEADER
+  // ===============================
   header: {
+
+    position: 'relative',
+
+    zIndex: 50,
 
     display: 'flex',
 
@@ -374,9 +361,7 @@ const styles = {
 
     gap: 20,
 
-    flexWrap: 'wrap',
-
-    marginBottom: 40
+    marginBottom: 35
   },
 
   logo: {
@@ -416,9 +401,15 @@ const styles = {
       'blur(10px)'
   },
 
+  // ===============================
+  // HERO
+  // ===============================
   titleWrap: {
 
-    marginBottom: 35
+    marginBottom:
+      window.innerWidth <= 768
+        ? 25
+        : 35
   },
 
   subTitle: {
@@ -427,7 +418,7 @@ const styles = {
 
     letterSpacing: 4,
 
-    marginBottom: 12,
+    marginBottom: 10,
 
     fontSize: 12
   },
@@ -437,9 +428,12 @@ const styles = {
     fontFamily:
       'Orbitron,sans-serif',
 
-    lineHeight: 1,
+    lineHeight: 1.05,
 
-    letterSpacing: 4,
+    letterSpacing:
+      window.innerWidth <= 768
+        ? 2
+        : 5,
 
     background:
       'linear-gradient(135deg,#fff,#00aaff)',
@@ -451,43 +445,88 @@ const styles = {
       'transparent'
   },
 
+  // ===============================
+  // MOBILE TABS FIX
+  // ===============================
   tabsWrap: {
 
+    position: 'sticky',
+
+    top: 85,
+
+    zIndex: 100,
+
     display: 'flex',
+
+    flexDirection:
+      window.innerWidth <= 768
+        ? 'column'
+        : 'row',
 
     justifyContent:
       'space-between',
 
-    gap: 18,
+    gap: 12,
 
-    marginBottom: 35,
+    marginBottom:
+      window.innerWidth <= 768
+        ? 28
+        : 35,
 
-    position: 'relative',
+    background:
+      'rgba(0,0,0,0.35)',
 
-    zIndex: 30
+    backdropFilter:
+      'blur(18px)',
+
+    padding:
+      window.innerWidth <= 768
+        ? '10px'
+        : 0,
+
+    borderRadius: 24
   },
 
   leftTabs: {
 
     display: 'flex',
 
-    gap: 14,
+    flexDirection:
+      window.innerWidth <= 768
+        ? 'column'
+        : 'row',
 
-    flexWrap: 'wrap'
+    gap: 12,
+
+    width:
+      window.innerWidth <= 768
+        ? '100%'
+        : 'auto'
   },
 
+  // ===============================
+  // TAB BUTTONS
+  // ===============================
   tabBtn: {
 
-    display: 'flex',
+    position: 'relative',
 
-    alignItems: 'center',
+    zIndex: 999,
 
-    justifyContent: 'center',
+    width:
+      window.innerWidth <= 768
+        ? '100%'
+        : 'auto',
 
-    gap: 10,
+    minHeight:
+      window.innerWidth <= 768
+        ? 54
+        : 58,
 
     padding:
-      '16px 24px',
+      window.innerWidth <= 768
+        ? '14px 18px'
+        : '16px 24px',
 
     borderRadius: 18,
 
@@ -499,30 +538,6 @@ const styles = {
 
     color: '#fff',
 
-    cursor: 'pointer',
-
-    backdropFilter:
-      'blur(14px)',
-
-    fontSize: 15,
-
-    transition:
-      '0.3s ease',
-
-    minHeight: 58
-  },
-
-  activeTab: {
-
-    background:
-      'linear-gradient(135deg,#00aaff,#0066ff)',
-
-    boxShadow:
-      '0 0 25px rgba(0,170,255,0.35)'
-  },
-
-  logoutBtn: {
-
     display: 'flex',
 
     alignItems: 'center',
@@ -531,8 +546,54 @@ const styles = {
 
     gap: 10,
 
+    cursor: 'pointer',
+
+    backdropFilter:
+      'blur(14px)',
+
+    fontSize:
+      window.innerWidth <= 768
+        ? 15
+        : 15,
+
+    transition:
+      '0.3s ease',
+
+    pointerEvents: 'auto'
+  },
+
+  activeTab: {
+
+    background:
+      'linear-gradient(135deg,#00aaff,#0066ff)',
+
+    boxShadow:
+      '0 0 24px rgba(0,170,255,0.35)'
+  },
+
+  // ===============================
+  // LOGOUT
+  // ===============================
+  logoutBtn: {
+
+    position: 'relative',
+
+    zIndex: 999,
+
+    width:
+      window.innerWidth <= 768
+        ? '100%'
+        : 'auto',
+
+    minHeight:
+      window.innerWidth <= 768
+        ? 54
+        : 58,
+
     padding:
-      '16px 24px',
+      window.innerWidth <= 768
+        ? '14px 18px'
+        : '16px 24px',
 
     borderRadius: 18,
 
@@ -544,19 +605,35 @@ const styles = {
 
     color: '#ff4d7a',
 
+    display: 'flex',
+
+    alignItems: 'center',
+
+    justifyContent: 'center',
+
+    gap: 10,
+
     cursor: 'pointer',
 
     fontSize: 15,
 
-    minHeight: 58
+    pointerEvents: 'auto'
   },
 
+  // ===============================
+  // CONTENT PANEL
+  // ===============================
   panelWrap: {
 
     position: 'relative',
 
     zIndex: 10,
 
-    width: '100%'
+    width: '100%',
+
+    marginTop:
+      window.innerWidth <= 768
+        ? 10
+        : 0
   }
 };
