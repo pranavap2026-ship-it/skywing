@@ -310,7 +310,7 @@ export default function Home() {
 // ===============================
 
 const container = {
-  minHeight: '100vh',
+  minHeight: '82vh',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',

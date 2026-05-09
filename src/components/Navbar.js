@@ -1,4 +1,8 @@
-import React, { useState } from 'react';
+```jsx
+import React, {
+  useState,
+  useEffect
+} from 'react';
 
 import {
   Link,
@@ -10,17 +14,13 @@ import {
   useAuth
 } from '../context/AuthContext';
 
-// ✅ LOGO
 import logo from '../assets/logo.png';
-
-// ✅ MENU ICONS
-const Menu = () => <span>☰</span>;
-const X = () => <span>✕</span>;
 
 export default function Navbar() {
 
-  const { pathname } =
-    useLocation();
+  const {
+    pathname
+  } = useLocation();
 
   const navigate =
     useNavigate();
@@ -34,6 +34,36 @@ export default function Navbar() {
     setMobileOpen] =
     useState(false);
 
+  const [scrolled,
+    setScrolled] =
+    useState(false);
+
+  // ===============================
+  // 🚀 SCROLL EFFECT
+  // ===============================
+  useEffect(() => {
+
+    const handleScroll =
+      () => {
+
+        setScrolled(
+          window.scrollY > 30
+        );
+      };
+
+    window.addEventListener(
+      'scroll',
+      handleScroll
+    );
+
+    return () =>
+      window.removeEventListener(
+        'scroll',
+        handleScroll
+      );
+
+  }, []);
+
   // ===============================
   // 🚪 LOGOUT
   // ===============================
@@ -45,7 +75,7 @@ export default function Navbar() {
   };
 
   // ===============================
-  // 📚 NAVIGATION LINKS
+  // 📚 LINKS
   // ===============================
   const links = [
 
@@ -62,11 +92,57 @@ export default function Navbar() {
 
     <>
       {/* ===============================
-          🚀 NAVBAR
+          🚀 ADVANCED NAVBAR
       =============================== */}
-      <nav style={navWrapper}>
+      <nav style={{
 
-        <div style={navStyle}>
+        ...navWrapper,
+
+        top: scrolled
+          ? 10
+          : 22
+      }}>
+
+        <div style={{
+
+          ...navStyle,
+
+          width:
+            scrolled
+              ? '88%'
+              : '92%',
+
+          height:
+            scrolled
+              ? 62
+              : 74,
+
+          background:
+            scrolled
+
+              ? 'rgba(2,8,20,0.82)'
+
+              : 'rgba(5,10,25,0.55)',
+
+          border:
+            scrolled
+
+              ? '1px solid rgba(0,200,255,0.25)'
+
+              : '1px solid rgba(255,255,255,0.08)',
+
+          boxShadow:
+            scrolled
+
+              ? '0 10px 40px rgba(0,170,255,0.18)'
+
+              : '0 8px 32px rgba(0,0,0,0.25)'
+        }}>
+
+          {/* ===============================
+              🌌 GLOW
+          =============================== */}
+          <div style={glowLine} />
 
           {/* ===============================
               🔷 LOGO
@@ -79,7 +155,15 @@ export default function Navbar() {
             <img
               src={logo}
               alt="SkyWing"
-              style={logoImage}
+              style={{
+
+                ...logoImage,
+
+                width:
+                  scrolled
+                    ? 84
+                    : 96
+              }}
             />
 
           </Link>
@@ -109,7 +193,19 @@ export default function Navbar() {
                           : '#dbeafe'
                     }}
                   >
+
+                    {pathname ===
+                      path && (
+
+                        <span
+                          style={
+                            activeDot
+                          }
+                        />
+                      )}
+
                     {label}
+
                   </Link>
 
                 </li>
@@ -163,104 +259,107 @@ export default function Navbar() {
           </ul>
 
           {/* ===============================
-              📱 MOBILE MENU BUTTON
+              📱 MOBILE BUTTON
           =============================== */}
           <button
-            style={menuBtn}
+
             onClick={() =>
               setMobileOpen(
                 !mobileOpen
               )
             }
+
+            style={menuBtn}
           >
+
             {mobileOpen
-              ? <X size={24} />
-              : <Menu size={24} />
-            }
+              ? '✕'
+              : '☰'}
+
           </button>
         </div>
 
         {/* ===============================
             📱 MOBILE MENU
         =============================== */}
-        {mobileOpen && (
+        <div style={{
 
-          <div style={mobileMenu}>
+          ...mobileMenu,
 
-            {links.map(
-              ([path, label]) => (
+          opacity:
+            mobileOpen
+              ? 1
+              : 0,
 
-                <Link
-                  key={path}
-                  to={path}
+          transform:
+            mobileOpen
 
-                  onClick={() =>
-                    setMobileOpen(
-                      false
-                    )
-                  }
+              ? 'translateY(0px)'
 
-                  style={{
+              : 'translateY(-20px)',
 
-                    ...mobileLink,
+          pointerEvents:
+            mobileOpen
+              ? 'all'
+              : 'none'
+        }}>
 
-                    color:
-                      pathname === path
+          {links.map(
+            ([path, label]) => (
 
-                        ? '#00d4ff'
+              <Link
+                key={path}
 
-                        : '#dbeafe'
-                  }}
-                >
-                  {label}
-                </Link>
-              )
-            )}
+                to={path}
 
-            {/* 👑 ADMIN */}
-            {isAdmin && (
+                onClick={() =>
+                  setMobileOpen(
+                    false
+                  )
+                }
 
-              <>
-                <Link
-                  to="/admin"
+                style={{
 
-                  onClick={() =>
-                    setMobileOpen(
-                      false
-                    )
-                  }
+                  ...mobileLink,
 
-                  style={{
+                  color:
+                    pathname === path
 
-                    ...mobileLink,
+                      ? '#00d4ff'
 
-                    color:
-                      pathname ===
-                      '/admin'
+                      : '#dbeafe'
+                }}
+              >
+                {label}
+              </Link>
+            )
+          )}
 
-                        ? '#00d4ff'
+          {isAdmin && (
 
-                        : '#dbeafe'
-                  }}
-                >
-                  Dashboard
-                </Link>
+            <>
+              <Link
+                to="/admin"
 
-                <button
-                  onClick={
-                    handleLogout
-                  }
+                style={mobileLink}
+              >
+                Dashboard
+              </Link>
 
-                  style={
-                    mobileLogoutBtn
-                  }
-                >
-                  Logout
-                </button>
-              </>
-            )}
-          </div>
-        )}
+              <button
+                onClick={
+                  handleLogout
+                }
+
+                style={
+                  mobileLogoutBtn
+                }
+              >
+                Logout
+              </button>
+            </>
+          )}
+        </div>
       </nav>
     </>
   );
@@ -274,27 +373,29 @@ const navWrapper = {
 
   position: 'fixed',
 
-  top: 18,
-
   left: 0,
 
   width: '100%',
 
   display: 'flex',
 
-  justifyContent:
+  flexDirection:
+    'column',
+
+  alignItems:
     'center',
 
-  zIndex: 999
+  zIndex: 999,
+
+  transition:
+    '0.35s ease'
 };
 
 const navStyle = {
 
-  width: '92%',
+  position: 'relative',
 
-  maxWidth: 1250,
-
-  height: 68,
+  maxWidth: 1320,
 
   display: 'flex',
 
@@ -303,21 +404,38 @@ const navStyle = {
   justifyContent:
     'space-between',
 
-  padding: '0 24px',
+  padding: '0 28px',
 
-  borderRadius: 22,
+  borderRadius: 28,
+
+  overflow: 'hidden',
 
   backdropFilter:
-    'blur(18px)',
+    'blur(22px)',
+
+  WebkitBackdropFilter:
+    'blur(22px)',
+
+  transition:
+    '0.35s ease'
+};
+
+const glowLine = {
+
+  position: 'absolute',
+
+  top: 0,
+
+  left: '-30%',
+
+  width: '160%',
+
+  height: 1,
 
   background:
-    'rgba(5,10,25,0.72)',
+    'linear-gradient(90deg,transparent,#00d4ff,transparent)',
 
-  border:
-    '1px solid rgba(0,170,255,0.15)',
-
-  boxShadow:
-    '0 8px 32px rgba(0,0,0,0.25)'
+  opacity: 0.6
 };
 
 const logoWrap = {
@@ -326,19 +444,20 @@ const logoWrap = {
 
   alignItems: 'center',
 
-  textDecoration: 'none'
+  textDecoration: 'none',
+
+  zIndex: 2
 };
 
 const logoImage = {
 
-  width: 95,
-
-  height: 'auto',
-
   objectFit: 'contain',
 
+  transition:
+    '0.35s ease',
+
   filter:
-    'drop-shadow(0 0 16px rgba(0,170,255,0.25))'
+    'drop-shadow(0 0 20px rgba(0,170,255,0.35))'
 };
 
 const desktopLinks = {
@@ -347,7 +466,7 @@ const desktopLinks = {
 
   alignItems: 'center',
 
-  gap: 30,
+  gap: 34,
 
   listStyle: 'none',
 
@@ -358,6 +477,14 @@ const desktopLinks = {
 
 const linkStyle = {
 
+  position: 'relative',
+
+  display: 'flex',
+
+  alignItems: 'center',
+
+  gap: 8,
+
   textDecoration: 'none',
 
   fontFamily:
@@ -365,7 +492,7 @@ const linkStyle = {
 
   fontSize: 12,
 
-  fontWeight: 500,
+  fontWeight: 600,
 
   letterSpacing: 3,
 
@@ -376,20 +503,34 @@ const linkStyle = {
     '0.25s ease'
 };
 
+const activeDot = {
+
+  width: 7,
+
+  height: 7,
+
+  borderRadius: '50%',
+
+  background: '#00d4ff',
+
+  boxShadow:
+    '0 0 12px #00d4ff'
+};
+
 const logoutBtn = {
 
   border:
-    '1px solid rgba(0,170,255,0.35)',
+    '1px solid rgba(0,212,255,0.25)',
 
   background:
-    'transparent',
+    'rgba(0,212,255,0.08)',
 
   color: '#00d4ff',
 
   padding:
-    '10px 16px',
+    '10px 18px',
 
-  borderRadius: 12,
+  borderRadius: 14,
 
   cursor: 'pointer',
 
@@ -400,18 +541,16 @@ const logoutBtn = {
 
   letterSpacing: 2,
 
+  backdropFilter:
+    'blur(10px)',
+
   transition:
-    '0.25s'
+    '0.3s ease'
 };
 
 const menuBtn = {
 
   display: 'none',
-
-  alignItems: 'center',
-
-  justifyContent:
-    'center',
 
   border: 'none',
 
@@ -420,6 +559,8 @@ const menuBtn = {
 
   color: '#00d4ff',
 
+  fontSize: 28,
+
   cursor: 'pointer'
 };
 
@@ -427,28 +568,31 @@ const mobileMenu = {
 
   width: '92%',
 
-  marginTop: 10,
+  marginTop: 12,
 
   padding:
-    '20px 18px',
+    '24px 22px',
 
-  borderRadius: 22,
-
-  backdropFilter:
-    'blur(18px)',
+  borderRadius: 24,
 
   background:
-    'rgba(5,10,25,0.95)',
+    'rgba(2,8,20,0.92)',
 
   border:
     '1px solid rgba(0,170,255,0.15)',
+
+  backdropFilter:
+    'blur(24px)',
 
   display: 'flex',
 
   flexDirection:
     'column',
 
-  gap: 18
+  gap: 22,
+
+  transition:
+    '0.35s ease'
 };
 
 const mobileLink = {
@@ -458,7 +602,7 @@ const mobileLink = {
   fontFamily:
     'Orbitron,sans-serif',
 
-  fontSize: 13,
+  fontSize: 14,
 
   letterSpacing: 2,
 
@@ -469,17 +613,17 @@ const mobileLink = {
 const mobileLogoutBtn = {
 
   border:
-    '1px solid rgba(0,170,255,0.35)',
+    '1px solid rgba(0,170,255,0.25)',
 
   background:
-    'transparent',
+    'rgba(0,212,255,0.08)',
 
   color: '#00d4ff',
 
   padding:
-    '12px 16px',
+    '14px 18px',
 
-  borderRadius: 12,
+  borderRadius: 14,
 
   cursor: 'pointer',
 
@@ -494,20 +638,12 @@ const mobileLogoutBtn = {
 // ===============================
 // 📱 RESPONSIVE
 // ===============================
-if (window.innerWidth <= 768) {
+if (window.innerWidth <= 900) {
 
   desktopLinks.display =
     'none';
 
   menuBtn.display =
-    'flex';
-
-  navStyle.height =
-    62;
-
-  navStyle.padding =
-    '0 18px';
-
-  logoImage.width =
-    82;
+    'block';
 }
+```
