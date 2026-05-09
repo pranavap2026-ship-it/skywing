@@ -10,7 +10,7 @@ import {
   useAuth
 } from '../context/AuthContext';
 
-// ✅ Logo Image
+// ✅ LOGO
 import logo from '../assets/logo.png';
 
 export default function Navbar() {
@@ -38,7 +38,7 @@ export default function Navbar() {
   };
 
   // ===============================
-  // 📚 NAV LINKS
+  // 📚 NAVIGATION LINKS
   // ===============================
   const links = [
 
@@ -56,7 +56,7 @@ export default function Navbar() {
     <nav style={navStyle}>
 
       {/* ===============================
-          🚀 LEFT LOGO
+          🚀 LEFT LOGO ONLY
       =============================== */}
       <Link
         to="/"
@@ -69,7 +69,6 @@ export default function Navbar() {
           style={logoImage}
         />
 
-       
       </Link>
 
       {/* ===============================
@@ -90,8 +89,7 @@ export default function Navbar() {
                   ...linkStyle,
 
                   color:
-                    pathname ===
-                    path
+                    pathname === path
 
                       ? '#00d4ff'
 
@@ -100,12 +98,13 @@ export default function Navbar() {
               >
                 {label}
               </Link>
+
             </li>
           )
         )}
 
         {/* ===============================
-            ⚡ ADMIN DASHBOARD
+            👑 ADMIN ONLY
         =============================== */}
         {isAdmin && (
 
@@ -116,6 +115,7 @@ export default function Navbar() {
                 to="/admin"
 
                 style={{
+
                   ...linkStyle,
 
                   color:
@@ -129,6 +129,7 @@ export default function Navbar() {
               >
                 Dashboard
               </Link>
+
             </li>
 
             <li>
@@ -167,7 +168,7 @@ const navStyle = {
 
   width: '100%',
 
-  height: 72,
+  height: 74,
 
   display: 'flex',
 
@@ -176,12 +177,12 @@ const navStyle = {
   justifyContent:
     'space-between',
 
-  padding: '0 32px',
+  padding: '0 34px',
 
   zIndex: 999,
 
   backdropFilter:
-    'blur(14px)',
+    'blur(16px)',
 
   background:
     'rgba(2,8,20,0.72)',
@@ -196,39 +197,26 @@ const logoWrap = {
 
   alignItems: 'center',
 
-  gap: 12,
+  justifyContent: 'center',
 
   textDecoration: 'none'
 };
 
 const logoImage = {
 
-  width: 42,
+  width: 54,
 
-  height: 42,
+  height: 54,
 
   objectFit: 'cover',
 
   borderRadius: '50%',
 
   boxShadow:
-    '0 0 20px rgba(0,170,255,0.45)'
-};
+    '0 0 25px rgba(0,170,255,0.45)',
 
-const logoText = {
-
-  fontFamily:
-    'Orbitron,sans-serif',
-
-  fontSize: 28,
-
-  fontWeight: 900,
-
-  letterSpacing: 4,
-
-  color: '#fff',
-
-  margin: 0
+  transition:
+    '0.3s ease'
 };
 
 const navLinks = {
@@ -237,7 +225,7 @@ const navLinks = {
 
   alignItems: 'center',
 
-  gap: 28,
+  gap: 34,
 
   listStyle: 'none',
 
@@ -253,9 +241,9 @@ const linkStyle = {
   fontFamily:
     'Orbitron,sans-serif',
 
-  fontSize: 12,
+  fontSize: 13,
 
-  letterSpacing: 3,
+  letterSpacing: 4,
 
   textTransform:
     'uppercase',
