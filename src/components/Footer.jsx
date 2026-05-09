@@ -314,17 +314,20 @@ export default function Footer() {
 // ===============================
 // 🎨 STYLES
 // ===============================
-
 const footerStyle = {
 
   position: 'relative',
 
   width: '100%',
 
-  marginTop: 140,
+  marginTop: 100,
 
   padding:
-    '100px 8% 50px',
+    window.innerWidth <= 768
+
+      ? '70px 20px 40px'
+
+      : '100px 8% 50px',
 
   background:
     'linear-gradient(to bottom, rgba(2,8,20,0.96), #020617)',
@@ -335,37 +338,6 @@ const footerStyle = {
     '1px solid rgba(0,170,255,0.12)'
 };
 
-const topGlow = {
-
-  position: 'absolute',
-
-  top: -120,
-
-  left: '50%',
-
-  transform:
-    'translateX(-50%)',
-
-  width: 500,
-
-  height: 240,
-
-  background:
-    'rgba(0,170,255,0.12)',
-
-  filter:
-    'blur(120px)',
-
-  borderRadius: '50%'
-};
-
-const brandSection = {
-
-  marginBottom: 70,
-
-  textAlign: 'center'
-};
-
 const logoContainer = {
 
   display: 'flex',
@@ -374,30 +346,42 @@ const logoContainer = {
 
   justifyContent: 'center',
 
-  gap: 28,
+  gap:
+    window.innerWidth <= 768
+      ? 14
+      : 28,
 
   flexWrap: 'wrap',
 
-  marginBottom: 24
+  marginBottom: 20
 };
 
 const collegeLogoStyle = {
 
-  width: 110,
+  width:
+    window.innerWidth <= 768
+      ? 70
+      : 110,
 
-  height: 110,
+  height:
+    window.innerWidth <= 768
+      ? 70
+      : 110,
 
   objectFit: 'contain',
 
   filter:
-    'drop-shadow(0 0 25px rgba(255,255,255,0.18))'
+    'drop-shadow(0 0 20px rgba(255,255,255,0.18))'
 };
 
 const divider = {
 
   width: 1,
 
-  height: 90,
+  height:
+    window.innerWidth <= 768
+      ? 55
+      : 90,
 
   background:
     'rgba(255,255,255,0.15)'
@@ -405,7 +389,10 @@ const divider = {
 
 const footerLogo = {
 
-  width: 220,
+  width:
+    window.innerWidth <= 768
+      ? 150
+      : 220,
 
   maxWidth: '85%',
 
@@ -420,11 +407,17 @@ const tagline = {
   color:
     'rgba(255,255,255,0.7)',
 
-  fontSize: 15,
+  fontSize:
+    window.innerWidth <= 768
+      ? 13
+      : 15,
 
-  letterSpacing: 1.5,
+  letterSpacing: 1.2,
 
-  lineHeight: 1.8
+  lineHeight: 1.8,
+
+  padding:
+    '0 10px'
 };
 
 const footerGrid = {
@@ -432,11 +425,18 @@ const footerGrid = {
   display: 'grid',
 
   gridTemplateColumns:
-    'repeat(auto-fit,minmax(240px,1fr))',
+    window.innerWidth <= 768
 
-  gap: 45,
+      ? '1fr'
 
-  marginBottom: 80
+      : 'repeat(auto-fit,minmax(240px,1fr))',
+
+  gap:
+    window.innerWidth <= 768
+      ? 40
+      : 45,
+
+  marginBottom: 60
 };
 
 const heading = {
@@ -453,7 +453,12 @@ const heading = {
 
   letterSpacing: 3,
 
-  marginBottom: 28
+  marginBottom: 22,
+
+  textAlign:
+    window.innerWidth <= 768
+      ? 'center'
+      : 'left'
 };
 
 const linksWrap = {
@@ -463,57 +468,26 @@ const linksWrap = {
   flexDirection:
     'column',
 
-  gap: 18
-};
+  alignItems:
+    window.innerWidth <= 768
+      ? 'center'
+      : 'flex-start',
 
-const footerLink = {
-
-  color:
-    'rgba(255,255,255,0.75)',
-
-  textDecoration: 'none',
-
-  fontSize: 15
+  gap: 16
 };
 
 const socialWrap = {
 
   display: 'flex',
 
+  justifyContent:
+    window.innerWidth <= 768
+      ? 'center'
+      : 'flex-start',
+
   gap: 18,
 
   flexWrap: 'wrap'
-};
-
-const socialBtn = {
-
-  width: 56,
-
-  height: 56,
-
-  borderRadius: '50%',
-
-  display: 'flex',
-
-  alignItems: 'center',
-
-  justifyContent:
-    'center',
-
-  fontSize: 20,
-
-  color: '#00d4ff',
-
-  background:
-    'rgba(255,255,255,0.04)',
-
-  border:
-    '1px solid rgba(0,170,255,0.18)',
-
-  backdropFilter:
-    'blur(12px)',
-
-  textDecoration: 'none'
 };
 
 const updatesWrap = {
@@ -526,28 +500,6 @@ const updatesWrap = {
   gap: 16
 };
 
-const updateCard = {
-
-  padding:
-    '16px 18px',
-
-  borderRadius: 18,
-
-  color:
-    'rgba(255,255,255,0.82)',
-
-  background:
-    'rgba(255,255,255,0.03)',
-
-  border:
-    '1px solid rgba(255,255,255,0.05)',
-
-  backdropFilter:
-    'blur(12px)',
-
-  fontSize: 14
-};
-
 const aboutText = {
 
   color:
@@ -555,7 +507,12 @@ const aboutText = {
 
   lineHeight: 1.9,
 
-  fontSize: 15
+  fontSize: 15,
+
+  textAlign:
+    window.innerWidth <= 768
+      ? 'center'
+      : 'left'
 };
 
 const bottomBar = {
@@ -567,54 +524,59 @@ const bottomBar = {
 
   display: 'flex',
 
+  flexDirection:
+    window.innerWidth <= 768
+      ? 'column'
+      : 'row',
+
   justifyContent:
     'space-between',
 
   alignItems: 'center',
 
-  flexWrap: 'wrap',
+  gap: 18,
 
-  gap: 20
-};
-
-const copyText = {
-
-  color:
-    'rgba(255,255,255,0.5)',
-
-  fontSize: 14
+  textAlign: 'center'
 };
 
 const bottomLinks = {
 
   display: 'flex',
 
-  gap: 24,
+  justifyContent:
+    'center',
+
+  gap:
+    window.innerWidth <= 768
+      ? 14
+      : 24,
 
   flexWrap: 'wrap'
-};
-
-const miniLink = {
-
-  color:
-    'rgba(255,255,255,0.55)',
-
-  fontSize: 13,
-
-  cursor: 'pointer'
 };
 
 const scrollTopBtn = {
 
   position: 'fixed',
 
-  right: 24,
+  right:
+    window.innerWidth <= 768
+      ? 16
+      : 24,
 
-  bottom: 24,
+  bottom:
+    window.innerWidth <= 768
+      ? 16
+      : 24,
 
-  width: 58,
+  width:
+    window.innerWidth <= 768
+      ? 48
+      : 58,
 
-  height: 58,
+  height:
+    window.innerWidth <= 768
+      ? 48
+      : 58,
 
   borderRadius: '50%',
 
@@ -625,7 +587,10 @@ const scrollTopBtn = {
 
   color: '#fff',
 
-  fontSize: 20,
+  fontSize:
+    window.innerWidth <= 768
+      ? 16
+      : 20,
 
   cursor: 'pointer',
 

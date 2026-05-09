@@ -405,7 +405,11 @@ const btnContainer = {
   justifyContent:
     'center',
 
-  marginTop: 30
+  marginTop: 65,
+
+  position: 'relative',
+
+  zIndex: 5
 };
 
 const primaryBtn = {
