@@ -25,7 +25,7 @@ API.interceptors.request.use(
 
     const token =
       localStorage.getItem(
-        'skywing_token'
+        'token'
       );
 
     if (token) {
@@ -51,24 +51,28 @@ API.interceptors.response.use(
   (error) => {
 
     // ===============================
-    // 🔒 TOKEN EXPIRED
+    // 🔒 TOKEN EXPIRED / INVALID
     // ===============================
     if (
       error.response?.status === 401
     ) {
 
       localStorage.removeItem(
-        'skywing_token'
+        'token'
       );
 
-      // ✅ hidden admin login
+      localStorage.removeItem(
+        'user'
+      );
+
+      // ✅ REDIRECT LOGIN
       if (
         window.location.pathname !==
-        '/skywing-admin'
+        '/login'
       ) {
 
         window.location.href =
-          '/skywing-admin';
+          '/login';
       }
     }
 
