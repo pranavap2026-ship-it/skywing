@@ -14,9 +14,6 @@ import {
   FaArrowUp
 } from 'react-icons/fa';
 
-// ===============================
-// 🖼️ LOGOS
-// ===============================
 import skywingLogo
   from '../assets/logo.png';
 
@@ -29,8 +26,11 @@ export default function Footer() {
     setShowTop] =
     useState(false);
 
+  const isMobile =
+    window.innerWidth <= 768;
+
   // ===============================
-  // 🚀 SCROLL TOP VISIBILITY
+  // 🚀 SCROLL DETECT
   // ===============================
   useEffect(() => {
 
@@ -70,250 +70,225 @@ export default function Footer() {
 
   return (
 
-    <>
+    <footer style={footerStyle}>
+
+      {/* GLOW */}
+      <div style={topGlow} />
+
       {/* ===============================
-          🌌 FOOTER
+          🔷 BRAND
       =============================== */}
-      <footer style={footerStyle}>
+      <div style={brandSection}>
 
-        {/* GLOW */}
-        <div style={topGlow} />
+        <div style={logoContainer}>
 
-        {/* ===============================
-            🔷 BRAND
-        =============================== */}
-        <div style={brandSection}>
+          <img
+            src={collegeLogo}
+            alt="College Logo"
+            style={collegeLogoStyle}
+          />
 
-          {/* LOGOS */}
-          <div style={logoContainer}>
+          <div style={divider} />
 
-            {/* COLLEGE */}
-            <img
-              src={collegeLogo}
-              alt="College Logo"
+          <img
+            src={skywingLogo}
+            alt="SkyWing Logo"
+            style={footerLogo}
+          />
 
-              style={
-                collegeLogoStyle
-              }
-            />
-
-            {/* DIVIDER */}
-            <div style={divider} />
-
-            {/* SKYWING */}
-            <img
-              src={skywingLogo}
-              alt="SkyWing Logo"
-
-              style={footerLogo}
-            />
-
-          </div>
-
-          {/* TAGLINE */}
-          <p style={tagline}>
-
-            Capturing moments.
-            Creating stories.
-            Preserving memories.
-
-          </p>
         </div>
 
-        {/* ===============================
-            🚀 GRID
-        =============================== */}
-        <div style={footerGrid}>
+        <p style={tagline}>
 
-          {/* ===============================
-              🧭 NAVIGATION
-          =============================== */}
-          <div>
+          Capturing moments.
+          Creating stories.
+          Preserving memories.
 
-            <h3 style={heading}>
-              Navigation
-            </h3>
+        </p>
+      </div>
 
-            <div style={linksWrap}>
+      {/* ===============================
+          🚀 GRID
+      =============================== */}
+      <div style={footerGrid}>
 
-              <Link
-                to="/"
-                style={footerLink}
-              >
-                Home
-              </Link>
+        {/* NAVIGATION */}
+        <div>
 
-              <Link
-                to="/events"
-                style={footerLink}
-              >
-                Events
-              </Link>
+          <h3 style={heading}>
+            Navigation
+          </h3>
 
-              <Link
-                to="/team"
-                style={footerLink}
-              >
-                Team
-              </Link>
+          <div style={linksWrap}>
 
-              <Link
-                to="/social"
-                style={footerLink}
-              >
-                Connect
-              </Link>
+            <Link
+              to="/"
+              style={footerLink}
+            >
+              Home
+            </Link>
 
-            </div>
-          </div>
+            <Link
+              to="/events"
+              style={footerLink}
+            >
+              Events
+            </Link>
 
-          {/* ===============================
-              🌐 SOCIAL
-          =============================== */}
-          <div>
+            <Link
+              to="/team"
+              style={footerLink}
+            >
+              Team
+            </Link>
 
-            <h3 style={heading}>
+            <Link
+              to="/social"
+              style={footerLink}
+            >
               Connect
-            </h3>
+            </Link>
 
-            <div style={socialWrap}>
-
-              <a
-                href="https://t.me/skywingstudentscorner"
-                target="_blank"
-                rel="noreferrer"
-
-                style={socialBtn}
-              >
-                <FaTelegramPlane />
-              </a>
-
-              <a
-                href="https://www.instagram.com/skywing.cep?igsh=MTF0bmJnYnpnbXVjdg=="
-
-                target="_blank"
-                rel="noreferrer"
-
-                style={socialBtn}
-              >
-                <FaInstagram />
-              </a>
-
-              <a
-                href="https://youtube.com/@cepoonjar?si=VNp_VJICoWhvSe0L"
-
-                target="_blank"
-                rel="noreferrer"
-
-                style={socialBtn}
-              >
-                <FaYoutube />
-              </a>
-
-            </div>
-          </div>
-
-          {/* ===============================
-              📡 UPDATES
-          =============================== */}
-          <div>
-
-            <h3 style={heading}>
-              Live Updates
-            </h3>
-
-            <div style={updatesWrap}>
-
-              <div style={updateCard}>
-                📸 New event gallery uploaded
-              </div>
-
-              <div style={updateCard}>
-                🎬 Video highlights released
-              </div>
-
-              <div style={updateCard}>
-                🎉 Arts Fest media live
-              </div>
-
-            </div>
-          </div>
-
-          {/* ===============================
-              💎 ABOUT
-          =============================== */}
-          <div>
-
-            <h3 style={heading}>
-              About
-            </h3>
-
-            <p style={aboutText}>
-
-              SkyWing Media Team is a
-              futuristic creative media
-              collective focused on
-              photography, videography,
-              branding and storytelling.
-
-            </p>
           </div>
         </div>
 
-        {/* ===============================
-            ⚡ BOTTOM BAR
-        =============================== */}
-        <div style={bottomBar}>
+        {/* SOCIAL */}
+        <div>
 
-          <p style={copyText}>
+          <h3 style={heading}>
+            Connect
+          </h3>
 
-            © {new Date().getFullYear()}
-            {' '}
-            SkyWing Media Team.
-            All Rights Reserved.
+          <div style={socialWrap}>
+
+            <a
+              href="https://t.me/skywingstudentscorner"
+              target="_blank"
+              rel="noreferrer"
+              style={socialBtn}
+            >
+              <FaTelegramPlane />
+            </a>
+
+            <a
+              href="https://www.instagram.com/skywing.cep"
+              target="_blank"
+              rel="noreferrer"
+              style={socialBtn}
+            >
+              <FaInstagram />
+            </a>
+
+            <a
+              href="https://youtube.com/@cepoonjar"
+              target="_blank"
+              rel="noreferrer"
+              style={socialBtn}
+            >
+              <FaYoutube />
+            </a>
+
+          </div>
+        </div>
+
+        {/* UPDATES */}
+        <div>
+
+          <h3 style={heading}>
+            Live Updates
+          </h3>
+
+          <div style={updatesWrap}>
+
+            <div style={updateCard}>
+              📸 Event galleries updated
+            </div>
+
+            <div style={updateCard}>
+              🎬 New cinematic reels added
+            </div>
+
+            <div style={updateCard}>
+              🚀 SkyWing media live now
+            </div>
+
+          </div>
+        </div>
+
+        {/* ABOUT */}
+        <div>
+
+          <h3 style={heading}>
+            About
+          </h3>
+
+          <p style={aboutText}>
+
+            SkyWing Media Team is the
+            official creative media
+            collective of CEP focused
+            on photography,
+            videography, editing and
+            digital storytelling.
 
           </p>
 
-          <div style={bottomLinks}>
-
-            <span style={miniLink}>
-              Privacy
-            </span>
-
-            <span style={miniLink}>
-              Terms
-            </span>
-
-            <span style={miniLink}>
-              CEP Media Team
-            </span>
-
-          </div>
         </div>
+      </div>
 
-        {/* ===============================
-            ⬆️ SCROLL TOP
-        =============================== */}
-        {showTop && (
+      {/* ===============================
+          ⚡ BOTTOM BAR
+      =============================== */}
+      <div style={bottomBar}>
 
-          <button
-            onClick={scrollTop}
+        <p style={copyText}>
 
-            style={scrollTopBtn}
-          >
+          © {new Date().getFullYear()}
+          {' '}
+          SkyWing Media Team.
+          All Rights Reserved.
 
-            <FaArrowUp />
+        </p>
 
-          </button>
-        )}
-      </footer>
-    </>
+        <div style={bottomLinks}>
+
+          <span style={miniLink}>
+            Privacy
+          </span>
+
+          <span style={miniLink}>
+            Terms
+          </span>
+
+          <span style={miniLink}>
+            CEP
+          </span>
+
+        </div>
+      </div>
+
+      {/* ===============================
+          ⬆️ SCROLL TOP
+      =============================== */}
+      {showTop && (
+
+        <button
+          onClick={scrollTop}
+          style={scrollTopBtn}
+        >
+
+          <FaArrowUp />
+
+        </button>
+      )}
+    </footer>
   );
 }
 
 // ===============================
 // 🎨 STYLES
 // ===============================
+
 const footerStyle = {
 
   position: 'relative',
@@ -330,12 +305,43 @@ const footerStyle = {
       : '100px 8% 50px',
 
   background:
-    'linear-gradient(to bottom, rgba(2,8,20,0.96), #020617)',
+    'linear-gradient(to bottom, rgba(2,8,20,0.98), #020617)',
 
   overflow: 'hidden',
 
   borderTop:
     '1px solid rgba(0,170,255,0.12)'
+};
+
+const topGlow = {
+
+  position: 'absolute',
+
+  top: -120,
+
+  left: '50%',
+
+  transform:
+    'translateX(-50%)',
+
+  width: 500,
+
+  height: 250,
+
+  background:
+    'rgba(0,170,255,0.12)',
+
+  filter:
+    'blur(120px)',
+
+  borderRadius: '50%'
+};
+
+const brandSection = {
+
+  marginBottom: 70,
+
+  textAlign: 'center'
 };
 
 const logoContainer = {
@@ -368,10 +374,7 @@ const collegeLogoStyle = {
       ? 70
       : 110,
 
-  objectFit: 'contain',
-
-  filter:
-    'drop-shadow(0 0 20px rgba(255,255,255,0.18))'
+  objectFit: 'contain'
 };
 
 const divider = {
@@ -412,12 +415,7 @@ const tagline = {
       ? 13
       : 15,
 
-  letterSpacing: 1.2,
-
-  lineHeight: 1.8,
-
-  padding:
-    '0 10px'
+  lineHeight: 1.8
 };
 
 const footerGrid = {
@@ -448,9 +446,6 @@ const heading = {
   fontFamily:
     'Orbitron,sans-serif',
 
-  textTransform:
-    'uppercase',
-
   letterSpacing: 3,
 
   marginBottom: 22,
@@ -465,8 +460,7 @@ const linksWrap = {
 
   display: 'flex',
 
-  flexDirection:
-    'column',
+  flexDirection: 'column',
 
   alignItems:
     window.innerWidth <= 768
@@ -474,6 +468,19 @@ const linksWrap = {
       : 'flex-start',
 
   gap: 16
+};
+
+const footerLink = {
+
+  color:
+    'rgba(255,255,255,0.75)',
+
+  textDecoration: 'none',
+
+  fontSize: 15,
+
+  transition:
+    '0.3s ease'
 };
 
 const socialWrap = {
@@ -490,14 +497,60 @@ const socialWrap = {
   flexWrap: 'wrap'
 };
 
+const socialBtn = {
+
+  width: 54,
+
+  height: 54,
+
+  borderRadius: '50%',
+
+  display: 'flex',
+
+  alignItems: 'center',
+
+  justifyContent: 'center',
+
+  color: '#00d4ff',
+
+  fontSize: 20,
+
+  textDecoration: 'none',
+
+  background:
+    'rgba(255,255,255,0.04)',
+
+  border:
+    '1px solid rgba(255,255,255,0.08)',
+
+  backdropFilter:
+    'blur(12px)'
+};
+
 const updatesWrap = {
 
   display: 'flex',
 
-  flexDirection:
-    'column',
+  flexDirection: 'column',
 
   gap: 16
+};
+
+const updateCard = {
+
+  padding:
+    '16px 18px',
+
+  borderRadius: 18,
+
+  color:
+    'rgba(255,255,255,0.82)',
+
+  background:
+    'rgba(255,255,255,0.03)',
+
+  border:
+    '1px solid rgba(255,255,255,0.05)'
 };
 
 const aboutText = {
@@ -539,12 +592,19 @@ const bottomBar = {
   textAlign: 'center'
 };
 
+const copyText = {
+
+  color:
+    'rgba(255,255,255,0.5)',
+
+  fontSize: 14
+};
+
 const bottomLinks = {
 
   display: 'flex',
 
-  justifyContent:
-    'center',
+  justifyContent: 'center',
 
   gap:
     window.innerWidth <= 768
@@ -552,6 +612,16 @@ const bottomLinks = {
       : 24,
 
   flexWrap: 'wrap'
+};
+
+const miniLink = {
+
+  color:
+    'rgba(255,255,255,0.55)',
+
+  fontSize: 13,
+
+  cursor: 'pointer'
 };
 
 const scrollTopBtn = {
