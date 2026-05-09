@@ -23,9 +23,10 @@ import { eventsAPI } from '../../api';
 import { showToast } from '../Toast';
 
 // ===============================
-// 📱 MOBILE
+// 📱 MOBILE SAFE
 // ===============================
 const isMobile =
+  typeof window !== 'undefined' &&
   window.innerWidth <= 768;
 
 // ===============================
@@ -33,9 +34,11 @@ const isMobile =
 // ===============================
 const CATEGORY_ICONS = {
 
-  arts: <FaPaintBrush />,
+  arts:
+    <FaPaintBrush />,
 
-  sports: <FaFutbol />,
+  sports:
+    <FaFutbol />,
 
   cultural:
     <FaTheaterMasks />,
@@ -326,15 +329,13 @@ export default function EventsPanel() {
 
       </div>
 
-      {/* GRID */}
+      {/* EVENTS GRID */}
       <div style={gridStyle}>
 
         {events.length === 0 ? (
 
           <div style={emptyCard}>
-
             No events found
-
           </div>
 
         ) : (
@@ -343,6 +344,7 @@ export default function EventsPanel() {
 
             <div
               key={ev._id}
+
               style={{
                 ...eventCard,
 
@@ -381,7 +383,7 @@ export default function EventsPanel() {
                 {ev.title}
               </h3>
 
-              {/* DESC */}
+              {/* DESCRIPTION */}
               <p style={eventDesc}>
                 {ev.description}
               </p>
@@ -389,15 +391,26 @@ export default function EventsPanel() {
               {/* CATEGORY */}
               <div style={catLabel}>
 
-                {ev.category}
+                {
+                  ev.category ===
+                  'collegeday'
+
+                    ? 'COLLEGE DAY'
+
+                    : ev.category
+                        ?.toUpperCase()
+                }
 
               </div>
 
               {/* DRIVE */}
               <a
                 href={ev.driveLink}
+
                 target="_blank"
+
                 rel="noreferrer"
+
                 style={driveBtn}
               >
 
@@ -412,6 +425,7 @@ export default function EventsPanel() {
 
                 <button
                   style={editBtn}
+
                   onClick={() =>
                     handleEdit(ev)
                   }
@@ -425,6 +439,7 @@ export default function EventsPanel() {
 
                 <button
                   style={deleteBtn}
+
                   onClick={() =>
                     handleDelete(
                       ev._id
@@ -470,7 +485,9 @@ export default function EventsPanel() {
 
               <input
                 style={input}
+
                 value={form.title}
+
                 onChange={(e) =>
                   setForm({
                     ...form,
@@ -491,13 +508,16 @@ export default function EventsPanel() {
 
               <textarea
                 rows={5}
+
                 style={{
                   ...input,
                   resize: 'vertical'
                 }}
+
                 value={
                   form.description
                 }
+
                 onChange={(e) =>
                   setForm({
                     ...form,
@@ -518,9 +538,11 @@ export default function EventsPanel() {
 
               <input
                 style={input}
+
                 value={
                   form.driveLink
                 }
+
                 onChange={(e) =>
                   setForm({
                     ...form,
@@ -541,9 +563,11 @@ export default function EventsPanel() {
 
               <select
                 style={input}
+
                 value={
                   form.category
                 }
+
                 onChange={(e) =>
                   setForm({
                     ...form,
@@ -602,13 +626,16 @@ export default function EventsPanel() {
 
               <input
                 type="color"
+
                 style={{
                   ...input,
                   height: 60
                 }}
+
                 value={
                   form.coverColor
                 }
+
                 onChange={(e) =>
                   setForm({
                     ...form,
@@ -620,11 +647,12 @@ export default function EventsPanel() {
 
             </div>
 
-            {/* ACTIONS */}
+            {/* FOOTER */}
             <div style={modalFooter}>
 
               <button
                 style={cancelBtn}
+
                 onClick={() => {
 
                   setModal(false);
@@ -639,7 +667,9 @@ export default function EventsPanel() {
 
               <button
                 style={saveBtn}
+
                 onClick={saveEvent}
+
                 disabled={loading}
               >
 
