@@ -323,16 +323,12 @@ const container = {
 
   alignItems: 'center',
 
-  justifyContent: 'flex-start',
+  justifyContent: 'center',
 
   textAlign: 'center',
 
   padding:
-    window.innerWidth <= 768
-
-      ? '120px 20px 60px'
-
-      : '110px 20px 40px',
+    '90px 20px 40px',
 
   position: 'relative',
 
@@ -349,29 +345,17 @@ const heroContent = {
 
   justifyContent: 'center',
 
-  zIndex: 2,
-
-  marginTop:
-    window.innerWidth <= 768
-      ? 10
-      : 30
+  zIndex: 2
 };
 
 const titleStyle = {
 
   fontSize:
-    window.innerWidth <= 768
-
-      ? '4.5rem'
-
-      : 'clamp(80px,11vw,140px)',
+    'clamp(60px,11vw,140px)',
 
   fontWeight: 900,
 
-  letterSpacing:
-    window.innerWidth <= 768
-      ? 4
-      : 10,
+  letterSpacing: 10,
 
   lineHeight: 0.9,
 
@@ -389,21 +373,13 @@ const titleStyle = {
 
 const typingStyle = {
 
-  letterSpacing:
-    window.innerWidth <= 768
-      ? 3
-      : 7,
+  letterSpacing: 7,
 
   color: 'var(--gray)',
 
   marginBottom: 18,
 
-  minHeight: 20,
-
-  fontSize:
-    window.innerWidth <= 768
-      ? 13
-      : 16
+  minHeight: 20
 };
 
 const descStyle = {
@@ -413,53 +389,31 @@ const descStyle = {
   color:
     'rgba(240,248,255,0.72)',
 
-  lineHeight: 1.9,
+  lineHeight: 1.8,
 
-  fontSize:
-    window.innerWidth <= 768
-      ? 14
-      : 15,
-
-  padding:
-    window.innerWidth <= 768
-      ? '0 10px'
-      : 0
+  fontSize: 15
 };
 
 const btnContainer = {
 
   display: 'flex',
 
-  gap:
-    window.innerWidth <= 768
-      ? 12
-      : 16,
+  gap: 16,
 
   flexWrap: 'wrap',
 
   justifyContent:
     'center',
 
-  marginTop:
-    window.innerWidth <= 768
-      ? 45
-      : 70,
-
-  position: 'relative',
-
-  zIndex: 5
+  marginTop: 30
 };
 
 const primaryBtn = {
 
   padding:
-    window.innerWidth <= 768
+    '16px 32px',
 
-      ? '15px 24px'
-
-      : '17px 34px',
-
-  borderRadius: 20,
+  borderRadius: 18,
 
   background:
     'linear-gradient(135deg,#00aaff,#0066ff)',
@@ -470,31 +424,19 @@ const primaryBtn = {
 
   fontWeight: 700,
 
-  fontSize:
-    window.innerWidth <= 768
-      ? 14
-      : 16,
-
   boxShadow:
-    '0 0 35px rgba(0,170,255,0.35)',
+    '0 0 25px rgba(0,170,255,0.35)',
 
   transition:
-    'all 0.35s ease',
-
-  border:
-    '1px solid rgba(255,255,255,0.08)'
+    '0.3s ease'
 };
 
 const secondaryBtn = {
 
   padding:
-    window.innerWidth <= 768
+    '16px 28px',
 
-      ? '15px 22px'
-
-      : '17px 30px',
-
-  borderRadius: 20,
+  borderRadius: 18,
 
   background:
     'rgba(255,255,255,0.05)',
@@ -507,35 +449,19 @@ const secondaryBtn = {
   textDecoration: 'none',
 
   backdropFilter:
-    'blur(14px)',
-
-  fontSize:
-    window.innerWidth <= 768
-      ? 14
-      : 16,
+    'blur(12px)',
 
   transition:
-    'all 0.35s ease'
+    '0.3s ease'
 };
 
 const cameraWrap = {
 
-  marginTop:
-    window.innerWidth <= 768
-      ? 20
-      : 10,
+  marginTop: 10,
 
-  marginBottom:
-    window.innerWidth <= 768
-      ? 10
-      : 20,
+  marginBottom: 20,
 
-  transform:
-    window.innerWidth <= 768
-
-      ? 'scale(0.72)'
-
-      : 'scale(0.9)'
+  transform: 'scale(0.9)'
 };
 
 const statsContainer = {
@@ -543,11 +469,7 @@ const statsContainer = {
   display: 'grid',
 
   gridTemplateColumns:
-    window.innerWidth <= 768
-
-      ? '1fr'
-
-      : 'repeat(auto-fit,minmax(220px,1fr))',
+    'repeat(auto-fit,minmax(220px,1fr))',
 
   gap: 20,
 
@@ -555,18 +477,12 @@ const statsContainer = {
 
   maxWidth: 900,
 
-  marginTop:
-    window.innerWidth <= 768
-      ? 30
-      : 45
+  marginTop: 40
 };
 
 const statCard = {
 
-  padding:
-    window.innerWidth <= 768
-      ? 24
-      : 28,
+  padding: 28,
 
   textAlign: 'center'
 };
