@@ -6,10 +6,8 @@ import {
   useNavigate
 } from 'react-router-dom';
 
-import {
-  Menu,
-  X
-} from 'lucide-react';
+const Menu = () => <span>☰</span>;
+const X = () => <span>✕</span>;
 
 import {
   useAuth
