@@ -9,14 +9,14 @@ import {
   FaTrash,
   FaPlus,
   FaFolderOpen,
-  FaPalette,
+  FaPaintBrush,
   FaFutbol,
-  FaMasksTheater,
+  FaTheaterMasks,
   FaMicrochip,
   FaGraduationCap,
   FaStar,
   FaCamera
-} from 'react-icons/fa6';
+} from 'react-icons/fa';
 
 import { eventsAPI } from '../../api';
 import { showToast } from '../Toast';
@@ -32,15 +32,17 @@ const isMobile =
 // ===============================
 const CATEGORY_ICONS = {
 
-  arts: <FaPalette />,
+  arts: <FaPaintBrush />,
 
   sports: <FaFutbol />,
 
-  cultural: <FaMasksTheater />,
+  cultural:
+    <FaTheaterMasks />,
 
   tech: <FaMicrochip />,
 
-  freshers: <FaGraduationCap />,
+  freshers:
+    <FaGraduationCap />,
 
   farewell: <FaStar />,
 
@@ -616,7 +618,9 @@ function InputField({
         style={input}
         value={value}
         onChange={(e) =>
-          onChange(e.target.value)
+          onChange(
+            e.target.value
+          )
         }
       />
 
@@ -646,7 +650,9 @@ function TextAreaField({
         }}
         value={value}
         onChange={(e) =>
-          onChange(e.target.value)
+          onChange(
+            e.target.value
+          )
         }
       />
 
