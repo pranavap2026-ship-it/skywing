@@ -97,7 +97,7 @@ export default function Home() {
         {/* DESCRIPTION */}
         <p style={descStyle}>
           We are the eyes and voice
-          of our campus — capturing
+          of CEP — capturing
           unforgettable moments
           through creativity,
           storytelling and innovation.
@@ -200,7 +200,7 @@ export default function Home() {
 
         <p style={aboutText}>
           Skywing is the official
-          media team of our campus.
+          media team of College of Engineering Poonjar.
           We document every moment —
           from cultural fests and
           sports events to technical

@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   Link,
   useLocation,
   useNavigate
 } from 'react-router-dom';
+
+import {
+  Menu,
+  X
+} from 'lucide-react';
 
 import {
   useAuth
@@ -22,10 +27,13 @@ export default function Navbar() {
     useNavigate();
 
   const {
-    user,
     logout,
     isAdmin
   } = useAuth();
+
+  const [mobileOpen,
+    setMobileOpen] =
+    useState(false);
 
   // ===============================
   // 🚪 LOGOUT
@@ -53,104 +61,209 @@ export default function Navbar() {
 
   return (
 
-    <nav style={navStyle}>
-
+    <>
       {/* ===============================
-          🚀 LEFT LOGO ONLY
+          🚀 NAVBAR
       =============================== */}
-      <Link
-        to="/"
-        style={logoWrap}
-      >
+      <nav style={navWrapper}>
 
-        <img
-          src={logo}
-          alt="SkyWing"
-          style={logoImage}
-        />
+        <div style={navStyle}>
 
-      </Link>
+          {/* ===============================
+              🔷 LOGO
+          =============================== */}
+          <Link
+            to="/"
+            style={logoWrap}
+          >
 
-      {/* ===============================
-          🔗 NAVIGATION
-      =============================== */}
-      <ul style={navLinks}>
+            <img
+              src={logo}
+              alt="SkyWing"
+              style={logoImage}
+            />
 
-        {links.map(
-          ([path, label]) => (
+          </Link>
 
-            <li key={path}>
+          {/* ===============================
+              💻 DESKTOP LINKS
+          =============================== */}
+          <ul style={desktopLinks}>
 
-              <Link
-                to={path}
+            {links.map(
+              ([path, label]) => (
 
-                style={{
+                <li key={path}>
 
-                  ...linkStyle,
+                  <Link
+                    to={path}
 
-                  color:
-                    pathname === path
+                    style={{
 
-                      ? '#00d4ff'
+                      ...linkStyle,
 
-                      : '#dbeafe'
-                }}
-              >
-                {label}
-              </Link>
+                      color:
+                        pathname === path
 
-            </li>
-          )
-        )}
+                          ? '#00d4ff'
+
+                          : '#dbeafe'
+                    }}
+                  >
+                    {label}
+                  </Link>
+
+                </li>
+              )
+            )}
+
+            {/* 👑 ADMIN */}
+            {isAdmin && (
+
+              <>
+                <li>
+
+                  <Link
+                    to="/admin"
+
+                    style={{
+
+                      ...linkStyle,
+
+                      color:
+                        pathname ===
+                        '/admin'
+
+                          ? '#00d4ff'
+
+                          : '#dbeafe'
+                    }}
+                  >
+                    Dashboard
+                  </Link>
+
+                </li>
+
+                <li>
+
+                  <button
+                    onClick={
+                      handleLogout
+                    }
+
+                    style={
+                      logoutBtn
+                    }
+                  >
+                    Logout
+                  </button>
+
+                </li>
+              </>
+            )}
+          </ul>
+
+          {/* ===============================
+              📱 MOBILE MENU BUTTON
+          =============================== */}
+          <button
+            style={menuBtn}
+            onClick={() =>
+              setMobileOpen(
+                !mobileOpen
+              )
+            }
+          >
+            {mobileOpen
+              ? <X size={24} />
+              : <Menu size={24} />
+            }
+          </button>
+        </div>
 
         {/* ===============================
-            👑 ADMIN ONLY
+            📱 MOBILE MENU
         =============================== */}
-        {isAdmin && (
+        {mobileOpen && (
 
-          <>
-            <li>
+          <div style={mobileMenu}>
 
-              <Link
-                to="/admin"
+            {links.map(
+              ([path, label]) => (
 
-                style={{
+                <Link
+                  key={path}
+                  to={path}
 
-                  ...linkStyle,
+                  onClick={() =>
+                    setMobileOpen(
+                      false
+                    )
+                  }
 
-                  color:
-                    pathname ===
-                    '/admin'
+                  style={{
 
-                      ? '#00d4ff'
+                    ...mobileLink,
 
-                      : '#dbeafe'
-                }}
-              >
-                Dashboard
-              </Link>
+                    color:
+                      pathname === path
 
-            </li>
+                        ? '#00d4ff'
 
-            <li>
+                        : '#dbeafe'
+                  }}
+                >
+                  {label}
+                </Link>
+              )
+            )}
 
-              <button
-                onClick={
-                  handleLogout
-                }
+            {/* 👑 ADMIN */}
+            {isAdmin && (
 
-                style={
-                  logoutBtn
-                }
-              >
-                Logout
-              </button>
+              <>
+                <Link
+                  to="/admin"
 
-            </li>
-          </>
+                  onClick={() =>
+                    setMobileOpen(
+                      false
+                    )
+                  }
+
+                  style={{
+
+                    ...mobileLink,
+
+                    color:
+                      pathname ===
+                      '/admin'
+
+                        ? '#00d4ff'
+
+                        : '#dbeafe'
+                  }}
+                >
+                  Dashboard
+                </Link>
+
+                <button
+                  onClick={
+                    handleLogout
+                  }
+
+                  style={
+                    mobileLogoutBtn
+                  }
+                >
+                  Logout
+                </button>
+              </>
+            )}
+          </div>
         )}
-      </ul>
-    </nav>
+      </nav>
+    </>
   );
 }
 
@@ -158,17 +271,31 @@ export default function Navbar() {
 // 🎨 STYLES
 // ===============================
 
-const navStyle = {
+const navWrapper = {
 
   position: 'fixed',
 
-  top: 0,
+  top: 18,
 
   left: 0,
 
   width: '100%',
 
-  height: 74,
+  display: 'flex',
+
+  justifyContent:
+    'center',
+
+  zIndex: 999
+};
+
+const navStyle = {
+
+  width: '92%',
+
+  maxWidth: 1250,
+
+  height: 68,
 
   display: 'flex',
 
@@ -177,18 +304,21 @@ const navStyle = {
   justifyContent:
     'space-between',
 
-  padding: '0 34px',
+  padding: '0 24px',
 
-  zIndex: 999,
+  borderRadius: 22,
 
   backdropFilter:
-    'blur(16px)',
+    'blur(18px)',
 
   background:
-    'rgba(2,8,20,0.72)',
+    'rgba(5,10,25,0.72)',
 
-  borderBottom:
-    '1px solid rgba(0,170,255,0.15)'
+  border:
+    '1px solid rgba(0,170,255,0.15)',
+
+  boxShadow:
+    '0 8px 32px rgba(0,0,0,0.25)'
 };
 
 const logoWrap = {
@@ -197,39 +327,28 @@ const logoWrap = {
 
   alignItems: 'center',
 
-  justifyContent: 'center',
-
   textDecoration: 'none'
 };
 
 const logoImage = {
 
-  width: 115,
+  width: 95,
 
   height: 'auto',
 
   objectFit: 'contain',
 
-  borderRadius: 0,
-
-  boxShadow: 'none',
-
-  background: 'transparent',
-
-  transition:
-    '0.3s ease',
-
   filter:
-    'drop-shadow(0 0 18px rgba(0,170,255,0.25))'
+    'drop-shadow(0 0 16px rgba(0,170,255,0.25))'
 };
 
-const navLinks = {
+const desktopLinks = {
 
   display: 'flex',
 
   alignItems: 'center',
 
-  gap: 34,
+  gap: 30,
 
   listStyle: 'none',
 
@@ -245,21 +364,23 @@ const linkStyle = {
   fontFamily:
     'Orbitron,sans-serif',
 
-  fontSize: 13,
+  fontSize: 12,
 
-  letterSpacing: 4,
+  fontWeight: 500,
+
+  letterSpacing: 3,
 
   textTransform:
     'uppercase',
 
   transition:
-    'all 0.25s ease'
+    '0.25s ease'
 };
 
 const logoutBtn = {
 
   border:
-    '1px solid rgba(0,170,255,0.4)',
+    '1px solid rgba(0,170,255,0.35)',
 
   background:
     'transparent',
@@ -267,9 +388,9 @@ const logoutBtn = {
   color: '#00d4ff',
 
   padding:
-    '10px 18px',
+    '10px 16px',
 
-  borderRadius: 10,
+  borderRadius: 12,
 
   cursor: 'pointer',
 
@@ -283,3 +404,111 @@ const logoutBtn = {
   transition:
     '0.25s'
 };
+
+const menuBtn = {
+
+  display: 'none',
+
+  alignItems: 'center',
+
+  justifyContent:
+    'center',
+
+  border: 'none',
+
+  background:
+    'transparent',
+
+  color: '#00d4ff',
+
+  cursor: 'pointer'
+};
+
+const mobileMenu = {
+
+  width: '92%',
+
+  marginTop: 10,
+
+  padding:
+    '20px 18px',
+
+  borderRadius: 22,
+
+  backdropFilter:
+    'blur(18px)',
+
+  background:
+    'rgba(5,10,25,0.95)',
+
+  border:
+    '1px solid rgba(0,170,255,0.15)',
+
+  display: 'flex',
+
+  flexDirection:
+    'column',
+
+  gap: 18
+};
+
+const mobileLink = {
+
+  textDecoration: 'none',
+
+  fontFamily:
+    'Orbitron,sans-serif',
+
+  fontSize: 13,
+
+  letterSpacing: 2,
+
+  textTransform:
+    'uppercase'
+};
+
+const mobileLogoutBtn = {
+
+  border:
+    '1px solid rgba(0,170,255,0.35)',
+
+  background:
+    'transparent',
+
+  color: '#00d4ff',
+
+  padding:
+    '12px 16px',
+
+  borderRadius: 12,
+
+  cursor: 'pointer',
+
+  fontFamily:
+    'Orbitron,sans-serif',
+
+  fontSize: 12,
+
+  letterSpacing: 2
+};
+
+// ===============================
+// 📱 RESPONSIVE
+// ===============================
+if (window.innerWidth <= 768) {
+
+  desktopLinks.display =
+    'none';
+
+  menuBtn.display =
+    'flex';
+
+  navStyle.height =
+    62;
+
+  navStyle.padding =
+    '0 18px';
+
+  logoImage.width =
+    82;
+}
