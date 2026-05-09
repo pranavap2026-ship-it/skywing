@@ -4,32 +4,32 @@ import React, {
   useCallback
 } from 'react';
 
-import { eventsAPI } from '../../api';
-
-import { showToast } from '../Toast';
-
 import {
+  FaEdit,
+  FaTrash,
+  FaPlus,
+  FaFolderOpen,
   FaPalette,
   FaFutbol,
   FaMasksTheater,
   FaMicrochip,
   FaGraduationCap,
   FaStar,
-  FaCamera,
-  FaEdit,
-  FaTrash,
-  FaFolderOpen,
-  FaPlus
+  FaCamera
 } from 'react-icons/fa6';
 
-const extractData = (res) =>
-  Array.isArray(res.data)
-    ? res.data
-    : res.data?.data || [];
+import { eventsAPI } from '../../api';
+import { showToast } from '../Toast';
 
+// ===============================
+// 📱 MOBILE
+// ===============================
 const isMobile =
   window.innerWidth <= 768;
 
+// ===============================
+// 🎯 CATEGORY ICONS
+// ===============================
 const CATEGORY_ICONS = {
 
   arts: <FaPalette />,
@@ -47,6 +47,17 @@ const CATEGORY_ICONS = {
   other: <FaCamera />
 };
 
+// ===============================
+// 🔧 SAFE DATA
+// ===============================
+const extractData = (res) =>
+  Array.isArray(res.data)
+    ? res.data
+    : res.data?.data || [];
+
+// ===============================
+// 🚀 COMPONENT
+// ===============================
 export default function EventsPanel() {
 
   const [events, setEvents] =
@@ -76,10 +87,10 @@ export default function EventsPanel() {
     });
 
   // ===============================
-  // LOAD EVENTS
+  // 📡 LOAD EVENTS
   // ===============================
-  const load = useCallback(
-    async () => {
+  const loadEvents =
+    useCallback(async () => {
 
       try {
 
@@ -96,115 +107,40 @@ export default function EventsPanel() {
 
         setEvents([]);
       }
-    },
-    []
-  );
+
+    }, []);
 
   useEffect(() => {
-    load();
-  }, [load]);
+
+    loadEvents();
+
+  }, [loadEvents]);
 
   // ===============================
-  // SAVE EVENT
+  // ➕ OPEN ADD
   // ===============================
-  const save = async () => {
+  const openAdd = () => {
 
-    if (
-      !form.title.trim() ||
-      !form.description.trim() ||
-      !form.driveLink.trim()
-    ) {
+    setEditing(null);
 
-      return showToast(
-        'All fields required',
-        'error'
-      );
-    }
+    setForm({
 
-    setLoading(true);
+      title: '',
 
-    try {
+      description: '',
 
-      const payload = {
+      driveLink: '',
 
-        title:
-          form.title.trim(),
+      category: 'other',
 
-        description:
-          form.description.trim(),
+      coverColor: '#00aaff'
+    });
 
-        driveLink:
-          form.driveLink
-            .trim()
-            .replace(/\s/g, ''),
-
-        category:
-          form.category,
-
-        coverColor:
-          form.coverColor
-      };
-
-      if (editing) {
-
-        await eventsAPI.update(
-          editing,
-          payload
-        );
-
-        showToast(
-          'Event Updated 🚀'
-        );
-
-      } else {
-
-        await eventsAPI.create(
-          payload
-        );
-
-        showToast(
-          'Event Created ✅'
-        );
-      }
-
-      setModal(false);
-
-      setEditing(null);
-
-      setForm({
-
-        title: '',
-
-        description: '',
-
-        driveLink: '',
-
-        category: 'other',
-
-        coverColor: '#00aaff'
-      });
-
-      load();
-
-    } catch (err) {
-
-      console.error(err);
-
-      showToast(
-        err?.response?.data
-          ?.message ||
-          'Failed to save',
-        'error'
-      );
-
-    } finally {
-
-      setLoading(false);
-    }
+    setModal(true);
   };
 
   // ===============================
-  // EDIT EVENT
+  // ✏️ EDIT
   // ===============================
   const handleEdit = (ev) => {
 
@@ -233,39 +169,118 @@ export default function EventsPanel() {
   };
 
   // ===============================
-  // DELETE
+  // ❌ DELETE
   // ===============================
-  const handleDelete = async (
-    id
-  ) => {
+  const handleDelete =
+    async (id) => {
 
-    if (
-      !window.confirm(
-        'Delete this event?'
-      )
-    )
-      return;
+      if (
+        !window.confirm(
+          'Delete this event?'
+        )
+      ) return;
 
-    try {
+      try {
 
-      await eventsAPI.delete(id);
+        await eventsAPI.delete(id);
 
-      showToast(
-        'Deleted 🗑️'
-      );
+        showToast(
+          'Event deleted'
+        );
 
-      load();
+        loadEvents();
 
-    } catch (err) {
+      } catch (err) {
 
-      console.error(err);
+        console.error(err);
 
-      showToast(
-        'Delete failed',
-        'error'
-      );
-    }
-  };
+        showToast(
+          'Delete failed',
+          'error'
+        );
+      }
+    };
+
+  // ===============================
+  // 💾 SAVE
+  // ===============================
+  const saveEvent =
+    async () => {
+
+      if (
+        !form.title.trim() ||
+        !form.description.trim() ||
+        !form.driveLink.trim()
+      ) {
+
+        return showToast(
+          'Fill all fields',
+          'error'
+        );
+      }
+
+      setLoading(true);
+
+      try {
+
+        const payload = {
+
+          title:
+            form.title.trim(),
+
+          description:
+            form.description.trim(),
+
+          driveLink:
+            form.driveLink.trim(),
+
+          category:
+            form.category,
+
+          coverColor:
+            form.coverColor
+        };
+
+        if (editing) {
+
+          await eventsAPI.update(
+            editing,
+            payload
+          );
+
+          showToast(
+            'Event updated'
+          );
+
+        } else {
+
+          await eventsAPI.create(
+            payload
+          );
+
+          showToast(
+            'Event created'
+          );
+        }
+
+        setModal(false);
+
+        loadEvents();
+
+      } catch (err) {
+
+        console.error(err);
+
+        showToast(
+          'Save failed',
+          'error'
+        );
+
+      } finally {
+
+        setLoading(false);
+      }
+    };
 
   return (
 
@@ -280,17 +295,15 @@ export default function EventsPanel() {
             EVENTS MANAGER
           </h2>
 
-          <p style={labelStyle}>
-            // manage skywing events
+          <p style={subStyle}>
+            // manage events
           </p>
 
         </div>
 
         <button
           style={addBtn}
-          onClick={() =>
-            setModal(true)
-          }
+          onClick={openAdd}
         >
 
           <FaPlus />
@@ -301,53 +314,13 @@ export default function EventsPanel() {
 
       </div>
 
-      {/* STATS */}
-      <div style={statsWrap}>
-
-        <div style={statCard}>
-          <h2>{events.length}</h2>
-          <p>Total Events</p>
-        </div>
-
-        <div style={statCard}>
-          <h2>
-            {
-              events.filter(
-                e =>
-                  e.category ===
-                  'arts'
-              ).length
-            }
-          </h2>
-
-          <p>Arts Events</p>
-        </div>
-
-        <div style={statCard}>
-          <h2>
-            {
-              events.filter(
-                e =>
-                  e.category ===
-                  'sports'
-              ).length
-            }
-          </h2>
-
-          <p>Sports Events</p>
-        </div>
-
-      </div>
-
       {/* EVENTS */}
       <div style={gridStyle}>
 
         {events.length === 0 ? (
 
           <div style={emptyCard}>
-
             No events found
-
           </div>
 
         ) : (
@@ -360,24 +333,26 @@ export default function EventsPanel() {
                 ...eventCard,
 
                 borderTop:
-                  `3px solid ${ev.coverColor}`
+                  `3px solid ${
+                    ev.coverColor ||
+                    '#00aaff'
+                  }`
               }}
             >
 
               <div
                 style={{
-                  fontSize: 38,
+                  fontSize: 34,
 
                   color:
-                    ev.coverColor
+                    ev.coverColor ||
+                    '#00aaff'
                 }}
               >
 
-                {
-                  CATEGORY_ICONS[
-                    ev.category
-                  ]
-                }
+                {CATEGORY_ICONS[
+                  ev.category
+                ] || <FaCamera />}
 
               </div>
 
@@ -464,8 +439,8 @@ export default function EventsPanel() {
 
             <div style={modalBody}>
 
-              <FormInput
-                label="Event Title"
+              <InputField
+                label="Title"
                 value={form.title}
                 onChange={(v) =>
                   setForm({
@@ -475,7 +450,7 @@ export default function EventsPanel() {
                 }
               />
 
-              <FormTextArea
+              <TextAreaField
                 label="Description"
                 value={
                   form.description
@@ -488,7 +463,7 @@ export default function EventsPanel() {
                 }
               />
 
-              <FormInput
+              <InputField
                 label="Google Drive Link"
                 value={
                   form.driveLink
@@ -564,7 +539,7 @@ export default function EventsPanel() {
                   type="color"
                   style={{
                     ...input,
-                    height: 65
+                    height: 60
                   }}
                   value={
                     form.coverColor
@@ -587,12 +562,9 @@ export default function EventsPanel() {
 
               <button
                 style={cancelBtn}
-                onClick={() => {
-
-                  setModal(false);
-
-                  setEditing(null);
-                }}
+                onClick={() =>
+                  setModal(false)
+                }
               >
 
                 Cancel
@@ -601,7 +573,7 @@ export default function EventsPanel() {
 
               <button
                 style={saveBtn}
-                onClick={save}
+                onClick={saveEvent}
               >
 
                 {loading
@@ -624,9 +596,9 @@ export default function EventsPanel() {
 }
 
 // ===============================
-// INPUT COMPONENTS
+// 🧩 INPUT COMPONENTS
 // ===============================
-function FormInput({
+function InputField({
   label,
   value,
   onChange
@@ -636,7 +608,7 @@ function FormInput({
 
     <div style={group}>
 
-      <label style={labelStyle2}>
+      <label style={label}>
         {label}
       </label>
 
@@ -652,7 +624,7 @@ function FormInput({
   );
 }
 
-function FormTextArea({
+function TextAreaField({
   label,
   value,
   onChange
@@ -662,7 +634,7 @@ function FormTextArea({
 
     <div style={group}>
 
-      <label style={labelStyle2}>
+      <label style={label}>
         {label}
       </label>
 
@@ -683,9 +655,8 @@ function FormTextArea({
 }
 
 // ===============================
-// STYLES
+// 🎨 STYLES
 // ===============================
-
 const headerStyle = {
 
   display: 'flex',
@@ -710,36 +681,38 @@ const headerStyle = {
 
 const titleStyle = {
 
-  fontSize:
-    isMobile
-      ? 34
-      : 50,
-
   color: '#fff',
 
-  letterSpacing: 4,
+  fontSize:
+    isMobile
+      ? 32
+      : 48,
 
-  fontFamily:
-    'Orbitron,sans-serif'
+  letterSpacing: 4
 };
 
-const labelStyle = {
+const subStyle = {
 
   color: '#00aaff',
 
-  letterSpacing: 4,
+  marginTop: 8,
 
-  marginTop: 10
+  letterSpacing: 3
 };
 
 const addBtn = {
 
   padding:
-    '16px 28px',
+    '15px 26px',
 
-  borderRadius: 18,
+  borderRadius: 16,
 
   border: 'none',
+
+  background:
+    'linear-gradient(135deg,#00aaff,#0066ff)',
+
+  color: '#fff',
 
   display: 'flex',
 
@@ -747,41 +720,7 @@ const addBtn = {
 
   gap: 10,
 
-  background:
-    'linear-gradient(135deg,#00aaff,#0066ff)',
-
-  color: '#fff',
-
   cursor: 'pointer'
-};
-
-const statsWrap = {
-
-  display: 'grid',
-
-  gridTemplateColumns:
-    isMobile
-      ? '1fr'
-      : 'repeat(3,1fr)',
-
-  gap: 20,
-
-  marginBottom: 30
-};
-
-const statCard = {
-
-  padding: 24,
-
-  borderRadius: 24,
-
-  background:
-    'rgba(255,255,255,0.03)',
-
-  border:
-    '1px solid rgba(0,170,255,0.12)',
-
-  textAlign: 'center'
 };
 
 const gridStyle = {
@@ -800,33 +739,30 @@ const eventCard = {
 
   padding: 24,
 
-  borderRadius: 26,
+  borderRadius: 24,
 
   background:
     'rgba(255,255,255,0.03)',
 
   border:
-    '1px solid rgba(0,170,255,0.1)',
-
-  backdropFilter:
-    'blur(14px)'
+    '1px solid rgba(0,170,255,0.1)'
 };
 
 const eventTitle = {
 
   color: '#fff',
 
-  marginTop: 18,
-
-  marginBottom: 12
+  marginTop: 16
 };
 
 const eventDesc = {
 
   color:
-    'rgba(255,255,255,0.72)',
+    'rgba(255,255,255,0.7)',
 
-  lineHeight: 1.8
+  lineHeight: 1.7,
+
+  marginTop: 10
 };
 
 const catLabel = {
@@ -835,12 +771,9 @@ const catLabel = {
 
   color: '#00aaff',
 
-  textTransform:
-    'uppercase',
+  fontSize: 12,
 
-  letterSpacing: 3,
-
-  fontSize: 12
+  letterSpacing: 3
 };
 
 const driveBtn = {
@@ -858,12 +791,12 @@ const driveBtn = {
 
   padding: 14,
 
-  borderRadius: 16,
+  borderRadius: 14,
+
+  textDecoration: 'none',
 
   background:
     'rgba(0,170,255,0.1)',
-
-  textDecoration: 'none',
 
   color: '#00d4ff'
 };
@@ -912,9 +845,9 @@ const emptyCard = {
 
   padding: 40,
 
-  borderRadius: 24,
-
   textAlign: 'center',
+
+  borderRadius: 24,
 
   background:
     'rgba(255,255,255,0.03)'
@@ -927,16 +860,9 @@ const overlayStyle = {
   inset: 0,
 
   background:
-    'rgba(0,0,0,0.72)',
+    'rgba(0,0,0,0.7)',
 
   zIndex: 9999,
-
-  overflowY: 'auto',
-
-  padding:
-    isMobile
-      ? '90px 14px 20px'
-      : '40px',
 
   display: 'flex',
 
@@ -946,7 +872,14 @@ const overlayStyle = {
   alignItems:
     isMobile
       ? 'flex-start'
-      : 'center'
+      : 'center',
+
+  overflowY: 'auto',
+
+  padding:
+    isMobile
+      ? '90px 14px 20px'
+      : '40px'
 };
 
 const modalStyle = {
@@ -955,7 +888,7 @@ const modalStyle = {
 
   maxWidth: 760,
 
-  borderRadius: 30,
+  borderRadius: 28,
 
   overflow: 'hidden',
 
@@ -968,7 +901,7 @@ const modalStyle = {
 
 const modalHeader = {
 
-  padding: 26,
+  padding: 24,
 
   borderBottom:
     '1px solid rgba(255,255,255,0.06)'
@@ -989,7 +922,7 @@ const modalBody = {
   padding:
     isMobile
       ? 20
-      : 30,
+      : 28,
 
   display: 'flex',
 
@@ -1007,17 +940,10 @@ const modalFooter = {
 
   gap: 12,
 
-  padding:
-    isMobile
-      ? 18
-      : 24,
+  padding: 20,
 
   borderTop:
     '1px solid rgba(255,255,255,0.06)',
-
-  position: 'sticky',
-
-  bottom: 0,
 
   background:
     'rgba(5,12,25,0.98)'
@@ -1034,7 +960,7 @@ const cancelBtn = {
     '1px solid rgba(255,255,255,0.08)',
 
   background:
-    'rgba(255,255,255,0.04)',
+    'rgba(255,255,255,0.05)',
 
   color: '#fff',
 
@@ -1064,22 +990,17 @@ const group = {
 
   flexDirection: 'column',
 
-  gap: 12
+  gap: 10
 };
 
-const labelStyle2 = {
+const label = {
 
   color: '#00aaff',
 
-  letterSpacing: 4,
-
   fontSize: 12,
 
-  textTransform:
-    'uppercase'
+  letterSpacing: 3
 };
-
-const label = labelStyle2;
 
 const input = {
 
@@ -1090,10 +1011,10 @@ const input = {
       ? '16px'
       : '18px',
 
-  borderRadius: 18,
+  borderRadius: 16,
 
   border:
-    '1px solid rgba(0,170,255,0.15)',
+    '1px solid rgba(0,170,255,0.12)',
 
   background:
     'rgba(255,255,255,0.03)',
