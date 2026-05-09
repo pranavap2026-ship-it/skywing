@@ -270,7 +270,7 @@ export default function Team() {
 
                       <FaCrown />
 
-                      LEADER
+                      LEAD
 
                     </div>
                   )}

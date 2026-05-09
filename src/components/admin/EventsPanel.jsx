@@ -15,7 +15,8 @@ import {
   FaMicrochip,
   FaGraduationCap,
   FaStar,
-  FaCamera
+  FaCamera,
+  FaUniversity
 } from 'react-icons/fa';
 
 import { eventsAPI } from '../../api';
@@ -47,6 +48,9 @@ const CATEGORY_ICONS = {
 
   farewell:
     <FaStar />,
+
+  collegeday:
+    <FaUniversity />,
 
   other:
     <FaCamera />
@@ -571,6 +575,10 @@ export default function EventsPanel() {
 
                 <option value="freshers">
                   Freshers
+                </option>
+
+                <option value="collegeday">
+                  College Day
                 </option>
 
                 <option value="farewell">
