@@ -299,3 +299,13 @@ textarea.form-input {
   min-height: 100px;
   resize: vertical;
 }
+
+
+button,
+a {
+  pointer-events: auto !important;
+}
+
+canvas {
+  pointer-events: none !important;
+}

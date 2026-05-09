@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, {
+  useState
+} from 'react';
 
 import {
   motion,
@@ -30,14 +32,19 @@ import logo
 
 export default function AdminDashboard() {
 
-  const { logout } = useAuth();
+  const { logout } =
+    useAuth();
 
-  const [tab, setTab] =
+  const [tab,
+    setTab] =
     useState('events');
 
   const isMobile =
     window.innerWidth <= 768;
 
+  // ===============================
+  // 📑 TABS
+  // ===============================
   const tabs = [
 
     {
@@ -68,20 +75,37 @@ export default function AdminDashboard() {
       <div style={styles.glow2} />
 
       {/* HEADER */}
-      <div style={styles.header}>
+      <motion.div
 
+        initial={{
+          opacity: 0,
+          y: -20
+        }}
+
+        animate={{
+          opacity: 1,
+          y: 0
+        }}
+
+        style={styles.header}
+      >
+
+        {/* LOGO */}
         <img
           src={logo}
           alt="SkyWing"
+
           style={{
             ...styles.logo,
+
             width:
               isMobile
-                ? 130
+                ? 120
                 : 170
           }}
         />
 
+        {/* STATUS */}
         <div style={styles.status}>
 
           <FaBolt />
@@ -91,63 +115,125 @@ export default function AdminDashboard() {
           </span>
 
         </div>
-      </div>
 
-      {/* TITLE */}
-      <div style={styles.titleWrap}>
+      </motion.div>
+
+      {/* HERO */}
+      <motion.div
+
+        initial={{
+          opacity: 0,
+          y: 20
+        }}
+
+        animate={{
+          opacity: 1,
+          y: 0
+        }}
+
+        transition={{
+          delay: 0.1
+        }}
+
+        style={styles.titleWrap}
+      >
 
         <p style={styles.subTitle}>
-          // CONTROL PANEL
+          // CONTROL CENTER
         </p>
 
         <h1
           style={{
             ...styles.title,
+
             fontSize:
               isMobile
-                ? '2.7rem'
+                ? '2.3rem'
                 : '5rem'
           }}
         >
+
           ADMIN DASHBOARD
+
         </h1>
 
-      </div>
+      </motion.div>
 
       {/* TABS */}
-      <div style={styles.tabsWrap}>
+      <div
+        style={{
+          ...styles.tabsWrap,
 
-        {tabs.map((item) => (
+          flexDirection:
+            isMobile
+              ? 'column'
+              : 'row'
+        }}
+      >
 
-          <button
-            key={item.id}
+        {/* LEFT TABS */}
+        <div
+          style={{
+            ...styles.leftTabs,
 
-            onClick={() =>
-              setTab(item.id)
-            }
+            width:
+              isMobile
+                ? '100%'
+                : 'auto'
+          }}
+        >
 
-            style={{
-              ...styles.tabBtn,
+          {tabs.map(
+            (item) => (
 
-              ...(tab === item.id
-                ? styles.activeTab
-                : {})
-            }}
-          >
+              <button
 
-            {item.icon}
+                key={item.id}
 
-            <span>
-              {item.label}
-            </span>
+                onClick={() =>
+                  setTab(item.id)
+                }
 
-          </button>
-        ))}
+                style={{
+                  ...styles.tabBtn,
+
+                  ...(tab === item.id
+
+                    ? styles.activeTab
+
+                    : {}),
+
+                  width:
+                    isMobile
+                      ? '100%'
+                      : 'auto'
+                }}
+              >
+
+                {item.icon}
+
+                <span>
+                  {item.label}
+                </span>
+
+              </button>
+            )
+          )}
+        </div>
 
         {/* LOGOUT */}
         <button
+
           onClick={logout}
-          style={styles.logoutBtn}
+
+          style={{
+            ...styles.logoutBtn,
+
+            width:
+              isMobile
+                ? '100%'
+                : 'auto'
+          }}
         >
 
           <FaSignOutAlt />
@@ -160,7 +246,7 @@ export default function AdminDashboard() {
 
       </div>
 
-      {/* CONTENT */}
+      {/* PANEL */}
       <div style={styles.panelWrap}>
 
         <AnimatePresence mode="wait">
@@ -203,10 +289,14 @@ export default function AdminDashboard() {
         </AnimatePresence>
 
       </div>
+
     </div>
   );
 }
 
+// ===============================
+// 🎨 STYLES
+// ===============================
 const styles = {
 
   page: {
@@ -216,9 +306,9 @@ const styles = {
     padding:
       window.innerWidth <= 768
 
-        ? '120px 18px 50px'
+        ? '120px 16px 60px'
 
-        : '120px 40px 60px',
+        : '120px 40px 70px',
 
     position: 'relative',
 
@@ -242,7 +332,7 @@ const styles = {
     borderRadius: '50%',
 
     background:
-      'rgba(0,170,255,0.15)',
+      'rgba(0,170,255,0.14)',
 
     filter:
       'blur(120px)',
@@ -282,11 +372,11 @@ const styles = {
 
     alignItems: 'center',
 
-    flexWrap: 'wrap',
-
     gap: 20,
 
-    marginBottom: 50
+    flexWrap: 'wrap',
+
+    marginBottom: 40
   },
 
   logo: {
@@ -312,7 +402,7 @@ const styles = {
 
     color: '#00d4ff',
 
-    fontSize: 13,
+    fontSize: 12,
 
     letterSpacing: 2,
 
@@ -328,7 +418,7 @@ const styles = {
 
   titleWrap: {
 
-    marginBottom: 40
+    marginBottom: 35
   },
 
   subTitle: {
@@ -337,9 +427,9 @@ const styles = {
 
     letterSpacing: 4,
 
-    marginBottom: 14,
+    marginBottom: 12,
 
-    fontSize: 13
+    fontSize: 12
   },
 
   title: {
@@ -349,7 +439,7 @@ const styles = {
 
     lineHeight: 1,
 
-    letterSpacing: 5,
+    letterSpacing: 4,
 
     background:
       'linear-gradient(135deg,#fff,#00aaff)',
@@ -365,11 +455,25 @@ const styles = {
 
     display: 'flex',
 
-    flexWrap: 'wrap',
+    justifyContent:
+      'space-between',
 
-    gap: 16,
+    gap: 18,
 
-    marginBottom: 40
+    marginBottom: 35,
+
+    position: 'relative',
+
+    zIndex: 30
+  },
+
+  leftTabs: {
+
+    display: 'flex',
+
+    gap: 14,
+
+    flexWrap: 'wrap'
   },
 
   tabBtn: {
@@ -378,10 +482,12 @@ const styles = {
 
     alignItems: 'center',
 
+    justifyContent: 'center',
+
     gap: 10,
 
     padding:
-      '15px 24px',
+      '16px 24px',
 
     borderRadius: 18,
 
@@ -389,23 +495,21 @@ const styles = {
       '1px solid rgba(255,255,255,0.08)',
 
     background:
-      'rgba(255,255,255,0.04)',
+      'rgba(255,255,255,0.05)',
 
     color: '#fff',
 
     cursor: 'pointer',
 
     backdropFilter:
-      'blur(12px)',
+      'blur(14px)',
 
     fontSize: 15,
 
     transition:
       '0.3s ease',
 
-    position: 'relative',
-
-    zIndex: 20
+    minHeight: 58
   },
 
   activeTab: {
@@ -423,15 +527,17 @@ const styles = {
 
     alignItems: 'center',
 
+    justifyContent: 'center',
+
     gap: 10,
 
     padding:
-      '15px 24px',
+      '16px 24px',
 
     borderRadius: 18,
 
     border:
-      '1px solid rgba(255,0,80,0.25)',
+      '1px solid rgba(255,0,80,0.22)',
 
     background:
       'rgba(255,0,80,0.08)',
@@ -440,13 +546,17 @@ const styles = {
 
     cursor: 'pointer',
 
-    fontSize: 15
+    fontSize: 15,
+
+    minHeight: 58
   },
 
   panelWrap: {
 
     position: 'relative',
 
-    zIndex: 10
+    zIndex: 10,
+
+    width: '100%'
   }
 };
