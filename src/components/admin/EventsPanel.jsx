@@ -28,7 +28,7 @@ const isMobile =
   window.innerWidth <= 768;
 
 // ===============================
-// 🎯 CATEGORY ICONS
+// 🎨 CATEGORY ICONS
 // ===============================
 const CATEGORY_ICONS = {
 
@@ -39,14 +39,17 @@ const CATEGORY_ICONS = {
   cultural:
     <FaTheaterMasks />,
 
-  tech: <FaMicrochip />,
+  tech:
+    <FaMicrochip />,
 
   freshers:
     <FaGraduationCap />,
 
-  farewell: <FaStar />,
+  farewell:
+    <FaStar />,
 
-  other: <FaCamera />
+  other:
+    <FaCamera />
 };
 
 // ===============================
@@ -74,19 +77,23 @@ export default function EventsPanel() {
   const [loading, setLoading] =
     useState(false);
 
+  const initialForm = {
+
+    title: '',
+
+    description: '',
+
+    driveLink: '',
+
+    category: 'other',
+
+    icon: 'other',
+
+    coverColor: '#00aaff'
+  };
+
   const [form, setForm] =
-    useState({
-
-      title: '',
-
-      description: '',
-
-      driveLink: '',
-
-      category: 'other',
-
-      coverColor: '#00aaff'
-    });
+    useState(initialForm);
 
   // ===============================
   // 📡 LOAD EVENTS
@@ -125,18 +132,7 @@ export default function EventsPanel() {
 
     setEditing(null);
 
-    setForm({
-
-      title: '',
-
-      description: '',
-
-      driveLink: '',
-
-      category: 'other',
-
-      coverColor: '#00aaff'
-    });
+    setForm(initialForm);
 
     setModal(true);
   };
@@ -161,6 +157,9 @@ export default function EventsPanel() {
 
       category:
         ev.category || 'other',
+
+      icon:
+        ev.icon || 'other',
 
       coverColor:
         ev.coverColor ||
@@ -239,6 +238,9 @@ export default function EventsPanel() {
           category:
             form.category,
 
+          icon:
+            form.icon,
+
           coverColor:
             form.coverColor
         };
@@ -266,6 +268,10 @@ export default function EventsPanel() {
         }
 
         setModal(false);
+
+        setEditing(null);
+
+        setForm(initialForm);
 
         loadEvents();
 
@@ -298,7 +304,7 @@ export default function EventsPanel() {
           </h2>
 
           <p style={subStyle}>
-            // manage events
+            // manage skywing events
           </p>
 
         </div>
@@ -316,13 +322,15 @@ export default function EventsPanel() {
 
       </div>
 
-      {/* EVENTS */}
+      {/* GRID */}
       <div style={gridStyle}>
 
         {events.length === 0 ? (
 
           <div style={emptyCard}>
+
             No events found
+
           </div>
 
         ) : (
@@ -342,34 +350,46 @@ export default function EventsPanel() {
               }}
             >
 
+              {/* ICON */}
               <div
                 style={{
-                  fontSize: 34,
+                  fontSize: 36,
 
                   color:
                     ev.coverColor ||
-                    '#00aaff'
+                    '#00aaff',
+
+                  marginBottom: 14
                 }}
               >
 
-                {CATEGORY_ICONS[
-                  ev.category
-                ] || <FaCamera />}
+                {
+                  CATEGORY_ICONS[
+                    ev.category
+                  ] ||
+                  <FaCamera />
+                }
 
               </div>
 
+              {/* TITLE */}
               <h3 style={eventTitle}>
                 {ev.title}
               </h3>
 
+              {/* DESC */}
               <p style={eventDesc}>
                 {ev.description}
               </p>
 
+              {/* CATEGORY */}
               <div style={catLabel}>
+
                 {ev.category}
+
               </div>
 
+              {/* DRIVE */}
               <a
                 href={ev.driveLink}
                 target="_blank"
@@ -383,6 +403,7 @@ export default function EventsPanel() {
 
               </a>
 
+              {/* ACTIONS */}
               <div style={actions}>
 
                 <button
@@ -418,6 +439,7 @@ export default function EventsPanel() {
             </div>
           ))
         )}
+
       </div>
 
       {/* MODAL */}
@@ -427,146 +449,180 @@ export default function EventsPanel() {
 
           <div style={modalStyle}>
 
-            <div style={modalHeader}>
+            <h3 style={modalTitle}>
 
-              <h3 style={modalTitle}>
+              {editing
+                ? 'Edit Event'
+                : 'Add Event'}
 
-                {editing
-                  ? 'Edit Event'
-                  : 'Add Event'}
+            </h3>
 
-              </h3>
+            {/* TITLE */}
+            <div style={group}>
 
-            </div>
+              <label style={label}>
+                Event Title
+              </label>
 
-            <div style={modalBody}>
-
-              <InputField
-                label="Title"
+              <input
+                style={input}
                 value={form.title}
-                onChange={(v) =>
+                onChange={(e) =>
                   setForm({
                     ...form,
-                    title: v
+                    title:
+                      e.target.value
                   })
                 }
               />
 
-              <TextAreaField
-                label="Description"
+            </div>
+
+            {/* DESCRIPTION */}
+            <div style={group}>
+
+              <label style={label}>
+                Description
+              </label>
+
+              <textarea
+                rows={5}
+                style={{
+                  ...input,
+                  resize: 'vertical'
+                }}
                 value={
                   form.description
                 }
-                onChange={(v) =>
+                onChange={(e) =>
                   setForm({
                     ...form,
-                    description: v
+                    description:
+                      e.target.value
                   })
                 }
               />
-
-              <InputField
-                label="Google Drive Link"
-                value={
-                  form.driveLink
-                }
-                onChange={(v) =>
-                  setForm({
-                    ...form,
-                    driveLink: v
-                  })
-                }
-              />
-
-              <div style={group}>
-
-                <label style={label}>
-                  Category
-                </label>
-
-                <select
-                  style={input}
-                  value={
-                    form.category
-                  }
-                  onChange={(e) =>
-                    setForm({
-                      ...form,
-                      category:
-                        e.target
-                          .value
-                    })
-                  }
-                >
-
-                  <option value="arts">
-                    Arts
-                  </option>
-
-                  <option value="sports">
-                    Sports
-                  </option>
-
-                  <option value="cultural">
-                    Cultural
-                  </option>
-
-                  <option value="tech">
-                    Tech
-                  </option>
-
-                  <option value="freshers">
-                    Freshers
-                  </option>
-
-                  <option value="farewell">
-                    Farewell
-                  </option>
-
-                  <option value="other">
-                    Other
-                  </option>
-
-                </select>
-
-              </div>
-
-              <div style={group}>
-
-                <label style={label}>
-                  Theme Color
-                </label>
-
-                <input
-                  type="color"
-                  style={{
-                    ...input,
-                    height: 60
-                  }}
-                  value={
-                    form.coverColor
-                  }
-                  onChange={(e) =>
-                    setForm({
-                      ...form,
-                      coverColor:
-                        e.target
-                          .value
-                    })
-                  }
-                />
-
-              </div>
 
             </div>
 
+            {/* DRIVE */}
+            <div style={group}>
+
+              <label style={label}>
+                Google Drive Link
+              </label>
+
+              <input
+                style={input}
+                value={
+                  form.driveLink
+                }
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    driveLink:
+                      e.target.value
+                  })
+                }
+              />
+
+            </div>
+
+            {/* CATEGORY */}
+            <div style={group}>
+
+              <label style={label}>
+                Category
+              </label>
+
+              <select
+                style={input}
+                value={
+                  form.category
+                }
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+
+                    category:
+                      e.target.value,
+
+                    icon:
+                      e.target.value
+                  })
+                }
+              >
+
+                <option value="arts">
+                  Arts
+                </option>
+
+                <option value="sports">
+                  Sports
+                </option>
+
+                <option value="cultural">
+                  Cultural
+                </option>
+
+                <option value="tech">
+                  Tech
+                </option>
+
+                <option value="freshers">
+                  Freshers
+                </option>
+
+                <option value="farewell">
+                  Farewell
+                </option>
+
+                <option value="other">
+                  Other
+                </option>
+
+              </select>
+
+            </div>
+
+            {/* COLOR */}
+            <div style={group}>
+
+              <label style={label}>
+                Theme Color
+              </label>
+
+              <input
+                type="color"
+                style={{
+                  ...input,
+                  height: 60
+                }}
+                value={
+                  form.coverColor
+                }
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    coverColor:
+                      e.target.value
+                  })
+                }
+              />
+
+            </div>
+
+            {/* ACTIONS */}
             <div style={modalFooter}>
 
               <button
                 style={cancelBtn}
-                onClick={() =>
-                  setModal(false)
-                }
+                onClick={() => {
+
+                  setModal(false);
+
+                  setEditing(null);
+                }}
               >
 
                 Cancel
@@ -576,6 +632,7 @@ export default function EventsPanel() {
               <button
                 style={saveBtn}
                 onClick={saveEvent}
+                disabled={loading}
               >
 
                 {loading
@@ -592,69 +649,6 @@ export default function EventsPanel() {
 
         </div>
       )}
-
-    </div>
-  );
-}
-
-// ===============================
-// 🧩 INPUT COMPONENTS
-// ===============================
-function InputField({
-  label,
-  value,
-  onChange
-}) {
-
-  return (
-
-    <div style={group}>
-
-      <label style={label}>
-        {label}
-      </label>
-
-      <input
-        style={input}
-        value={value}
-        onChange={(e) =>
-          onChange(
-            e.target.value
-          )
-        }
-      />
-
-    </div>
-  );
-}
-
-function TextAreaField({
-  label,
-  value,
-  onChange
-}) {
-
-  return (
-
-    <div style={group}>
-
-      <label style={label}>
-        {label}
-      </label>
-
-      <textarea
-        rows={5}
-        style={{
-          ...input,
-          resize: 'vertical'
-        }}
-        value={value}
-        onChange={(e) =>
-          onChange(
-            e.target.value
-          )
-        }
-      />
 
     </div>
   );
@@ -694,7 +688,10 @@ const titleStyle = {
       ? 32
       : 48,
 
-  letterSpacing: 4
+  letterSpacing: 4,
+
+  fontFamily:
+    'Orbitron,sans-serif'
 };
 
 const subStyle = {
@@ -758,7 +755,7 @@ const eventTitle = {
 
   color: '#fff',
 
-  marginTop: 16
+  marginBottom: 12
 };
 
 const eventDesc = {
@@ -768,23 +765,24 @@ const eventDesc = {
 
   lineHeight: 1.7,
 
-  marginTop: 10
+  marginBottom: 16
 };
 
 const catLabel = {
-
-  marginTop: 14,
 
   color: '#00aaff',
 
   fontSize: 12,
 
-  letterSpacing: 3
+  letterSpacing: 3,
+
+  textTransform:
+    'uppercase',
+
+  marginBottom: 18
 };
 
 const driveBtn = {
-
-  marginTop: 20,
 
   display: 'flex',
 
@@ -856,7 +854,10 @@ const emptyCard = {
   borderRadius: 24,
 
   background:
-    'rgba(255,255,255,0.03)'
+    'rgba(255,255,255,0.03)',
+
+  color:
+    'rgba(255,255,255,0.7)'
 };
 
 const overlayStyle = {
@@ -866,9 +867,14 @@ const overlayStyle = {
   inset: 0,
 
   background:
-    'rgba(0,0,0,0.7)',
+    'rgba(0,0,0,0.72)',
+
+  backdropFilter:
+    'blur(10px)',
 
   zIndex: 9999,
+
+  overflowY: 'auto',
 
   display: 'flex',
 
@@ -880,8 +886,6 @@ const overlayStyle = {
       ? 'flex-start'
       : 'center',
 
-  overflowY: 'auto',
-
   padding:
     isMobile
       ? '90px 14px 20px'
@@ -892,49 +896,32 @@ const modalStyle = {
 
   width: '100%',
 
-  maxWidth: 760,
-
-  borderRadius: 28,
-
-  overflow: 'hidden',
+  maxWidth: 700,
 
   background:
-    'rgba(5,12,25,0.98)',
+    'rgba(8,15,30,0.98)',
 
   border:
-    '1px solid rgba(0,170,255,0.12)'
-};
+    '1px solid rgba(0,170,255,0.15)',
 
-const modalHeader = {
+  borderRadius: 24,
 
-  padding: 24,
-
-  borderBottom:
-    '1px solid rgba(255,255,255,0.06)'
+  padding:
+    isMobile
+      ? 20
+      : 30
 };
 
 const modalTitle = {
 
-  color: '#00d4ff',
+  marginBottom: 25,
+
+  color: '#fff',
 
   fontSize:
     isMobile
       ? 28
       : 36
-};
-
-const modalBody = {
-
-  padding:
-    isMobile
-      ? 20
-      : 28,
-
-  display: 'flex',
-
-  flexDirection: 'column',
-
-  gap: 22
 };
 
 const modalFooter = {
@@ -946,13 +933,9 @@ const modalFooter = {
 
   gap: 12,
 
-  padding: 20,
+  marginTop: 25,
 
-  borderTop:
-    '1px solid rgba(255,255,255,0.06)',
-
-  background:
-    'rgba(5,12,25,0.98)'
+  flexWrap: 'wrap'
 };
 
 const cancelBtn = {
@@ -996,7 +979,9 @@ const group = {
 
   flexDirection: 'column',
 
-  gap: 10
+  gap: 10,
+
+  marginBottom: 20
 };
 
 const label = {
