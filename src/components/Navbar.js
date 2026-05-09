@@ -204,19 +204,23 @@ const logoWrap = {
 
 const logoImage = {
 
-  width: 54,
+  width: 115,
 
-  height: 54,
+  height: 'auto',
 
-  objectFit: 'cover',
+  objectFit: 'contain',
 
-  borderRadius: '50%',
+  borderRadius: 0,
 
-  boxShadow:
-    '0 0 25px rgba(0,170,255,0.45)',
+  boxShadow: 'none',
+
+  background: 'transparent',
 
   transition:
-    '0.3s ease'
+    '0.3s ease',
+
+  filter:
+    'drop-shadow(0 0 18px rgba(0,170,255,0.25))'
 };
 
 const navLinks = {
