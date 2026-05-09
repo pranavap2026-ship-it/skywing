@@ -76,7 +76,7 @@ export default function Navbar() {
                 '#00aaff'
             }}
           >
-            WING
+            ING
           </span>
         </h1>
       </Link>
