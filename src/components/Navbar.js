@@ -1,4 +1,3 @@
-
 import React, {
   useState,
   useEffect
@@ -16,7 +15,7 @@ import {
 
 import logo from '../assets/logo.png';
 
-export default function Navbar() {
+function Navbar() {
 
   const {
     pathname
@@ -38,6 +37,12 @@ export default function Navbar() {
     setScrolled] =
     useState(false);
 
+  const [isMobile,
+    setIsMobile] =
+    useState(
+      window.innerWidth <= 900
+    );
+
   // ===============================
   // 🚀 SCROLL EFFECT
   // ===============================
@@ -51,16 +56,36 @@ export default function Navbar() {
         );
       };
 
+    const handleResize =
+      () => {
+
+        setIsMobile(
+          window.innerWidth <= 900
+        );
+      };
+
     window.addEventListener(
       'scroll',
       handleScroll
     );
 
-    return () =>
+    window.addEventListener(
+      'resize',
+      handleResize
+    );
+
+    return () => {
+
       window.removeEventListener(
         'scroll',
         handleScroll
       );
+
+      window.removeEventListener(
+        'resize',
+        handleResize
+      );
+    };
 
   }, []);
 
@@ -92,15 +117,16 @@ export default function Navbar() {
 
     <>
       {/* ===============================
-          🚀 ADVANCED NAVBAR
+          🚀 NAVBAR
       =============================== */}
       <nav style={{
 
         ...navWrapper,
 
-        top: scrolled
-          ? 10
-          : 22
+        top:
+          scrolled
+            ? 10
+            : 20
       }}>
 
         <div style={{
@@ -114,35 +140,14 @@ export default function Navbar() {
 
           height:
             scrolled
-              ? 62
-              : 74,
-
-          background:
-            scrolled
-
-              ? 'rgba(2,8,20,0.82)'
-
-              : 'rgba(5,10,25,0.55)',
-
-          border:
-            scrolled
-
-              ? '1px solid rgba(0,200,255,0.25)'
-
-              : '1px solid rgba(255,255,255,0.08)',
-
-          boxShadow:
-            scrolled
-
-              ? '0 10px 40px rgba(0,170,255,0.18)'
-
-              : '0 8px 32px rgba(0,0,0,0.25)'
+              ? 64
+              : 74
         }}>
 
           {/* ===============================
-              🌌 GLOW
+              🌌 TOP GLOW
           =============================== */}
-          <div style={glowLine} />
+          <div style={topGlow} />
 
           {/* ===============================
               🔷 LOGO
@@ -155,14 +160,15 @@ export default function Navbar() {
             <img
               src={logo}
               alt="SkyWing"
+
               style={{
 
                 ...logoImage,
 
                 width:
                   scrolled
-                    ? 84
-                    : 96
+                    ? 82
+                    : 94
               }}
             />
 
@@ -171,195 +177,204 @@ export default function Navbar() {
           {/* ===============================
               💻 DESKTOP LINKS
           =============================== */}
-          <ul style={desktopLinks}>
+          {!isMobile && (
 
-            {links.map(
-              ([path, label]) => (
+            <ul style={desktopLinks}>
 
-                <li key={path}>
+              {links.map(
+                ([path, label]) => (
 
-                  <Link
-                    to={path}
+                  <li key={path}>
 
-                    style={{
+                    <Link
+                      to={path}
 
-                      ...linkStyle,
+                      style={{
 
-                      color:
-                        pathname === path
+                        ...linkStyle,
 
-                          ? '#00d4ff'
+                        color:
+                          pathname === path
 
-                          : '#dbeafe'
-                    }}
-                  >
+                            ? '#00d4ff'
 
-                    {pathname ===
-                      path && (
+                            : '#dbeafe'
+                      }}
+                    >
 
-                        <span
-                          style={
-                            activeDot
-                          }
-                        />
-                      )}
+                      {pathname ===
+                        path && (
 
-                    {label}
+                          <span
+                            style={
+                              activeDot
+                            }
+                          />
+                        )}
 
-                  </Link>
+                      {label}
 
-                </li>
-              )
-            )}
+                    </Link>
 
-            {/* 👑 ADMIN */}
-            {isAdmin && (
+                  </li>
+                )
+              )}
 
-              <>
-                <li>
+              {/* 👑 ADMIN */}
+              {isAdmin && (
 
-                  <Link
-                    to="/admin"
+                <>
+                  <li>
 
-                    style={{
+                    <Link
+                      to="/admin"
 
-                      ...linkStyle,
+                      style={{
 
-                      color:
-                        pathname ===
-                        '/admin'
+                        ...linkStyle,
 
-                          ? '#00d4ff'
+                        color:
+                          pathname ===
+                          '/admin'
 
-                          : '#dbeafe'
-                    }}
-                  >
-                    Dashboard
-                  </Link>
+                            ? '#00d4ff'
 
-                </li>
+                            : '#dbeafe'
+                      }}
+                    >
+                      Dashboard
+                    </Link>
 
-                <li>
+                  </li>
 
-                  <button
-                    onClick={
-                      handleLogout
-                    }
+                  <li>
 
-                    style={
-                      logoutBtn
-                    }
-                  >
-                    Logout
-                  </button>
+                    <button
+                      onClick={
+                        handleLogout
+                      }
 
-                </li>
-              </>
-            )}
-          </ul>
+                      style={
+                        logoutBtn
+                      }
+                    >
+                      Logout
+                    </button>
+
+                  </li>
+                </>
+              )}
+            </ul>
+          )}
 
           {/* ===============================
               📱 MOBILE BUTTON
           =============================== */}
-          <button
+          {isMobile && (
 
-            onClick={() =>
-              setMobileOpen(
-                !mobileOpen
-              )
-            }
+            <button
 
-            style={menuBtn}
-          >
+              onClick={() =>
+                setMobileOpen(
+                  !mobileOpen
+                )
+              }
 
-            {mobileOpen
-              ? '✕'
-              : '☰'}
+              style={menuBtn}
+            >
 
-          </button>
+              {mobileOpen
+                ? '✕'
+                : '☰'}
+
+            </button>
+          )}
         </div>
 
         {/* ===============================
             📱 MOBILE MENU
         =============================== */}
-        <div style={{
+        {isMobile && (
 
-          ...mobileMenu,
+          <div style={{
 
-          opacity:
-            mobileOpen
-              ? 1
-              : 0,
+            ...mobileMenu,
 
-          transform:
-            mobileOpen
+            opacity:
+              mobileOpen
+                ? 1
+                : 0,
 
-              ? 'translateY(0px)'
+            transform:
+              mobileOpen
 
-              : 'translateY(-20px)',
+                ? 'translateY(0px)'
 
-          pointerEvents:
-            mobileOpen
-              ? 'all'
-              : 'none'
-        }}>
+                : 'translateY(-20px)',
 
-          {links.map(
-            ([path, label]) => (
+            pointerEvents:
+              mobileOpen
+                ? 'all'
+                : 'none'
+          }}>
 
-              <Link
-                key={path}
+            {links.map(
+              ([path, label]) => (
 
-                to={path}
+                <Link
+                  key={path}
 
-                onClick={() =>
-                  setMobileOpen(
-                    false
-                  )
-                }
+                  to={path}
 
-                style={{
+                  onClick={() =>
+                    setMobileOpen(
+                      false
+                    )
+                  }
 
-                  ...mobileLink,
+                  style={{
 
-                  color:
-                    pathname === path
+                    ...mobileLink,
 
-                      ? '#00d4ff'
+                    color:
+                      pathname === path
 
-                      : '#dbeafe'
-                }}
-              >
-                {label}
-              </Link>
-            )
-          )}
+                        ? '#00d4ff'
 
-          {isAdmin && (
+                        : '#dbeafe'
+                  }}
+                >
+                  {label}
+                </Link>
+              )
+            )}
 
-            <>
-              <Link
-                to="/admin"
+            {isAdmin && (
 
-                style={mobileLink}
-              >
-                Dashboard
-              </Link>
+              <>
+                <Link
+                  to="/admin"
 
-              <button
-                onClick={
-                  handleLogout
-                }
+                  style={mobileLink}
+                >
+                  Dashboard
+                </Link>
 
-                style={
-                  mobileLogoutBtn
-                }
-              >
-                Logout
-              </button>
-            </>
-          )}
-        </div>
+                <button
+                  onClick={
+                    handleLogout
+                  }
+
+                  style={
+                    mobileLogoutBtn
+                  }
+                >
+                  Logout
+                </button>
+              </>
+            )}
+          </div>
+        )}
       </nav>
     </>
   );
@@ -406,7 +421,7 @@ const navStyle = {
 
   padding: '0 28px',
 
-  borderRadius: 28,
+  borderRadius: 30,
 
   overflow: 'hidden',
 
@@ -416,19 +431,28 @@ const navStyle = {
   WebkitBackdropFilter:
     'blur(22px)',
 
+  background:
+    'rgba(2,8,20,0.62)',
+
+  border:
+    '1px solid rgba(0,170,255,0.12)',
+
+  boxShadow:
+    '0 8px 40px rgba(0,0,0,0.28)',
+
   transition:
     '0.35s ease'
 };
 
-const glowLine = {
+const topGlow = {
 
   position: 'absolute',
 
   top: 0,
 
-  left: '-30%',
+  left: '-20%',
 
-  width: '160%',
+  width: '140%',
 
   height: 1,
 
@@ -457,7 +481,7 @@ const logoImage = {
     '0.35s ease',
 
   filter:
-    'drop-shadow(0 0 20px rgba(0,170,255,0.35))'
+    'drop-shadow(0 0 18px rgba(0,170,255,0.35))'
 };
 
 const desktopLinks = {
@@ -520,7 +544,7 @@ const activeDot = {
 const logoutBtn = {
 
   border:
-    '1px solid rgba(0,212,255,0.25)',
+    '1px solid rgba(0,212,255,0.22)',
 
   background:
     'rgba(0,212,255,0.08)',
@@ -541,16 +565,11 @@ const logoutBtn = {
 
   letterSpacing: 2,
 
-  backdropFilter:
-    'blur(10px)',
-
   transition:
     '0.3s ease'
 };
 
 const menuBtn = {
-
-  display: 'none',
 
   border: 'none',
 
@@ -579,7 +598,7 @@ const mobileMenu = {
     'rgba(2,8,20,0.92)',
 
   border:
-    '1px solid rgba(0,170,255,0.15)',
+    '1px solid rgba(0,170,255,0.12)',
 
   backdropFilter:
     'blur(24px)',
@@ -613,7 +632,7 @@ const mobileLink = {
 const mobileLogoutBtn = {
 
   border:
-    '1px solid rgba(0,170,255,0.25)',
+    '1px solid rgba(0,170,255,0.22)',
 
   background:
     'rgba(0,212,255,0.08)',
@@ -635,15 +654,4 @@ const mobileLogoutBtn = {
   letterSpacing: 2
 };
 
-// ===============================
-// 📱 RESPONSIVE
-// ===============================
-if (window.innerWidth <= 900) {
-
-  desktopLinks.display =
-    'none';
-
-  menuBtn.display =
-    'block';
-}
-```
+export default Navbar;
