@@ -20,6 +20,8 @@ import {
 
 import Camera3D from '../components/Camera3D';
 
+// ✅ LOGO
+import logo from '../assets/logo.png';
 
 export default function Home() {
 
@@ -71,9 +73,20 @@ export default function Home() {
         <div className="hud-bl" />
         <div className="hud-br" />
 
-        {/* BACKGROUND GLOW */}
+        {/* GLOW */}
         <div style={bgGlow1} />
         <div style={bgGlow2} />
+
+        {/* ================= LOGO ================= */}
+        <div style={logoContainer}>
+
+          <img
+            src={logo}
+            alt="SkyWing"
+            style={logoStyle}
+          />
+
+        </div>
 
         {/* LABEL */}
         <p
@@ -95,7 +108,7 @@ export default function Home() {
           {text}
         </p>
 
-        {/* DESC */}
+        {/* DESCRIPTION */}
         <p style={descStyle}>
           We are the eyes and voice
           of our campus — capturing
@@ -142,8 +155,9 @@ export default function Home() {
         <div style={statsContainer}>
 
           <div className="card fade-up">
+
             <FaUsers
-              size={26}
+              size={28}
               color="#00aaff"
             />
 
@@ -153,8 +167,9 @@ export default function Home() {
           </div>
 
           <div className="card fade-up">
+
             <FaPhotoVideo
-              size={26}
+              size={28}
               color="#00aaff"
             />
 
@@ -164,8 +179,9 @@ export default function Home() {
           </div>
 
           <div className="card fade-up">
+
             <FaAward
-              size={26}
+              size={28}
               color="#00aaff"
             />
 
@@ -177,9 +193,11 @@ export default function Home() {
 
         {/* SCROLL */}
         <div style={scrollIndicator}>
+
           <FaArrowDown />
 
           <span>SCROLL</span>
+
         </div>
       </section>
 
@@ -256,8 +274,6 @@ export default function Home() {
               className="card fade-up"
               style={{
                 padding: 30,
-                transition:
-                  '0.35s ease',
                 textAlign:
                   'center'
               }}
@@ -294,50 +310,11 @@ export default function Home() {
               >
                 {item.desc}
               </p>
+
             </div>
           ))}
         </div>
       </section>
-
-      {/* ================= CTA ================= */}
-      <section style={ctaSection}>
-
-        <div className="card">
-
-          <h2
-            style={{
-              fontFamily:
-                'Orbitron',
-              marginBottom: 20
-            }}
-          >
-            READY TO EXPLORE?
-          </h2>
-
-          <p
-            style={{
-              color:
-                'var(--gray)',
-              marginBottom: 30
-            }}
-          >
-            Dive into the world of
-            creativity, events and
-            campus memories with
-            Skywing Media Team.
-          </p>
-
-          <Link
-            to="/events"
-            className="btn btn-primary"
-          >
-            View Gallery
-          </Link>
-        </div>
-      </section>
-
-      {/* FOOTER */}
-      
     </>
   );
 }
@@ -359,25 +336,33 @@ const container = {
   overflow: 'hidden'
 };
 
+const logoContainer = {
+  marginBottom: 20
+};
+
+const logoStyle = {
+  width: 120,
+  height: 120,
+  objectFit: 'cover',
+  borderRadius: '50%',
+  boxShadow:
+    '0 0 50px rgba(0,170,255,0.45)',
+  animation:
+    'float 4s ease-in-out infinite'
+};
+
 const titleStyle = {
   fontSize:
     'clamp(70px,12vw,150px)',
-
   fontWeight: 900,
-
   letterSpacing: 10,
-
   lineHeight: 0.9,
-
   background:
     'linear-gradient(135deg,#fff,#00aaff)',
-
   WebkitBackgroundClip:
     'text',
-
   WebkitTextFillColor:
     'transparent',
-
   marginBottom: 16
 };
 
@@ -437,12 +422,6 @@ const featureGrid = {
   gap: 25
 };
 
-const ctaSection = {
-  padding:
-    '60px 20px 100px',
-  textAlign: 'center'
-};
-
 const scrollIndicator = {
   position: 'absolute',
   bottom: 30,
@@ -452,9 +431,7 @@ const scrollIndicator = {
   gap: 10,
   fontSize: 12,
   letterSpacing: 4,
-  opacity: 0.6,
-  animation:
-    'bounce 1.5s infinite'
+  opacity: 0.6
 };
 
 const bgGlow1 = {
