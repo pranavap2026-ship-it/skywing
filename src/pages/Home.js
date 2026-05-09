@@ -77,17 +77,6 @@ export default function Home() {
         <div style={bgGlow1} />
         <div style={bgGlow2} />
 
-        {/* ================= LOGO ================= */}
-        <div style={logoContainer}>
-
-          <img
-            src={logo}
-            alt="SkyWing"
-            style={logoStyle}
-          />
-
-        </div>
-
         {/* LABEL */}
         <p
           className="section-label fade-up"
@@ -98,10 +87,20 @@ export default function Home() {
           // COLLEGE MEDIA TEAM — EST. 2024
         </p>
 
-        {/* TITLE */}
-        <h1 style={titleStyle}>
-          SKYWING
-        </h1>
+        {/* ================= BRAND ================= */}
+        <div style={brandContainer}>
+
+          <img
+            src={logo}
+            alt="SkyWing"
+            style={titleLogo}
+          />
+
+          <h1 style={titleStyle}>
+            SKYWING
+          </h1>
+
+        </div>
 
         {/* TYPING */}
         <p style={typingStyle}>
@@ -336,34 +335,59 @@ const container = {
   overflow: 'hidden'
 };
 
-const logoContainer = {
-  marginBottom: 20
+const brandContainer = {
+
+  display: 'flex',
+
+  alignItems: 'center',
+
+  justifyContent: 'center',
+
+  gap: 24,
+
+  flexWrap: 'wrap',
+
+  marginBottom: 12
 };
 
-const logoStyle = {
-  width: 120,
-  height: 120,
+const titleLogo = {
+
+  width: 95,
+
+  height: 95,
+
   objectFit: 'cover',
+
   borderRadius: '50%',
+
   boxShadow:
-    '0 0 50px rgba(0,170,255,0.45)',
+    '0 0 45px rgba(0,170,255,0.45)',
+
   animation:
     'float 4s ease-in-out infinite'
 };
 
 const titleStyle = {
+
   fontSize:
     'clamp(70px,12vw,150px)',
+
   fontWeight: 900,
+
   letterSpacing: 10,
+
   lineHeight: 0.9,
+
   background:
     'linear-gradient(135deg,#fff,#00aaff)',
+
   WebkitBackgroundClip:
     'text',
+
   WebkitTextFillColor:
     'transparent',
-  marginBottom: 16
+
+  marginBottom: 0
 };
 
 const typingStyle = {
