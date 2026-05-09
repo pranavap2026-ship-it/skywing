@@ -1,6 +1,4 @@
-import React, {
-  useState
-} from 'react';
+import React, { useState } from 'react';
 
 import {
   motion,
@@ -32,74 +30,59 @@ import logo
 
 export default function AdminDashboard() {
 
-  const { logout } =
-    useAuth();
+  const { logout } = useAuth();
 
   const [tab, setTab] =
     useState('events');
 
-  // ===============================
-  // 🚀 TABS
-  // ===============================
+  const isMobile =
+    window.innerWidth <= 768;
+
   const tabs = [
 
     {
       id: 'events',
-
       label: 'Events',
-
-      icon:
-        <FaCalendarAlt />
+      icon: <FaCalendarAlt />
     },
 
     {
       id: 'members',
-
       label: 'Members',
-
-      icon:
-        <FaUsers />
+      icon: <FaUsers />
     },
 
     {
       id: 'social',
-
       label: 'Social',
-
-      icon:
-        <FaGlobe />
+      icon: <FaGlobe />
     }
   ];
 
   return (
 
-    <div style={page}>
+    <div style={styles.page}>
 
-      {/* ===============================
-          🌌 GLOW
-      =============================== */}
-      <div style={glow1} />
-      <div style={glow2} />
+      {/* GLOW */}
+      <div style={styles.glow1} />
+      <div style={styles.glow2} />
 
-      {/* ===============================
-          🚀 HEADER
-      =============================== */}
-      <div style={header}>
+      {/* HEADER */}
+      <div style={styles.header}>
 
-        {/* LOGO */}
-        <div style={logoWrap}>
+        <img
+          src={logo}
+          alt="SkyWing"
+          style={{
+            ...styles.logo,
+            width:
+              isMobile
+                ? 130
+                : 170
+          }}
+        />
 
-          <img
-            src={logo}
-            alt="SkyWing"
-
-            style={logoStyle}
-          />
-
-        </div>
-
-        {/* STATUS */}
-        <div style={statusWrap}>
+        <div style={styles.status}>
 
           <FaBolt />
 
@@ -110,25 +93,29 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* ===============================
-          🧠 TITLE
-      =============================== */}
-      <div style={titleWrap}>
+      {/* TITLE */}
+      <div style={styles.titleWrap}>
 
-        <p style={miniTitle}>
+        <p style={styles.subTitle}>
           // CONTROL PANEL
         </p>
 
-        <h1 style={title}>
+        <h1
+          style={{
+            ...styles.title,
+            fontSize:
+              isMobile
+                ? '2.7rem'
+                : '5rem'
+          }}
+        >
           ADMIN DASHBOARD
         </h1>
 
       </div>
 
-      {/* ===============================
-          🔥 TABS
-      =============================== */}
-      <div style={tabsWrap}>
+      {/* TABS */}
+      <div style={styles.tabsWrap}>
 
         {tabs.map((item) => (
 
@@ -140,10 +127,10 @@ export default function AdminDashboard() {
             }
 
             style={{
-              ...tabBtn,
+              ...styles.tabBtn,
 
               ...(tab === item.id
-                ? activeTab
+                ? styles.activeTab
                 : {})
             }}
           >
@@ -160,8 +147,7 @@ export default function AdminDashboard() {
         {/* LOGOUT */}
         <button
           onClick={logout}
-
-          style={logoutBtn}
+          style={styles.logoutBtn}
         >
 
           <FaSignOutAlt />
@@ -174,14 +160,10 @@ export default function AdminDashboard() {
 
       </div>
 
-      {/* ===============================
-          📦 CONTENT
-      =============================== */}
-      <div style={panelWrap}>
+      {/* CONTENT */}
+      <div style={styles.panelWrap}>
 
-        <AnimatePresence
-          mode="wait"
-        >
+        <AnimatePresence mode="wait">
 
           <motion.div
 
@@ -189,7 +171,7 @@ export default function AdminDashboard() {
 
             initial={{
               opacity: 0,
-              y: 20
+              y: 15
             }}
 
             animate={{
@@ -199,11 +181,11 @@ export default function AdminDashboard() {
 
             exit={{
               opacity: 0,
-              y: -20
+              y: -15
             }}
 
             transition={{
-              duration: 0.3
+              duration: 0.25
             }}
           >
 
@@ -225,264 +207,246 @@ export default function AdminDashboard() {
   );
 }
 
-// ===============================
-// 🎨 STYLES
-// ===============================
+const styles = {
 
-const page = {
+  page: {
 
-  minHeight: '100vh',
+    minHeight: '100vh',
 
-  padding:
-    window.innerWidth <= 768
+    padding:
+      window.innerWidth <= 768
 
-      ? '120px 20px 60px'
+        ? '120px 18px 50px'
 
-      : '130px 40px 60px',
+        : '120px 40px 60px',
 
-  position: 'relative',
+    position: 'relative',
 
-  overflow: 'hidden',
+    overflow: 'hidden',
 
-  zIndex: 5
-};
+    zIndex: 5
+  },
 
-const glow1 = {
+  glow1: {
 
-  position: 'absolute',
+    position: 'absolute',
 
-  width: 400,
+    top: -120,
 
-  height: 400,
+    left: -120,
 
-  background:
-    'rgba(0,170,255,0.12)',
+    width: 350,
 
-  borderRadius: '50%',
+    height: 350,
 
-  filter:
-    'blur(120px)',
+    borderRadius: '50%',
 
-  top: -120,
+    background:
+      'rgba(0,170,255,0.15)',
 
-  left: -120,
+    filter:
+      'blur(120px)',
 
-  pointerEvents: 'none'
-};
+    pointerEvents: 'none'
+  },
 
-const glow2 = {
+  glow2: {
 
-  position: 'absolute',
+    position: 'absolute',
 
-  width: 350,
+    bottom: -100,
 
-  height: 350,
+    right: -100,
 
-  background:
-    'rgba(0,120,255,0.10)',
+    width: 300,
 
-  borderRadius: '50%',
+    height: 300,
 
-  filter:
-    'blur(120px)',
+    borderRadius: '50%',
 
-  bottom: -100,
+    background:
+      'rgba(0,120,255,0.12)',
 
-  right: -100,
+    filter:
+      'blur(120px)',
 
-  pointerEvents: 'none'
-};
+    pointerEvents: 'none'
+  },
 
-const header = {
+  header: {
 
-  display: 'flex',
+    display: 'flex',
 
-  alignItems: 'center',
+    justifyContent:
+      'space-between',
 
-  justifyContent:
-    'space-between',
+    alignItems: 'center',
 
-  marginBottom: 50,
+    flexWrap: 'wrap',
 
-  flexWrap: 'wrap',
+    gap: 20,
 
-  gap: 20
-};
+    marginBottom: 50
+  },
 
-const logoWrap = {
+  logo: {
 
-  display: 'flex',
+    objectFit: 'contain',
 
-  alignItems: 'center'
-};
+    filter:
+      'drop-shadow(0 0 18px rgba(0,170,255,0.35))'
+  },
 
-const logoStyle = {
+  status: {
 
-  width:
-    window.innerWidth <= 768
-      ? 140
-      : 180,
+    display: 'flex',
 
-  objectFit: 'contain',
+    alignItems: 'center',
 
-  filter:
-    'drop-shadow(0 0 20px rgba(0,170,255,0.35))'
-};
+    gap: 10,
 
-const statusWrap = {
+    padding:
+      '12px 18px',
 
-  display: 'flex',
+    borderRadius: 14,
 
-  alignItems: 'center',
+    color: '#00d4ff',
 
-  gap: 10,
+    fontSize: 13,
 
-  color: '#00d4ff',
+    letterSpacing: 2,
 
-  fontSize: 13,
+    border:
+      '1px solid rgba(0,170,255,0.18)',
 
-  letterSpacing: 2,
+    background:
+      'rgba(255,255,255,0.04)',
 
-  padding:
-    '12px 18px',
+    backdropFilter:
+      'blur(10px)'
+  },
 
-  borderRadius: 14,
+  titleWrap: {
 
-  background:
-    'rgba(255,255,255,0.04)',
+    marginBottom: 40
+  },
 
-  border:
-    '1px solid rgba(0,170,255,0.18)',
+  subTitle: {
 
-  backdropFilter:
-    'blur(12px)'
-};
+    color: '#00d4ff',
 
-const titleWrap = {
+    letterSpacing: 4,
 
-  marginBottom: 40
-};
+    marginBottom: 14,
 
-const miniTitle = {
+    fontSize: 13
+  },
 
-  color: '#00d4ff',
+  title: {
 
-  letterSpacing: 4,
+    fontFamily:
+      'Orbitron,sans-serif',
 
-  marginBottom: 14,
+    lineHeight: 1,
 
-  fontSize: 13
-};
+    letterSpacing: 5,
 
-const title = {
+    background:
+      'linear-gradient(135deg,#fff,#00aaff)',
 
-  fontSize:
-    window.innerWidth <= 768
+    WebkitBackgroundClip:
+      'text',
 
-      ? '3rem'
+    WebkitTextFillColor:
+      'transparent'
+  },
 
-      : '5rem',
+  tabsWrap: {
 
-  fontFamily:
-    'Orbitron,sans-serif',
+    display: 'flex',
 
-  lineHeight: 1,
+    flexWrap: 'wrap',
 
-  letterSpacing: 5,
+    gap: 16,
 
-  background:
-    'linear-gradient(135deg,#fff,#00aaff)',
+    marginBottom: 40
+  },
 
-  WebkitBackgroundClip:
-    'text',
+  tabBtn: {
 
-  WebkitTextFillColor:
-    'transparent'
-};
+    display: 'flex',
 
-const tabsWrap = {
+    alignItems: 'center',
 
-  display: 'flex',
+    gap: 10,
 
-  gap: 16,
+    padding:
+      '15px 24px',
 
-  flexWrap: 'wrap',
+    borderRadius: 18,
 
-  marginBottom: 40
-};
+    border:
+      '1px solid rgba(255,255,255,0.08)',
 
-const tabBtn = {
+    background:
+      'rgba(255,255,255,0.04)',
 
-  display: 'flex',
+    color: '#fff',
 
-  alignItems: 'center',
+    cursor: 'pointer',
 
-  gap: 10,
+    backdropFilter:
+      'blur(12px)',
 
-  padding:
-    '16px 24px',
+    fontSize: 15,
 
-  borderRadius: 18,
+    transition:
+      '0.3s ease',
 
-  border:
-    '1px solid rgba(255,255,255,0.08)',
+    position: 'relative',
 
-  background:
-    'rgba(255,255,255,0.04)',
+    zIndex: 20
+  },
 
-  color: '#fff',
+  activeTab: {
 
-  cursor: 'pointer',
+    background:
+      'linear-gradient(135deg,#00aaff,#0066ff)',
 
-  backdropFilter:
-    'blur(12px)',
+    boxShadow:
+      '0 0 25px rgba(0,170,255,0.35)'
+  },
 
-  fontSize: 15,
+  logoutBtn: {
 
-  transition:
-    '0.3s ease',
+    display: 'flex',
 
-  zIndex: 50
-};
+    alignItems: 'center',
 
-const activeTab = {
+    gap: 10,
 
-  background:
-    'linear-gradient(135deg,#00aaff,#0066ff)',
+    padding:
+      '15px 24px',
 
-  boxShadow:
-    '0 0 30px rgba(0,170,255,0.35)'
-};
+    borderRadius: 18,
 
-const logoutBtn = {
+    border:
+      '1px solid rgba(255,0,80,0.25)',
 
-  display: 'flex',
+    background:
+      'rgba(255,0,80,0.08)',
 
-  alignItems: 'center',
+    color: '#ff4d7a',
 
-  gap: 10,
+    cursor: 'pointer',
 
-  padding:
-    '16px 24px',
+    fontSize: 15
+  },
 
-  borderRadius: 18,
+  panelWrap: {
 
-  border:
-    '1px solid rgba(255,0,80,0.2)',
+    position: 'relative',
 
-  background:
-    'rgba(255,0,80,0.08)',
-
-  color: '#ff4d7a',
-
-  cursor: 'pointer',
-
-  fontSize: 15
-};
-
-const panelWrap = {
-
-  position: 'relative',
-
-  zIndex: 10
+    zIndex: 10
+  }
 };
