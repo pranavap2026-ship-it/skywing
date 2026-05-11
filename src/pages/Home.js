@@ -243,14 +243,7 @@ export default function Home() {
 
           </a>
 
-          <a
-            href="https://t.me/skywingstudentscorner"
-            style={socialBtn}
-          >
-
-            <FaTelegramPlane />
-
-          </a>
+          
            
 
             <a

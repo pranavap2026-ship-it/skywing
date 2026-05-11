@@ -1,123 +1,334 @@
-import React, { useEffect, useRef } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './context/AuthContext';
+import React, {
+  useEffect,
+  useRef
+} from 'react';
+
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate
+} from 'react-router-dom';
+
+import {
+  AuthProvider,
+  useAuth
+} from './context/AuthContext';
+
 import './index.css';
 
+// ===============================
+// 🧩 COMPONENTS
+// ===============================
 import Navbar from './components/Navbar';
 import Background3D from './components/Background3D';
 import Toast from './components/Toast';
+import Footer from './components/Footer';
+import EventAccessGate from './components/EventAccessGate';
 
+// ===============================
+// 📄 PAGES
+// ===============================
 import Home from './pages/Home';
 import Events from './pages/Events';
 import Team from './pages/Team';
 import Social from './pages/Social';
 import Login from './pages/Login';
 import AdminDashboard from './pages/AdminDashboard';
-import Footer from './components/Footer';
-// ===============================
-// 🔐 PROTECTED ROUTE (FIXED)
-// ===============================
-const ProtectedRoute = ({ children }) => {
-  const { user, loading } = useAuth();
 
+// ===============================
+// 🔐 ADMIN PROTECTED ROUTE
+// ===============================
+const ProtectedRoute = ({
+  children
+}) => {
+
+  const {
+    user,
+    loading
+  } = useAuth();
+
+  // ===============================
+  // ⏳ LOADING
+  // ===============================
   if (loading) {
+
     return (
-      <div style={{
-        display:'flex',
-        alignItems:'center',
-        justifyContent:'center',
-        height:'100vh',
-        fontFamily:'Orbitron',
-        color:'#00aaff',
-        letterSpacing:4
-      }}>
-        LOADING...
+
+      <div style={loadingStyle}>
+
+        <div style={loaderCircle} />
+
+        <h2 style={loadingText}>
+          LOADING...
+        </h2>
+
       </div>
     );
   }
 
+  // ===============================
+  // ❌ NOT LOGGED IN
+  // ===============================
   if (!user) {
-    return <Navigate to="/login" replace />;
+
+    return (
+      <Navigate
+        to="/login"
+        replace
+      />
+    );
   }
 
+  // ===============================
+  // ✅ ACCESS GRANTED
+  // ===============================
   return children;
 };
 
+// ===============================
+// 🚀 MAIN APP
+// ===============================
 function App() {
-  const cursorRef = useRef(null);
-  const ringRef = useRef(null);
-  let rx = 0, ry = 0;
 
+  const cursorRef =
+    useRef(null);
+
+  const ringRef =
+    useRef(null);
+
+  const rafRef =
+    useRef(null);
+
+  // ===============================
+  // 🖱️ CURSOR EFFECT
+  // ===============================
   useEffect(() => {
-    const cursor = cursorRef.current;
-    const ring = ringRef.current;
-    let mx = 0, my = 0;
 
-    const onMove = e => {
+    const cursor =
+      cursorRef.current;
+
+    const ring =
+      ringRef.current;
+
+    if (
+      !cursor ||
+      !ring
+    ) return;
+
+    let mx =
+      window.innerWidth / 2;
+
+    let my =
+      window.innerHeight / 2;
+
+    let rx = mx;
+    let ry = my;
+
+    const onMove = (e) => {
+
       mx = e.clientX;
       my = e.clientY;
     };
 
-    document.addEventListener('mousemove', onMove);
+    document.addEventListener(
+      'mousemove',
+      onMove
+    );
 
-    const anim = () => {
-      if (cursor) {
-        cursor.style.left = mx + 'px';
-        cursor.style.top = my + 'px';
-      }
+    const animate = () => {
 
-      rx += (mx - rx) * 0.12;
-      ry += (my - ry) * 0.12;
+      // INNER DOT
+      cursor.style.transform =
+        `translate(${mx}px, ${my}px)`;
 
-      if (ring) {
-        ring.style.left = rx + 'px';
-        ring.style.top = ry + 'px';
-      }
+      // OUTER RING
+      rx +=
+        (mx - rx) * 0.12;
 
-      requestAnimationFrame(anim);
+      ry +=
+        (my - ry) * 0.12;
+
+      ring.style.transform =
+        `translate(${rx}px, ${ry}px)`;
+
+      rafRef.current =
+        requestAnimationFrame(
+          animate
+        );
     };
 
-    anim();
+    animate();
 
-    return () => document.removeEventListener('mousemove', onMove);
+    return () => {
+
+      document.removeEventListener(
+        'mousemove',
+        onMove
+      );
+
+      cancelAnimationFrame(
+        rafRef.current
+      );
+    };
+
   }, []);
 
+  // ===============================
+  // 🌐 APP
+  // ===============================
   return (
+
     <AuthProvider>
+
       <BrowserRouter>
 
-        <div ref={cursorRef} className="cursor" />
-        <div ref={ringRef} className="cursor-ring" />
+        {/* CURSOR */}
+        <div
+          ref={cursorRef}
+          className="cursor"
+        />
+
+        <div
+          ref={ringRef}
+          className="cursor-ring"
+        />
+
+        {/* FX */}
         <div className="scanlines" />
 
+        {/* BACKGROUND */}
         <Background3D />
+
+        {/* TOAST */}
         <Toast />
+
+        {/* NAVBAR */}
         <Navbar />
 
+        {/* ROUTES */}
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/events" element={<Events />} />
-          <Route path="/team" element={<Team />} />
-          <Route path="/social" element={<Social />} />
-          <Route path="/login" element={<Login />} />
 
-          {/* 🔐 ADMIN ROUTE */}
+          {/* HOME */}
+          <Route
+            path="/"
+            element={<Home />}
+          />
+
+          {/* EVENTS LOCK */}
+          <Route
+            path="/events"
+            element={
+
+              <EventAccessGate>
+
+                <Events />
+
+              </EventAccessGate>
+            }
+          />
+
+          {/* TEAM */}
+          <Route
+            path="/team"
+            element={<Team />}
+          />
+
+          {/* SOCIAL */}
+          <Route
+            path="/social"
+            element={<Social />}
+          />
+
+          {/* LOGIN */}
+          <Route
+            path="/login"
+            element={<Login />}
+          />
+
+          {/* ADMIN */}
           <Route
             path="/admin"
             element={
+
               <ProtectedRoute>
+
                 <AdminDashboard />
+
               </ProtectedRoute>
             }
           />
 
-          <Route path="*" element={<Navigate to="/" replace />} />
-          
+          {/* FALLBACK */}
+          <Route
+            path="*"
+            element={
+              <Navigate
+                to="/"
+                replace
+              />
+            }
+          />
+
         </Routes>
-<Footer />
+
+        {/* FOOTER */}
+        <Footer />
+
       </BrowserRouter>
+
     </AuthProvider>
   );
 }
+
+// ===============================
+// 🎨 LOADING STYLE
+// ===============================
+const loadingStyle = {
+
+  height: '100vh',
+
+  display: 'flex',
+
+  flexDirection: 'column',
+
+  justifyContent:
+    'center',
+
+  alignItems: 'center',
+
+  gap: 24,
+
+  background:
+    '#050816'
+};
+
+const loaderCircle = {
+
+  width: 70,
+
+  height: 70,
+
+  borderRadius: '50%',
+
+  border:
+    '4px solid rgba(255,255,255,0.08)',
+
+  borderTop:
+    '4px solid #00aaff',
+
+  animation:
+    'spin 1s linear infinite'
+};
+
+const loadingText = {
+
+  color: '#00aaff',
+
+  letterSpacing: 5,
+
+  fontFamily:
+    'Orbitron,sans-serif'
+};
 
 export default App;

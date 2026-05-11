@@ -162,14 +162,7 @@ export default function Footer() {
 
           <div style={socialWrap}>
 
-  <a
-    href="https://t.me/skywingstudentscorner"
-    target="_blank"
-    rel="noreferrer"
-    style={socialBtn}
-  >
-    <FaTelegramPlane />
-  </a>
+  
 
   <a
     href="https://www.instagram.com/skywing.cep"
